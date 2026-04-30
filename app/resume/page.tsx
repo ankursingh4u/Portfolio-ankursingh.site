@@ -195,6 +195,12 @@ export default function ResumePage() {
         </div>
 
       </div>
+
+      {/* Custom print footer — repeats on every page, hidden on screen */}
+      <div className="r-print-footer">
+        <span>Ankur Singh &mdash; Full-Stack Software Engineer</span>
+        <span>ankursing4work@gmail.com</span>
+      </div>
     </>
   )
 }

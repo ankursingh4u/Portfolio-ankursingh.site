@@ -211,63 +211,83 @@ body {
 .r-link  { color: #2563eb; text-decoration: none; font-size: 0.78rem; }
 .r-link:hover { text-decoration: underline; }
 
+/* ---- Custom print footer (shows on every page when browser headers are off) ---- */
+.r-print-footer {
+  display: none;
+}
+
 /* ---- Print ---- */
 @media print {
   .r-toolbar { display: none !important; }
 
   body { background: #fff; }
-
   .resume-root { background: #fff; }
+
+  @page {
+    margin: 14mm 14mm 18mm;
+    size: A4;
+  }
 
   .resume-page {
     margin: 0;
     box-shadow: none;
     border-radius: 0;
-    padding: 24px 36px;
+    padding: 0;
     max-width: 100%;
   }
 
-  /* Remove browser URL/date headers — user must also uncheck
-     "Headers and footers" in the print dialog */
-  @page {
-    margin: 12mm 14mm;
-    size: A4;
-  }
+  /* ── Page break rules ──
+     Do NOT put break-inside on .r-section — that forces the entire
+     section to the next page and leaves a huge gap.
+     Only avoid breaks inside individual entries and table rows. */
 
-  /* Prevent sections splitting across pages */
   .r-section {
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: auto;
   }
 
-  /* Prevent individual entries splitting */
-  .r-entry {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Keep the whole skills table together */
-  .r-skills-table {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Keep each table row together */
-  .r-skills-table tr {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Keep section title with its content */
+  /* Section title stays glued to whatever comes after it */
   .r-section-title {
     break-after: avoid;
     page-break-after: avoid;
   }
 
-  /* Keep entry header with its bullet list */
+  /* Each project/job entry stays together */
+  .r-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Keep entry header glued to its bullet list */
   .r-entry-header {
     break-after: avoid;
     page-break-after: avoid;
+  }
+
+  /* Skills table: keep each row together, allow table to span pages */
+  .r-skills-table {
+    break-inside: auto;
+  }
+  .r-skills-table tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Custom footer — fixed so it repeats on every printed page */
+  .r-print-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5px 14mm;
+    font-size: 0.7rem;
+    color: #94a3b8;
+    font-family: 'Inter', Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-top: 0.5px solid #e2e8f0;
   }
 
   a { color: inherit !important; text-decoration: none !important; }
