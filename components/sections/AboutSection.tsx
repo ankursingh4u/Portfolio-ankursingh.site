@@ -1,50 +1,550 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { aboutContent, siteConfig } from '@/lib/site-config'
-import { TerminalWindow, CommentLine } from '../terminal'
-import { GlitchOnScroll, NeonPulse, FloatingCode } from '../effects'
+import { useState, useEffect, type FC } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { GlitchOnScroll, NeonPulse } from '../effects'
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
+type ChapterId = 'intro' | 'journey' | 'approach' | 'current' | 'beyond'
+
+interface ChapterDef {
+  id: ChapterId
+  number: string
+  title: string
+  teaser: string
+  accent: string
 }
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
+const CHAPTERS: ChapterDef[] = [
+  { id: 'intro', number: '01', title: 'Who I Am', teaser: 'Engineer · Builder · Solver', accent: '#22c55e' },
+  { id: 'journey', number: '02', title: 'Web3 Journey', teaser: '200+ projects · 2018–2023', accent: '#8b5cf6' },
+  { id: 'approach', number: '03', title: 'How I Build', teaser: 'Clean code · Real products', accent: '#3b82f6' },
+  { id: 'current', number: '04', title: 'Current Focus', teaser: 'DSA · React Native · DevOps', accent: '#f59e0b' },
+  { id: 'beyond', number: '05', title: 'Beyond Code', teaser: 'Books · Calisthenics · Films', accent: '#f43f5e' },
+]
+
+// ─── Card Illustrations ────────────────────────────────────────────────────────
+
+function IntroIllustration({ accent }: { accent: string }) {
+  return (
+    <svg viewBox="0 0 80 52" fill="none" className="w-full h-full">
+      <rect x="4" y="3" width="72" height="46" rx="5" stroke={accent} strokeWidth="1.5" fill={accent + '08'} />
+      <rect x="4" y="3" width="72" height="11" rx="5" fill={accent + '15'} />
+      <circle cx="15" cy="8.5" r="2.5" fill="#f43f5e" opacity="0.7" />
+      <circle cx="23" cy="8.5" r="2.5" fill="#f59e0b" opacity="0.7" />
+      <circle cx="31" cy="8.5" r="2.5" fill="#22c55e" opacity="0.7" />
+      <rect x="12" y="22" width="20" height="2.5" rx="1.25" fill={accent} opacity="0.65" />
+      <rect x="12" y="29" width="34" height="2.5" rx="1.25" fill={accent} opacity="0.35" />
+      <rect x="12" y="36" width="26" height="2.5" rx="1.25" fill={accent} opacity="0.45" />
+      <rect x="52" y="22" width="8" height="2.5" rx="0.5" fill={accent} opacity="0.9" />
+    </svg>
+  )
 }
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 15 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
-  },
+function JourneyIllustration({ accent }: { accent: string }) {
+  const xs = [10, 26, 42, 58, 74, 90]
+  return (
+    <svg viewBox="0 0 100 52" fill="none" className="w-full h-full">
+      <line x1="10" y1="26" x2="90" y2="26" stroke={accent} strokeWidth="0.8" strokeDasharray="3 2" opacity="0.35" />
+      {xs.map((x, i) => {
+        const hex = `M${x},${16} L${x + 7},${21} L${x + 7},${31} L${x},${36} L${x - 7},${31} L${x - 7},${21} Z`
+        return (
+          <g key={i}>
+            <path d={hex} stroke={accent} strokeWidth="1.3" fill={accent + '10'} opacity={0.3 + i * 0.13} />
+            <text x={x} y={27} textAnchor="middle" dominantBaseline="middle" fill={accent} fontSize="4.5" fontFamily="monospace" opacity="0.9">
+              {`'${18 + i}`}
+            </text>
+          </g>
+        )
+      })}
+    </svg>
+  )
 }
+
+function ApproachIllustration({ accent }: { accent: string }) {
+  return (
+    <svg viewBox="0 0 80 52" fill="none" className="w-full h-full">
+      <text x="8" y="38" fill={accent} fontSize="28" fontFamily="monospace" opacity="0.55" fontWeight="700">{'{'}</text>
+      <text x="60" y="38" fill={accent} fontSize="28" fontFamily="monospace" opacity="0.55" fontWeight="700">{'}'}</text>
+      <circle cx="40" cy="24" r="12" stroke={accent} strokeWidth="1.5" fill={accent + '10'} />
+      <circle cx="40" cy="24" r="5" fill={accent} opacity="0.3" />
+      {[0, 60, 120, 180, 240, 300].map((deg) => {
+        const r = (deg * Math.PI) / 180
+        const x1 = 40 + 12 * Math.cos(r); const y1 = 24 + 12 * Math.sin(r)
+        const x2 = 40 + 15.5 * Math.cos(r); const y2 = 24 + 15.5 * Math.sin(r)
+        return <line key={deg} x1={x1} y1={y1} x2={x2} y2={y2} stroke={accent} strokeWidth="1.8" opacity="0.5" strokeLinecap="round" />
+      })}
+    </svg>
+  )
+}
+
+function FocusIllustration({ accent }: { accent: string }) {
+  const bars = [72, 45, 38, 28]
+  return (
+    <svg viewBox="0 0 80 52" fill="none" className="w-full h-full">
+      {bars.map((w, i) => (
+        <g key={i}>
+          <rect x="8" y={6 + i * 11} width="64" height="7" rx="3.5" fill={accent + '15'} />
+          <rect x="8" y={6 + i * 11} width={(w / 100) * 64} height="7" rx="3.5" fill={accent} opacity={0.45 + i * 0.08} />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+function BeyondIllustration({ accent }: { accent: string }) {
+  return (
+    <svg viewBox="0 0 80 52" fill="none" className="w-full h-full">
+      <path d="M16 12 L40 17 L64 12 L64 40 L40 45 L16 40 Z" stroke={accent} strokeWidth="1.2" fill={accent + '10'} />
+      <line x1="40" y1="17" x2="40" y2="45" stroke={accent} strokeWidth="0.8" opacity="0.5" />
+      <line x1="20" y1="22" x2="36" y2="19" stroke={accent} strokeWidth="0.6" opacity="0.4" />
+      <line x1="20" y1="27" x2="36" y2="24" stroke={accent} strokeWidth="0.6" opacity="0.4" />
+      <line x1="20" y1="32" x2="36" y2="29" stroke={accent} strokeWidth="0.6" opacity="0.4" />
+      <line x1="44" y1="19" x2="60" y2="22" stroke={accent} strokeWidth="0.6" opacity="0.4" />
+      <line x1="44" y1="24" x2="60" y2="27" stroke={accent} strokeWidth="0.6" opacity="0.4" />
+      <circle cx="60" cy="47" r="4" stroke={accent} strokeWidth="1" fill={accent + '15'} opacity="0.7" />
+      <rect x="62" y="45.5" width="6" height="3" rx="0.5" fill={accent} opacity="0.5" />
+      <circle cx="70" cy="47" r="4" stroke={accent} strokeWidth="1" fill={accent + '15'} opacity="0.7" />
+    </svg>
+  )
+}
+
+const ILLUSTRATIONS: Record<ChapterId, FC<{ accent: string }>> = {
+  intro: IntroIllustration,
+  journey: JourneyIllustration,
+  approach: ApproachIllustration,
+  current: FocusIllustration,
+  beyond: BeyondIllustration,
+}
+
+// ─── Modal Scenes ─────────────────────────────────────────────────────────────
+
+function IntroScene() {
+  const lines = [
+    { k: 'role', v: '"Full-Stack Engineer"', vc: '#22c55e' },
+    { k: 'company', v: '"Sabai Innovations"', vc: '#22c55e' },
+    { k: 'type', v: '"Intern (Production)"', vc: '#22c55e' },
+    { k: 'focus', v: '["Shopify", "AI", "SaaS"]', vc: '#3b82f6' },
+    { k: 'values', v: '["ownership", "clarity", "reliability"]', vc: '#8b5cf6' },
+  ]
+  return (
+    <div className="space-y-4">
+      <div className="bg-[#0d1117] rounded-lg p-4 font-mono text-xs border border-emerald-900/40">
+        <div className="text-emerald-700 mb-3 text-[10px]">// ankur.profile.json</div>
+        {lines.map((l, i) => (
+          <motion.div
+            key={l.k}
+            className="flex gap-2 mb-1.5 flex-wrap"
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1, duration: 0.3 }}
+          >
+            <span className="text-blue-400">"{l.k}"</span>
+            <span className="text-[#8b949e]">:</span>
+            <span style={{ color: l.vc }}>{l.v}</span>
+          </motion.div>
+        ))}
+      </div>
+      <p className="text-sm text-[#8b949e] leading-relaxed">
+        Fast-learning Software Engineer building real-world products using modern web technologies. Currently a Full-Stack Engineer Intern on live production SaaS apps — contributing feature development, OAuth authentication, and scalable implementations.
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {['TypeScript', 'Next.js', 'React', 'PostgreSQL', 'Node.js', 'Shopify'].map(t => (
+          <span key={t} className="px-2 py-0.5 bg-emerald-950/50 border border-emerald-800/40 text-emerald-400 text-xs rounded">
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Web3Scene() {
+  const nodes = [
+    { year: "'18", label: 'First crypto', sub: 'DeFi protocols' },
+    { year: "'19", label: 'NFT markets', sub: 'Early adoption' },
+    { year: "'20", label: 'DeFi deep dive', sub: 'Smart contracts' },
+    { year: "'21", label: '50+ projects', sub: 'Peak research' },
+    { year: "'22", label: 'DAO & Gov', sub: 'Tokenomics' },
+    { year: "'23", label: 'Pivot →', sub: 'Full-stack' },
+  ]
+  return (
+    <div className="space-y-5">
+      {/* Hexagon timeline */}
+      <div className="relative py-2">
+        <div className="absolute top-9 left-0 right-0 h-px bg-gradient-to-r from-violet-900 via-violet-500/50 to-violet-900 mx-2" />
+        <div className="flex justify-between relative">
+          {nodes.map((node, i) => (
+            <motion.div
+              key={node.year}
+              className="flex flex-col items-center w-12"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.35 }}
+            >
+              <div className="relative w-10 h-10 flex items-center justify-center mb-1">
+                <svg viewBox="0 0 32 32" className="absolute inset-0 w-full h-full">
+                  <path
+                    d="M16,4 L26,10 L26,22 L16,28 L6,22 L6,10 Z"
+                    stroke="#8b5cf6"
+                    strokeWidth="1.5"
+                    fill={i === 5 ? '#8b5cf640' : '#8b5cf610'}
+                  />
+                </svg>
+                <span className="text-[8px] font-bold text-violet-300 font-mono relative z-10">{node.year}</span>
+              </div>
+              <div className="text-center">
+                <div className="text-[8px] text-violet-200 font-medium leading-tight">{node.label}</div>
+                <div className="text-[7px] text-[#8b949e] leading-tight">{node.sub}</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="p-3 bg-violet-950/25 border border-violet-800/30 rounded-lg">
+        <div className="text-xs font-bold text-violet-300 mb-2">What I gained:</div>
+        <ul className="space-y-1.5">
+          {[
+            'Systems thinking and distributed architecture patterns',
+            'Product analysis and market research discipline',
+            'Tokenomics, DAOs, and decentralized governance models',
+          ].map(p => (
+            <li key={p} className="text-xs text-[#8b949e] flex gap-2 items-start">
+              <span className="text-violet-500 flex-shrink-0 mt-0.5">▸</span>
+              {p}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="text-sm text-[#8b949e] leading-relaxed">
+        Researched 200+ projects over 5 years — developing strong systems thinking before intentionally pivoting to building practical, high-impact software products focused on usability and long-term maintainability.
+      </p>
+    </div>
+  )
+}
+
+function ApproachScene() {
+  const principles = [
+    { title: 'Clean Architecture', desc: 'Readable, maintainable code that the next engineer can understand without a guide', color: '#3b82f6' },
+    { title: 'Ship Real Products', desc: 'Live deployments, real users, real feedback — not forever-in-progress side projects', color: '#22c55e' },
+    { title: 'First Principles Thinking', desc: 'Understand deeply before building — right abstractions at the right time', color: '#8b5cf6' },
+    { title: 'Full Ownership', desc: 'From design decisions to edge cases — full responsibility for what I build', color: '#f59e0b' },
+  ]
+  return (
+    <div className="space-y-3">
+      {principles.map((p, i) => (
+        <motion.div
+          key={p.title}
+          className="flex gap-3 items-start p-3 rounded-lg border"
+          style={{ backgroundColor: p.color + '0A', borderColor: p.color + '30' }}
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.09, duration: 0.35 }}
+        >
+          <div className="w-2 h-2 rounded-full mt-1 flex-shrink-0" style={{ backgroundColor: p.color }} />
+          <div>
+            <div className="text-sm font-semibold" style={{ color: p.color }}>{p.title}</div>
+            <div className="text-xs text-[#8b949e] mt-0.5 leading-relaxed">{p.desc}</div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function FocusScene() {
+  const items = [
+    { label: 'Data Structures & Algorithms', pct: 65, color: '#f59e0b' },
+    { label: 'React Native', pct: 30, color: '#f97316' },
+    { label: 'System Design', pct: 42, color: '#eab308' },
+    { label: 'DevOps Fundamentals', pct: 28, color: '#84cc16' },
+  ]
+  return (
+    <div className="space-y-5">
+      {items.map((item, i) => (
+        <motion.div key={item.label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }}>
+          <div className="flex justify-between text-xs mb-1.5">
+            <span className="text-[#e2e8f0] font-medium">{item.label}</span>
+            <span style={{ color: item.color }} className="font-mono font-semibold">{item.pct}%</span>
+          </div>
+          <div className="h-2 bg-[#21262d] rounded-full overflow-hidden">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ backgroundColor: item.color }}
+              initial={{ width: 0 }}
+              animate={{ width: `${item.pct}%` }}
+              transition={{ delay: i * 0.1 + 0.2, duration: 0.9, ease: 'easeOut' }}
+            />
+          </div>
+        </motion.div>
+      ))}
+      <p className="text-xs text-[#8b949e] leading-relaxed pt-1">
+        Currently strengthening problem-solving fundamentals through DSA with a focus on logical clarity and first-principles thinking. Next up: React Native and DevOps for full-stack ownership.
+      </p>
+    </div>
+  )
+}
+
+function BeyondScene() {
+  return (
+    <div className="space-y-5">
+      {/* Animated characters */}
+      <div className="flex gap-8 justify-center items-end pt-2">
+
+        {/* Reading character */}
+        <div className="flex flex-col items-center gap-1.5">
+          <motion.div
+            animate={{ rotate: [-1.5, 1.5, -1.5] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <svg viewBox="0 0 70 88" fill="none" width="82" height="102">
+              {/* Chair */}
+              <rect x="48" y="46" width="3" height="28" rx="1.5" fill="#334155" />
+              <rect x="30" y="60" width="24" height="3" rx="1.5" fill="#334155" />
+              <rect x="30" y="70" width="24" height="3" rx="1.5" fill="#334155" />
+              {/* Body */}
+              <rect x="27" y="44" width="20" height="22" rx="5" fill="#1e293b" stroke="#334155" strokeWidth="1" />
+              {/* Head */}
+              <circle cx="37" cy="33" r="10" fill="#1e293b" stroke="#334155" strokeWidth="1.2" />
+              {/* Glasses */}
+              <rect x="30" y="30" width="7" height="5.5" rx="1.5" stroke="#475569" strokeWidth="0.9" fill="none" />
+              <rect x="38.5" y="30" width="7" height="5.5" rx="1.5" stroke="#475569" strokeWidth="0.9" fill="none" />
+              <line x1="37" y1="32.8" x2="38.5" y2="32.8" stroke="#475569" strokeWidth="0.9" />
+              {/* Eyes blinking */}
+              <motion.ellipse cx="33.5" cy="32.8" rx="1.5" ry="1.8" fill="#22c55e"
+                animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 5, repeat: Infinity, times: [0, 0.92, 1] }} />
+              <motion.ellipse cx="42" cy="32.8" rx="1.5" ry="1.8" fill="#22c55e"
+                animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 5, repeat: Infinity, times: [0, 0.92, 1] }} />
+              {/* Arms */}
+              <rect x="13" y="52" width="14" height="3" rx="1.5" fill="#1e293b" stroke="#334155" strokeWidth="0.8" />
+              <rect x="47" y="52" width="14" height="3" rx="1.5" fill="#1e293b" stroke="#334155" strokeWidth="0.8" />
+              {/* Open book */}
+              <path d="M14 43 L37 39 L60 43 L60 60 L37 64 L14 60 Z" fill="#f8fafc" stroke="#94a3b8" strokeWidth="0.8" />
+              <line x1="37" y1="39" x2="37" y2="64" stroke="#94a3b8" strokeWidth="0.7" />
+              <line x1="18" y1="48" x2="34" y2="44.5" stroke="#cbd5e1" strokeWidth="0.6" />
+              <line x1="18" y1="52.5" x2="34" y2="49" stroke="#cbd5e1" strokeWidth="0.6" />
+              <line x1="18" y1="57" x2="34" y2="53.5" stroke="#cbd5e1" strokeWidth="0.6" />
+              <line x1="40" y1="44.5" x2="56" y2="48" stroke="#cbd5e1" strokeWidth="0.6" />
+              <line x1="40" y1="49" x2="56" y2="52.5" stroke="#cbd5e1" strokeWidth="0.6" />
+              <line x1="40" y1="53.5" x2="56" y2="57" stroke="#cbd5e1" strokeWidth="0.6" />
+              {/* Legs */}
+              <rect x="28" y="66" width="8" height="17" rx="3" fill="#1e293b" stroke="#334155" strokeWidth="0.9" />
+              <rect x="38" y="66" width="8" height="17" rx="3" fill="#1e293b" stroke="#334155" strokeWidth="0.9" />
+            </svg>
+          </motion.div>
+          <span className="text-xs text-[#8b949e]">Reading</span>
+        </div>
+
+        {/* Pull-up character */}
+        <div className="flex flex-col items-center gap-1.5">
+          <svg viewBox="0 0 60 90" fill="none" width="72" height="108">
+            {/* Bar */}
+            <rect x="6" y="8" width="48" height="4" rx="2" fill="#334155" stroke="#475569" strokeWidth="0.6" />
+            <rect x="7" y="2" width="3" height="10" rx="1" fill="#475569" />
+            <rect x="50" y="2" width="3" height="10" rx="1" fill="#475569" />
+            {/* Animated figure */}
+            <motion.g
+              animate={{ y: [0, -18, 0] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              {/* Hands */}
+              <rect x="19" y="10" width="4" height="12" rx="2" fill="#f43f5e" opacity="0.8" />
+              <rect x="37" y="10" width="4" height="12" rx="2" fill="#f43f5e" opacity="0.8" />
+              {/* Head */}
+              <circle cx="30" cy="30" r="8" fill="#1e293b" stroke="#f43f5e" strokeWidth="1.2" />
+              {/* Determined eyes */}
+              <line x1="26" y1="29" x2="28.5" y2="29" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
+              <line x1="31.5" y1="29" x2="34" y2="29" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M27 34.5 Q30 32.5 33 34.5" stroke="#f43f5e" strokeWidth="1" fill="none" strokeLinecap="round" />
+              {/* Body */}
+              <rect x="23" y="38" width="14" height="20" rx="5" fill="#1e293b" stroke="#f43f5e" strokeWidth="1.1" />
+              {/* Legs bent */}
+              <path d="M25 58 Q21 67 25 71" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" fill="none" />
+              <path d="M35 58 Q39 67 35 71" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" fill="none" />
+            </motion.g>
+          </svg>
+          <span className="text-xs text-[#8b949e]">Calisthenics</span>
+        </div>
+      </div>
+
+      {/* Activity pills */}
+      <div className="flex flex-wrap gap-2 justify-center">
+        {[
+          { label: 'Reading', color: '#22c55e' },
+          { label: 'Calisthenics', color: '#f43f5e' },
+          { label: 'Travelling', color: '#3b82f6' },
+          { label: 'Films', color: '#f59e0b' },
+        ].map(({ label, color }) => (
+          <span
+            key={label}
+            className="px-3 py-1 text-xs rounded-full border font-medium"
+            style={{ color, borderColor: color + '45', backgroundColor: color + '12' }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+
+      <p className="text-sm text-[#8b949e] leading-relaxed text-center">
+        Outside of development I enjoy reading, traveling, calisthenics, and watching films — which help me maintain discipline, perspective, and creative balance.
+      </p>
+    </div>
+  )
+}
+
+const SCENES: Record<ChapterId, FC> = {
+  intro: IntroScene,
+  journey: Web3Scene,
+  approach: ApproachScene,
+  current: FocusScene,
+  beyond: BeyondScene,
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+
+function ChapterCard({
+  chapter,
+  index,
+  onClick,
+}: {
+  chapter: ChapterDef
+  index: number
+  onClick: () => void
+}) {
+  const Illustration = ILLUSTRATIONS[chapter.id]
+  return (
+    <motion.button
+      onClick={onClick}
+      className="relative w-full text-left overflow-hidden rounded-xl border border-[#21262d] bg-[#161b22] cursor-pointer group focus:outline-none"
+      whileHover={{ scale: 1.02, y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.07 }}
+    >
+      {/* Hover glow border */}
+      <div
+        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{ boxShadow: `inset 0 0 0 1px ${chapter.accent}60` }}
+      />
+      {/* Hover radial gradient */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{ background: `radial-gradient(circle at 50% 0%, ${chapter.accent}0D, transparent 65%)` }}
+      />
+      {/* Number watermark */}
+      <div
+        className="absolute -top-1 right-2 text-7xl font-black select-none leading-none pointer-events-none"
+        style={{ color: chapter.accent, opacity: 0.04 }}
+      >
+        {chapter.number}
+      </div>
+
+      {/* Illustration */}
+      <div className="h-[72px] px-5 pt-4 pb-0 relative z-10">
+        <Illustration accent={chapter.accent} />
+      </div>
+
+      {/* Text */}
+      <div className="px-5 pb-4 pt-2 relative z-10">
+        <div className="text-[9px] tracking-widest font-mono text-[#484f58] mb-1">CHAPTER {chapter.number}</div>
+        <div className="text-sm font-bold text-[#e2e8f0]">{chapter.title}</div>
+        <div className="text-xs text-[#8b949e] mt-0.5">{chapter.teaser}</div>
+        <div
+          className="mt-3 text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200"
+          style={{ color: chapter.accent }}
+        >
+          Explore <span>→</span>
+        </div>
+      </div>
+    </motion.button>
+  )
+}
+
+// ─── Modal ────────────────────────────────────────────────────────────────────
+
+function ChapterModal({ chapter, onClose }: { chapter: ChapterDef; onClose: () => void }) {
+  const Scene = SCENES[chapter.id]
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+
+      {/* Card */}
+      <motion.div
+        className="relative z-10 w-full max-w-lg bg-[#0d1117] border rounded-2xl overflow-hidden shadow-2xl"
+        style={{ borderColor: chapter.accent + '45' }}
+        initial={{ scale: 0.85, opacity: 0, y: 32 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.92, opacity: 0, y: 16 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+      >
+        {/* Top accent stripe */}
+        <div className="h-1 w-full" style={{ backgroundColor: chapter.accent }} />
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pt-4 pb-3">
+          <div className="flex items-baseline gap-3">
+            <span className="text-4xl font-black leading-none select-none" style={{ color: chapter.accent, opacity: 0.2 }}>
+              {chapter.number}
+            </span>
+            <h3 className="text-base font-bold text-white">{chapter.title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 flex items-center justify-center rounded-full text-[#8b949e] hover:text-white hover:bg-white/10 transition-colors text-xl leading-none"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+
+        {/* Scene content */}
+        <div className="px-5 pb-4 max-h-[65vh] overflow-y-auto">
+          <Scene />
+        </div>
+
+        {/* Footer */}
+        <div className="px-5 py-2.5 border-t border-[#21262d] flex justify-between items-center">
+          <span className="text-[10px] text-[#484f58] font-mono">chapter {chapter.number} of 05</span>
+          <button onClick={onClose} className="text-[10px] text-[#484f58] hover:text-[#8b949e] transition-colors">
+            close esc
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// ─── Section ──────────────────────────────────────────────────────────────────
 
 export function AboutSection() {
+  const [active, setActive] = useState<ChapterId | null>(null)
+  const activeChapter = active ? CHAPTERS.find(c => c.id === active) ?? null : null
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setActive(null) }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
   return (
     <section id="about" className="section bg-terminal-surface/30 relative overflow-hidden">
-      {/* Floating code snippets background - subtle */}
-      <FloatingCode />
-
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-terminal-accent/[0.02] to-transparent pointer-events-none" />
-
       <div className="container-narrow mx-auto relative z-10">
-        {/* Section header */}
+        {/* Header */}
         <GlitchOnScroll>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -56,94 +556,30 @@ export function AboutSection() {
             <h2 className="section-title">
               <NeonPulse color="#22c55e">about</NeonPulse>
             </h2>
-            <span className="text-xs text-terminal-dim font-mono">
-              // who I am
-            </span>
+            <span className="text-xs text-terminal-dim font-mono">// my story in chapters</span>
           </motion.div>
         </GlitchOnScroll>
 
-        {/* Terminal window */}
-        <motion.div
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <TerminalWindow title={`cat about_${siteConfig.username}.md`}>
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              {/* Intro */}
-              <motion.div variants={fadeInUp} className="space-y-3">
-                <CommentLine>Introduction</CommentLine>
-                <p className="text-sm md:text-base text-terminal-text leading-relaxed">
-                  {aboutContent.intro}
-                </p>
-              </motion.div>
-
-              {/* Journey */}
-              <motion.div variants={fadeInUp} className="space-y-3">
-                <CommentLine>The Journey</CommentLine>
-                <p className="text-sm md:text-base text-terminal-dim leading-relaxed">
-                  {aboutContent.journey}
-                </p>
-              </motion.div>
-
-              {/* Approach */}
-              <motion.div variants={fadeInUp} className="space-y-3">
-                <CommentLine>Engineering Approach</CommentLine>
-                <p className="text-sm md:text-base text-terminal-dim leading-relaxed">
-                  {aboutContent.approach}
-                </p>
-              </motion.div>
-
-              {/* Current focus */}
-              <motion.div variants={fadeInUp} className="space-y-3">
-                <CommentLine>Current Focus</CommentLine>
-                <p className="text-sm md:text-base text-terminal-dim leading-relaxed">
-                  {aboutContent.current}
-                </p>
-              </motion.div>
-
-              {/* Beyond code */}
-              <motion.div variants={fadeInUp} className="space-y-3">
-                <CommentLine>Beyond Code</CommentLine>
-                <p className="text-sm md:text-base text-terminal-dim leading-relaxed">
-                  {aboutContent.beyond}
-                </p>
-              </motion.div>
-
-              {/* Values */}
-              <motion.div
-                variants={fadeInUp}
-                className="pt-4 border-t border-terminal-border"
-              >
-                <div className="flex flex-wrap gap-2">
-                  {['ownership', 'clarity', 'reliability', 'continuous learning'].map(
-                    (value, index) => (
-                      <motion.span
-                        key={value}
-                        className="tag hover:border-terminal-accent hover:text-terminal-accent transition-all duration-200"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 * index }}
-                      >
-                        {value}
-                      </motion.span>
-                    )
-                  )}
-                </div>
-              </motion.div>
-            </motion.div>
-          </TerminalWindow>
-        </motion.div>
+        {/* Top row: 3 cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {CHAPTERS.slice(0, 3).map((ch, i) => (
+            <ChapterCard key={ch.id} chapter={ch} index={i} onClick={() => setActive(ch.id)} />
+          ))}
+        </div>
+        {/* Bottom row: 2 cards centered */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 lg:w-2/3 lg:mx-auto">
+          {CHAPTERS.slice(3).map((ch, i) => (
+            <ChapterCard key={ch.id} chapter={ch} index={i + 3} onClick={() => setActive(ch.id)} />
+          ))}
+        </div>
       </div>
+
+      {/* Modal overlay */}
+      <AnimatePresence>
+        {activeChapter && (
+          <ChapterModal chapter={activeChapter} onClose={() => setActive(null)} />
+        )}
+      </AnimatePresence>
     </section>
   )
 }
