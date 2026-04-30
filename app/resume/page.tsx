@@ -13,7 +13,10 @@ export default function ResumePage() {
       {/* Sticky toolbar - hidden on print */}
       <div className="r-toolbar">
         <span style={{ color: '#94a3b8', fontSize: '0.8rem', marginRight: 'auto' }}>
-          Ankur Singh — Resume
+          Ankur Singh — Resume &nbsp;
+          <span style={{ color: '#64748b', fontSize: '0.72rem' }}>
+            · In print dialog: set <strong style={{ color: '#94a3b8' }}>Destination → Save as PDF</strong>, uncheck <strong style={{ color: '#94a3b8' }}>Headers and footers</strong>
+          </span>
         </span>
         <PrintButton />
         <a href="/" className="r-btn-secondary">
