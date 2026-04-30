@@ -22,7 +22,7 @@ title: 'A Generalist Software Engineer',
 
 export const companyConfig = {
   name: 'Sabai Innovations / CodersHive',
-  role: 'Full-Stack Engineer Intern',
+  role: 'Full-Stack Software Engineer',
   focus: 'Shopify App Development',
   status: 'active',
   description: 'Building production-grade Shopify applications that help merchants grow their businesses.',
@@ -199,7 +199,7 @@ export const coolestProjects = [
 ]
 
 export const aboutContent = {
-  intro: `Fast-learning Software Engineer with hands-on experience building real-world products using modern web technologies. Currently working as a Full-Stack Engineer Intern on live production product (SaaS applications), contributing to feature development, system improvements, and scalable implementations.`,
+  intro: `Full-Stack Software Engineer with proven experience delivering production-grade web applications. Currently working as a Full-Stack Engineer at Sabai Innovations / CodersHive, owning the complete engineering lifecycle — from gathering requirements and designing architecture to writing code, deploying to production, and maintaining live systems used by real merchants every day.`,
 
   journey: `My journey began with deep involvement across 200+ Web3 projects, where I developed strong systems thinking, experimentation discipline, and understanding of decentralized ecosystems. I intentionally transitioned toward building practical, impact-driven digital products focused on usability, clarity, and long-term maintainability.`,
 

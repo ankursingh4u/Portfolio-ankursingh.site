@@ -47,7 +47,7 @@ export default function ResumePage() {
         <div className="r-section">
           <div className="r-section-title">Professional Summary</div>
           <p className="r-entry-desc">
-            Results-driven Full-Stack Software Engineer with proven experience delivering production-grade web applications across Shopify app development, AI-powered platforms, and SaaS products. Currently contributing to live production systems at Sabai Innovations / CodersHive as a Full-Stack Engineer Intern. Independently building three products: a live AI farming assistant (Node.js + OpenAI GPT-4o), a Shopify smart search app, and an LLM brand analytics platform (launching May 2026). Strong command of TypeScript, React, Next.js, Node.js, and PostgreSQL with a track record of shipping clean, maintainable code.
+            Results-driven Full-Stack Software Engineer with proven experience delivering production-grade web applications across Shopify app development, AI-powered platforms, and SaaS products. Currently working as a Full-Stack Engineer at Sabai Innovations / CodersHive, owning the complete engineering lifecycle — from requirements gathering and system design through deployment and production maintenance. Independently building three products: a live AI farming assistant (Node.js + OpenAI GPT-4o), a Shopify smart search app, and an LLM brand analytics platform (launching May 2026). Strong command of TypeScript, React, Next.js, Node.js, and PostgreSQL with a track record of shipping clean, maintainable code.
           </p>
         </div>
 
@@ -58,7 +58,7 @@ export default function ResumePage() {
           <div className="r-entry">
             <div className="r-entry-header">
               <div>
-                <div className="r-entry-title">Full-Stack Engineer Intern</div>
+                <div className="r-entry-title">Full-Stack Software Engineer</div>
                 <div className="r-entry-org">Sabai Innovations / CodersHive</div>
               </div>
               <div className="r-entry-date">January 2026 - Present</div>
@@ -67,7 +67,7 @@ export default function ResumePage() {
               <li>Engineered and shipped 3 production Shopify applications: AnnounceFlow (dynamic announcement bars with A/B testing and analytics), Countdown Bar (urgency-driving evergreen timers with multi-language support), and Social Proof (real-time purchase notifications via WebSockets)</li>
               <li>Implemented OAuth 2.0 authentication flow and designed scalable PostgreSQL database schema supporting multi-merchant SaaS architecture</li>
               <li>Developed RESTful API integrations with Shopify Admin API and Shopify Polaris component library for consistent merchant-facing UI</li>
-              <li>Contributed to feature development, code reviews, and system improvements on live production products used by active Shopify merchants</li>
+              <li>Own the full engineering lifecycle — from requirements gathering and architecture decisions to deployment, monitoring, and production maintenance of live merchant-facing systems</li>
               <li>Stack: Next.js, TypeScript, React, Shopify API, Shopify Polaris, PostgreSQL, Node.js, Vercel</li>
             </ul>
           </div>

@@ -122,7 +122,7 @@ function IntroScene() {
   const lines = [
     { k: 'role', v: '"Full-Stack Engineer"', vc: '#22c55e' },
     { k: 'company', v: '"Sabai Innovations"', vc: '#22c55e' },
-    { k: 'type', v: '"Intern (Production)"', vc: '#22c55e' },
+    { k: 'type', v: '"Full-Stack Engineer (Production)"', vc: '#22c55e' },
     { k: 'focus', v: '["Shopify", "AI", "SaaS"]', vc: '#3b82f6' },
     { k: 'values', v: '["ownership", "clarity", "reliability"]', vc: '#8b5cf6' },
   ]
@@ -145,7 +145,10 @@ function IntroScene() {
         ))}
       </div>
       <p className="text-sm text-[#8b949e] leading-relaxed">
-        Fast-learning Software Engineer building real-world products using modern web technologies. Currently a Full-Stack Engineer Intern on live production SaaS apps — contributing feature development, OAuth authentication, and scalable implementations.
+        I am a Full-Stack Software Engineer who genuinely enjoys the entire process of turning an idea into a working product — from the first conversation about requirements all the way through architecture, development, deployment, and ongoing maintenance. I do not just write code and hand it off; I own what I build, which means I am accountable for every edge case, every deployment decision, and every bug that surfaces at 2am on a Monday.
+      </p>
+      <p className="text-sm text-[#8b949e] leading-relaxed">
+        Currently working as a Full-Stack Engineer at Sabai Innovations / CodersHive, where I operate like a complete engineering team — gathering product requirements, designing database schemas, writing frontend and backend code, integrating third-party APIs, deploying to production, and maintaining live systems that real Shopify merchants depend on every single day. I have shipped three production apps: AnnounceFlow, Countdown Bar, and Social Proof — each a fully independent product with its own OAuth flow, multi-merchant PostgreSQL schema, Shopify API integrations, and merchant-facing dashboard built on Shopify Polaris.
       </p>
       <div className="flex flex-wrap gap-2">
         {['TypeScript', 'Next.js', 'React', 'PostgreSQL', 'Node.js', 'Shopify'].map(t => (
@@ -202,12 +205,12 @@ function Web3Scene() {
       </div>
 
       <div className="p-3 bg-violet-950/25 border border-violet-800/30 rounded-lg">
-        <div className="text-xs font-bold text-violet-300 mb-2">What I gained:</div>
+        <div className="text-xs font-bold text-violet-300 mb-2">What five years of deep research built in me:</div>
         <ul className="space-y-1.5">
           {[
-            'Systems thinking and distributed architecture patterns',
-            'Product analysis and market research discipline',
-            'Tokenomics, DAOs, and decentralized governance models',
+            'Systems thinking — understanding how incentive structures, token economics, and network effects interact at scale',
+            'Product analysis discipline — evaluating 200+ projects taught me to quickly identify what is real value versus what is noise',
+            'Distributed architecture intuition — studying on-chain protocols gave me a mental model for designing resilient, decentralised systems',
           ].map(p => (
             <li key={p} className="text-xs text-[#8b949e] flex gap-2 items-start">
               <span className="text-violet-500 flex-shrink-0 mt-0.5">▸</span>
@@ -218,7 +221,7 @@ function Web3Scene() {
       </div>
 
       <p className="text-sm text-[#8b949e] leading-relaxed">
-        Researched 200+ projects over 5 years — developing strong systems thinking before intentionally pivoting to building practical, high-impact software products focused on usability and long-term maintainability.
+        From 2018 to 2023 I was deeply embedded in the decentralised web — researching over 200 projects spanning DeFi protocols, NFT ecosystems, DAO governance models, and Layer-2 scaling solutions. This was not passive reading; I was actively evaluating tokenomics, stress-testing whitepapers, and tracking how projects evolved from concept to collapse or success. That experience gave me a rare combination of analytical rigour and big-picture thinking that I carry directly into how I approach software engineering today. When I pivoted to building practical products, I did not abandon that mindset — I applied it. The result is an engineer who thinks in systems, not just in functions.
       </p>
     </div>
   )
@@ -226,10 +229,26 @@ function Web3Scene() {
 
 function ApproachScene() {
   const principles = [
-    { title: 'Clean Architecture', desc: 'Readable, maintainable code that the next engineer can understand without a guide', color: '#3b82f6' },
-    { title: 'Ship Real Products', desc: 'Live deployments, real users, real feedback — not forever-in-progress side projects', color: '#22c55e' },
-    { title: 'First Principles Thinking', desc: 'Understand deeply before building — right abstractions at the right time', color: '#8b5cf6' },
-    { title: 'Full Ownership', desc: 'From design decisions to edge cases — full responsibility for what I build', color: '#f59e0b' },
+    {
+      title: 'Clean Architecture',
+      desc: 'I write code as if the next person to read it is a senior engineer with no context on what I was thinking. That means clear naming, obvious structure, no clever one-liners that save three characters but cost three minutes of comprehension. Good code does not need a lot of comments — it explains itself.',
+      color: '#3b82f6',
+    },
+    {
+      title: 'Ship Real Products',
+      desc: 'I believe the only way to truly learn engineering is to put something in front of real users and watch what breaks. Every project I build is deployed to a live URL, used by actual people, and maintained over time. That accountability loop — build, ship, observe, fix — is where most of the real learning happens.',
+      color: '#22c55e',
+    },
+    {
+      title: 'First Principles Thinking',
+      desc: 'Before reaching for a library, a pattern, or a framework, I ask: what problem are we actually solving here? I try to understand the problem at its root before deciding how to solve it. This prevents over-engineering, premature abstractions, and the very common mistake of copying a solution that does not actually fit the problem.',
+      color: '#8b5cf6',
+    },
+    {
+      title: 'Full Ownership',
+      desc: 'I take responsibility for the complete lifecycle of what I build — not just the happy path, but the error states, the performance under load, the deployment pipeline, and the maintenance six months after launch. If it is in production and I built it, it is mine to understand, fix, and improve.',
+      color: '#f59e0b',
+    },
   ]
   return (
     <div className="space-y-3">
@@ -279,8 +298,8 @@ function FocusScene() {
           </div>
         </motion.div>
       ))}
-      <p className="text-xs text-[#8b949e] leading-relaxed pt-1">
-        Currently strengthening problem-solving fundamentals through DSA with a focus on logical clarity and first-principles thinking. Next up: React Native and DevOps for full-stack ownership.
+      <p className="text-sm text-[#8b949e] leading-relaxed pt-1">
+        While I am already shipping production software professionally, I believe a strong engineer never stops sharpening their fundamentals. Data Structures and Algorithms is not just interview prep for me — it is about training the part of my brain that breaks down complex problems into their simplest possible form before writing a single line of code. React Native is next because I want to own the mobile layer of a product the same way I own the web layer — without depending on someone else. DevOps is the final frontier: I want to understand every step between my code and the user's screen, from CI/CD pipelines and containerisation to monitoring and incident response. Full ownership of the stack is the goal.
       </p>
     </div>
   )
@@ -386,8 +405,8 @@ function BeyondScene() {
         ))}
       </div>
 
-      <p className="text-sm text-[#8b949e] leading-relaxed text-center">
-        Outside of development I enjoy reading, traveling, calisthenics, and watching films — which help me maintain discipline, perspective, and creative balance.
+      <p className="text-sm text-[#8b949e] leading-relaxed">
+        Engineering is a mental craft, and like any craft it requires rest, variety, and inspiration from outside the discipline. Reading keeps my thinking precise — I gravitate toward books on systems, psychology, and history because understanding how things work at a human level makes me a better product engineer. Calisthenics keeps me disciplined in a way that sitting at a desk never can; the consistency required to progress at pull-ups and handstands maps directly onto the consistency required to improve as an engineer. Travelling exposes me to problems I would never encounter behind a screen, and those problems often spark the most interesting product ideas. Films, especially well-crafted ones, remind me that storytelling and structure matter in everything — including how you design a user interface or write documentation that a real person has to read.
       </p>
     </div>
   )
