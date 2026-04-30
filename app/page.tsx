@@ -1,6 +1,10 @@
+import { Navigation, Footer } from '@/components/ui'
+import { CyberEffectsProvider } from '@/components/effects'
 import {
   HeroSection,
   AboutSection,
+  CoolestProjectsSection,
+  GitHubSection,
   WorkSection,
   StackSection,
   ContactSection,
@@ -8,12 +12,18 @@ import {
 
 export default function Home() {
   return (
-    <>
-      <HeroSection />
-      <AboutSection />
-      <WorkSection />
-      <StackSection />
-      <ContactSection />
-    </>
+    <CyberEffectsProvider>
+      <Navigation />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <CoolestProjectsSection />
+        <GitHubSection />
+        <WorkSection />
+        <StackSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </CyberEffectsProvider>
   )
 }
