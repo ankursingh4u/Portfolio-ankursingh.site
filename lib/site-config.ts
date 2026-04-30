@@ -3,14 +3,14 @@ export const siteConfig = {
   username: 'ankur_singh',
 title: 'A Generalist Software Engineer',
   description: 'Building production-ready systems with clarity and ownership.',
-  email: 'a4ankur.mail@gmail.com',
+  email: 'ankursing4work@gmail.com',
   location: 'India',
   status: 'available for opportunities',
 
   social: {
     github: 'https://github.com/ankursingh4u',
     linkedin: 'https://www.linkedin.com/in/ankursingh4u',
-    X: 'https://x.com/ankursingh4u_',
+    X: 'https://x.com/ankursingh4u',
   },
 
   meta: {
@@ -106,6 +106,97 @@ export const personalProjects = [
 
 // Legacy export for backwards compatibility
 export const projects = [...companyProjects, ...personalProjects]
+
+// Signature / flagship projects — the 3 coolest things built
+export const coolestProjects = [
+  {
+    id: 'agromind',
+    number: '01',
+    name: 'AgroMind',
+    tagline: 'AI Farming Assistant for Bharat',
+    problem:
+      'Millions of Indian farmers make critical crop decisions with zero access to expert guidance — wrong pesticide, wrong time, wrong crop. Language barriers and geographic isolation make professional advice impossible.',
+    solution:
+      'Multi-modal AI platform that combines real-time weather, soil, and market data to deliver personalized agricultural advice in the farmer\'s own language — via text, voice, or photo.',
+    features: [
+      'Voice + photo + text input (multi-modal)',
+      'Crop disease detection from photos using GPT-4o vision',
+      'Live weather, soil pH, and market price integration',
+      'Supports Hindi, English, Bengali, Tamil and more',
+      'Farm field mapping with boundary drawing tools',
+      '5-day forecast with crop-specific recommendations',
+    ],
+    tech: ['Node.js', 'Express', 'MongoDB', 'OpenAI GPT-4o', 'OpenWeatherMap', 'Leaflet.js', 'HTML5', 'CSS'],
+    status: 'live' as const,
+    year: '2025',
+    color: 'emerald' as const,
+    link: 'http://agromind-app.onrender.com/login.html',
+    github: 'https://github.com/ankursingh4u/agromind-app',
+    stats: [
+      { label: 'Languages supported', value: '5+' },
+      { label: 'Data APIs integrated', value: '4' },
+      { label: 'Input modes', value: '3' },
+    ],
+  },
+  {
+    id: 'smart-search',
+    number: '02',
+    name: 'Smart Search Suggest',
+    tagline: 'Never Lose a Sale to a Bad Search Again',
+    problem:
+      'Shopify merchants lose revenue daily because customers search "tee shirt" when they sell "cotton t-shirt", or search for a product the store doesn\'t stock yet. Zero visibility = zero sales.',
+    solution:
+      'A Shopify app that intercepts failed searches and zero-result queries, suggests similar products to customers, and alerts merchants to add missing inventory — automatically tagging products with common search terms.',
+    features: [
+      'Detects zero-result searches in real time',
+      'Fuzzy match engine — "tee shirt" finds "cotton t-shirt"',
+      'Merchant dashboard showing missed revenue opportunities',
+      'Auto-suggests adding missing products with one click',
+      'Auto-tags products with alternate search terms',
+      'Analytics: top missed searches, conversion lift tracking',
+    ],
+    tech: ['Next.js', 'TypeScript', 'Shopify API', 'PostgreSQL', 'Shopify Polaris', 'Node.js'],
+    status: 'completed' as const,
+    year: '2026',
+    color: 'blue' as const,
+    link: null,
+    github: null,
+    stats: [
+      { label: 'Search gap detection', value: 'Real-time' },
+      { label: 'Product tagging', value: 'Auto' },
+      { label: 'Built for', value: 'Shopify' },
+    ],
+  },
+  {
+    id: 'llm-analytics',
+    number: '03',
+    name: 'LLM Brand Analytics',
+    tagline: 'Google Analytics — But for AI Conversations',
+    problem:
+      'ChatGPT, Gemini, and Claude are the new Google. Millions ask AI "best project management tool" or "top running shoes". Brands have zero visibility into whether AI is recommending them — or their competitors.',
+    solution:
+      'A platform that tracks brand visibility across major LLM responses — showing how often ChatGPT, Gemini, Perplexity, and Claude recommend you, what context triggers mentions, and how to increase your AI share-of-voice.',
+    features: [
+      'Tracks brand mentions across GPT-4, Gemini, Claude, Perplexity',
+      'Shows what prompts trigger your brand vs competitors',
+      'Competitive share-of-voice benchmarking',
+      'AI-readiness score with actionable improvement suggestions',
+      'Weekly automated brand mention reports',
+      'Trend analysis: is your LLM visibility growing or shrinking?',
+    ],
+    tech: ['Next.js', 'TypeScript', 'OpenAI API', 'Gemini API', 'PostgreSQL', 'Vercel', 'Recharts'],
+    status: 'launching-soon' as const,
+    year: '2026',
+    color: 'purple' as const,
+    link: null,
+    github: null,
+    stats: [
+      { label: 'LLMs tracked', value: '4+' },
+      { label: 'MVP status', value: 'Ready' },
+      { label: 'Launch', value: 'May 2026' },
+    ],
+  },
+]
 
 export const aboutContent = {
   intro: `Fast-learning Software Engineer with hands-on experience building real-world products using modern web technologies. Currently working as a Full-Stack Engineer Intern on live production product (SaaS applications), contributing to feature development, system improvements, and scalable implementations.`,

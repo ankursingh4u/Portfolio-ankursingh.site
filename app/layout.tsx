@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import { siteConfig } from '@/lib/site-config'
-import { Navigation, Footer } from '@/components/ui'
-import { CyberEffectsProvider } from '@/components/effects'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} | ${siteConfig.title}`,
+  title: siteConfig.name,
   description: siteConfig.description,
   keywords: siteConfig.meta.keywords,
   authors: [{ name: siteConfig.name }],
@@ -14,7 +12,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteConfig.meta.url,
-    title: `${siteConfig.name} | ${siteConfig.title}`,
+    title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
@@ -28,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} | ${siteConfig.title}`,
+    title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.meta.image],
   },
@@ -59,11 +57,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="min-h-screen bg-terminal-bg text-terminal-text antialiased">
-        <CyberEffectsProvider>
-          <Navigation />
-          <main>{children}</main>
-          <Footer />
-        </CyberEffectsProvider>
+        {children}
       </body>
     </html>
   )

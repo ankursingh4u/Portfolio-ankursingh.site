@@ -10,12 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         terminal: {
-          bg: '#0a0a0b',
-          surface: '#111113',
-          border: '#1e1e21',
-          muted: '#3a3a3f',
-          text: '#e4e4e7',
-          dim: '#71717a',
+          bg: '#0d1117',
+          surface: '#161b22',
+          border: '#30363d',
+          muted: '#484f58',
+          text: '#e6edf3',
+          dim: '#8b949e',
           accent: '#22c55e',
           'accent-dim': '#16a34a',
         },

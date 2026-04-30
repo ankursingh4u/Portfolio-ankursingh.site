@@ -154,8 +154,8 @@
   /* Grid background */
   .grid-bg {
     background-image:
-      linear-gradient(rgba(30, 30, 33, 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30, 30, 33, 0.3) 1px, transparent 1px);
+      linear-gradient(rgba(48, 54, 61, 0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(48, 54, 61, 0.4) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
@@ -353,7 +353,7 @@
   /* Animated Border - Gradient border animation */
   .animated-border {
     position: relative;
-    background: linear-gradient(#111113, #111113) padding-box,
+    background: linear-gradient(#161b22, #161b22) padding-box,
                 linear-gradient(90deg, #22c55e, #06B6D4, #A855F7, #22c55e) border-box;
     border: 1px solid transparent;
     background-size: 100% 100%, 200% 100%;

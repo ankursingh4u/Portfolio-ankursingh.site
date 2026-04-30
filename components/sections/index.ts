@@ -1,5 +1,7 @@
 export { HeroSection } from './HeroSection'
 export { AboutSection } from './AboutSection'
+export { CoolestProjectsSection } from './CoolestProjectsSection'
+export { GitHubSection } from './GitHubSection'
 export { WorkSection } from './WorkSection'
 export { StackSection } from './StackSection'
 export { ContactSection } from './ContactSection'

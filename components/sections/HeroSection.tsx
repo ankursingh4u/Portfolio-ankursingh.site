@@ -1,251 +1,233 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site-config'
-import { TypeWriter } from '../terminal'
-import { GlitchText, ScanLines, MatrixRain, FloatingParticles, CircuitLines, CyberGrid, HolographicText } from '../effects'
+import { GlitchText, FloatingParticles, CircuitLines } from '../effects'
 
-// ASCII Art Logo
-const asciiLogo = `
-    _    _   _ _  ___   _ ____
-   / \\  | \\ | | |/ / | | |  _ \\
-  / _ \\ |  \\| | ' /| | | | |_) |
- / ___ \\| |\\  | . \\| |_| |  _ <
-/_/   \\_\\_| \\_|_|\\_\\\\___/|_| \\_\\
-`
-
-const bootLines = [
-  { text: '> initializing system...', delay: 0 },
-  { text: '> loading kernel modules...', delay: 300 },
-  { text: '> user: ankur_singh [AUTHENTICATED]', delay: 600, highlight: true },
+const roles = [
+  'Full-Stack Engineer',
+  'Shopify App Builder',
+  'AI Product Developer',
+  'LLM Analytics Creator',
 ]
 
 export function HeroSection() {
-  const [showContent, setShowContent] = useState(false)
-  const [bootComplete, setBootComplete] = useState(false)
-  const [visibleBootLines, setVisibleBootLines] = useState<number[]>([])
+  const [roleIndex, setRoleIndex] = useState(0)
+  const [displayed, setDisplayed] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    // Boot sequence animation
-    bootLines.forEach((line, index) => {
-      setTimeout(() => {
-        setVisibleBootLines((prev) => [...prev, index])
-      }, line.delay)
-    })
-
-    // Show main content after boot
-    const bootTimer = setTimeout(() => {
-      setBootComplete(true)
-    }, 1000)
-
-    const contentTimer = setTimeout(() => {
-      setShowContent(true)
-    }, 1200)
-
-    return () => {
-      clearTimeout(bootTimer)
-      clearTimeout(contentTimer)
-    }
+    const t = setTimeout(() => setReady(true), 100)
+    return () => clearTimeout(t)
   }, [])
+
+  useEffect(() => {
+    const current = roles[roleIndex]
+    let timeout: NodeJS.Timeout
+
+    if (!isDeleting && displayed.length < current.length) {
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 60)
+    } else if (!isDeleting && displayed.length === current.length) {
+      timeout = setTimeout(() => setIsDeleting(true), 2000)
+    } else if (isDeleting && displayed.length > 0) {
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 35)
+    } else if (isDeleting && displayed.length === 0) {
+      setIsDeleting(false)
+      setRoleIndex((i) => (i + 1) % roles.length)
+    }
+
+    return () => clearTimeout(timeout)
+  }, [displayed, isDeleting, roleIndex])
 
   return (
     <section
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
-      {/* Matrix Rain Background - subtle */}
-      <MatrixRain opacity={0.15} density={0.08} speed={1} />
+      {/* Background image — subtle atmospheric */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.07] pointer-events-none"
+        style={{ backgroundImage: 'url(/bg-dark.jpg)' }}
+      />
 
-      {/* Circuit Lines - very subtle tech feel */}
+      {/* Subtle particle field */}
+      <FloatingParticles count={30} opacity={0.25} />
+
+      {/* Circuit lines */}
       <CircuitLines />
 
-      {/* Cyber Grid Floor - subtle 3D depth */}
-      <CyberGrid />
+      {/* Grid */}
+      <div className="absolute inset-0 grid-bg opacity-30" />
 
-      {/* Floating Particles - reduced */}
-      <FloatingParticles count={25} opacity={0.2} />
-
-      {/* Scan Lines Overlay - minimal */}
-      <ScanLines opacity={0.01} movingLine={true} />
-
-      {/* Background grid - subtle */}
-      <div className="absolute inset-0 grid-bg opacity-20" />
-
-      {/* Gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-terminal-bg/80 via-transparent to-terminal-bg/80 pointer-events-none z-[2]" />
-
-      {/* Content */}
-      <div className="relative z-[10] container-narrow mx-auto px-6 py-20">
-        <div className="space-y-8">
-          {/* Boot sequence */}
-          <div className="space-y-1 min-h-[80px]">
-            <AnimatePresence>
-              {bootLines.map((line, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={
-                    visibleBootLines.includes(index)
-                      ? { opacity: 1, x: 0 }
-                      : { opacity: 0, x: -10 }
-                  }
-                  transition={{ duration: 0.3 }}
-                  className={`text-sm font-mono ${
-                    line.highlight
-                      ? 'text-terminal-accent text-glow-accent'
-                      : 'text-terminal-dim'
-                  }`}
-                >
-                  {line.text}
-                  {index === visibleBootLines.length - 1 && !bootComplete && (
-                    <span className="inline-block w-2 h-4 bg-terminal-accent animate-cursor-blink ml-1" />
-                  )}
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-
-          {/* ASCII Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={bootComplete ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="hidden md:block"
-          >
-            <pre className="text-terminal-accent text-xs md:text-sm leading-none font-mono text-glow-accent opacity-80 overflow-x-auto">
-              {asciiLogo}
-            </pre>
-          </motion.div>
-
-          {/* Main heading with glitch effect */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={bootComplete ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-4"
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight">
-              <GlitchText
-                text={siteConfig.name}
-                className="text-terminal-text"
-                glitchInterval={5000}
-                glitchDuration={150}
-              />
-            </h1>
-
-            <div className="flex items-center gap-2 text-lg md:text-xl text-terminal-dim">
-              <span className="text-terminal-muted font-mono">{'>'}</span>
-              {showContent ? (
-                <TypeWriter
-                  text={siteConfig.title}
-                  speed={40}
-                  showCursor={true}
-                />
-              ) : (
-                <span className="opacity-0">{siteConfig.title}</span>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={showContent ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="max-w-xl"
-          >
-            <p className="text-terminal-dim text-base md:text-lg leading-relaxed">
-              {siteConfig.description}
-            </p>
-          </motion.div>
-
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={showContent ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap gap-4"
-          >
-            <motion.a
-              href="#work"
-              className="terminal-btn hover-glow"
-              whileHover={{ scale: 1.02, borderColor: '#22c55e' }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="text-terminal-muted">[</span>
-              <span>view_work</span>
-              <span className="text-terminal-muted">]</span>
-            </motion.a>
-            <motion.a
-              href="#contact"
-              className="terminal-btn terminal-btn-primary"
-              whileHover={{
-                scale: 1.02,
-                boxShadow: '0 0 20px rgba(34, 197, 94, 0.4)',
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="text-terminal-bg/80">[</span>
-              <span>contact</span>
-              <span className="text-terminal-bg/80">]</span>
-            </motion.a>
-          </motion.div>
-
-          {/* Status bar */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={showContent ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="pt-8"
-          >
-            <div className="flex flex-wrap items-center gap-6 text-xs text-terminal-dim font-mono">
-              <motion.div
-                className="flex items-center gap-2"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <span className="relative">
-                  <span className="w-1.5 h-1.5 rounded-full bg-terminal-accent block" />
-                  <span className="absolute inset-0 w-1.5 h-1.5 rounded-full bg-terminal-accent animate-ping opacity-75" />
-                </span>
-                <span>{siteConfig.status}</span>
-              </motion.div>
-              <div className="flex items-center gap-2">
-                <span className="text-terminal-muted">loc:</span>
-                <span>{siteConfig.location}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-terminal-muted">tz:</span>
-                <span>IST (UTC+5:30)</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+      {/* Radial highlight from center */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full opacity-10 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse, rgba(34,197,94,0.3) 0%, transparent 70%)',
+          }}
+        />
       </div>
 
-      {/* Scroll indicator */}
+      {/* Gradient fade top/bottom */}
+      <div className="absolute inset-0 bg-gradient-to-b from-terminal-bg via-transparent to-terminal-bg pointer-events-none z-[2]" />
+
+      {/* Main content */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-28 text-center">
+
+        {/* Status badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center mb-8"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-terminal-accent/30 bg-terminal-accent/5 text-xs font-mono text-terminal-dim">
+            <motion.span
+              className="w-1.5 h-1.5 rounded-full bg-terminal-accent block"
+              animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+            {siteConfig.status} · India · IST
+          </div>
+        </motion.div>
+
+        {/* Name */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-4"
+        >
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-terminal-text leading-none">
+            <GlitchText
+              text="Ankur Singh"
+              className="text-terminal-text"
+              glitchInterval={6000}
+              glitchDuration={120}
+            />
+          </h1>
+        </motion.div>
+
+        {/* Animated role typewriter */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="mb-6 h-8 flex items-center justify-center gap-2"
+        >
+          <span className="text-terminal-muted font-mono text-lg">{'>'}</span>
+          <span className="text-terminal-accent font-mono text-lg md:text-xl">
+            {displayed}
+            <motion.span
+              className="inline-block w-0.5 h-5 bg-terminal-accent ml-0.5 align-middle"
+              animate={{ opacity: [1, 0, 1] }}
+              transition={{ duration: 0.8, repeat: Infinity }}
+            />
+          </span>
+        </motion.div>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="text-terminal-dim text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10"
+        >
+          Building production-ready systems — AI products, Shopify apps, and SaaS tools that solve real problems for real users.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="flex flex-wrap items-center justify-center gap-3 mb-14"
+        >
+          <motion.a
+            href="#showcase"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-terminal-accent text-terminal-bg text-sm font-mono font-medium rounded hover:bg-terminal-accent-dim transition-colors"
+            whileHover={{ scale: 1.03, boxShadow: '0 0 24px rgba(34,197,94,0.4)' }}
+            whileTap={{ scale: 0.97 }}
+          >
+            View Flagship Projects
+          </motion.a>
+
+          <motion.a
+            href="/resume"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-2.5 border border-terminal-border text-terminal-text text-sm font-mono rounded hover:border-terminal-accent hover:text-terminal-accent transition-colors"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Resume
+          </motion.a>
+
+          <motion.a
+            href="#contact"
+            className="inline-flex items-center gap-2 px-6 py-2.5 border border-terminal-border text-terminal-dim text-sm font-mono rounded hover:border-terminal-muted hover:text-terminal-text transition-colors"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Contact Me
+          </motion.a>
+        </motion.div>
+
+        {/* Social links row */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={ready ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.55 }}
+          className="flex items-center justify-center gap-6 text-xs font-mono text-terminal-dim"
+        >
+          {[
+            { label: 'github', href: siteConfig.social.github },
+            { label: 'linkedin', href: siteConfig.social.linkedin },
+            { label: 'x / twitter', href: siteConfig.social.X },
+          ].map((s) => (
+            <motion.a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-terminal-accent transition-colors"
+              whileHover={{ y: -2 }}
+            >
+              ↗ {s.label}
+            </motion.a>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={showContent ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5, delay: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[10]"
+        animate={ready ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.8 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
         <motion.div
-          className="flex flex-col items-center gap-2 text-terminal-dim"
-          animate={{ y: [0, 5, 0] }}
+          className="flex flex-col items-center gap-1 text-terminal-muted"
+          animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           <span className="text-xs font-mono">scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-terminal-dim to-transparent" />
+          <div className="w-px h-6 bg-gradient-to-b from-terminal-muted to-transparent" />
         </motion.div>
       </motion.div>
 
-      {/* Corner decorations */}
-      <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-terminal-accent/30 hidden md:block z-[10]" />
-      <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-terminal-accent/30 hidden md:block z-[10]" />
-      <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-terminal-accent/30 hidden md:block z-[10]" />
-      <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-terminal-accent/30 hidden md:block z-[10]" />
+      {/* Corner accents */}
+      <div className="absolute top-5 left-5 w-6 h-6 border-l border-t border-terminal-accent/20 hidden md:block z-10" />
+      <div className="absolute top-5 right-5 w-6 h-6 border-r border-t border-terminal-accent/20 hidden md:block z-10" />
+      <div className="absolute bottom-5 left-5 w-6 h-6 border-l border-b border-terminal-accent/20 hidden md:block z-10" />
+      <div className="absolute bottom-5 right-5 w-6 h-6 border-r border-b border-terminal-accent/20 hidden md:block z-10" />
     </section>
   )
 }

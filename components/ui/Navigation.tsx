@@ -7,6 +7,8 @@ import { siteConfig } from '@/lib/site-config'
 const navItems = [
   { label: 'home', href: '#home' },
   { label: 'about', href: '#about' },
+  { label: 'showcase', href: '#showcase' },
+  { label: 'github', href: '#github' },
   { label: 'work', href: '#work' },
   { label: 'stack', href: '#stack' },
   { label: 'contact', href: '#contact' },
@@ -51,24 +53,15 @@ export function Navigation() {
     >
       <nav className="container-wide mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo / Identity */}
+          {/* Logo */}
           <motion.a
             href="#home"
-            className="flex items-center gap-2 text-sm font-mono group"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            className="flex items-center justify-center w-8 h-8 rounded border border-terminal-accent/40 bg-terminal-accent/10 text-terminal-accent text-xs font-mono font-bold hover:bg-terminal-accent/20 hover:border-terminal-accent transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            title="Ankur Singh"
           >
-            <span className="text-terminal-dim">{'>'}</span>
-            <span className="text-terminal-text group-hover:text-terminal-accent transition-colors">
-              {siteConfig.username}
-            </span>
-            <motion.span
-              className="text-terminal-accent"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              _
-            </motion.span>
+            AS
           </motion.a>
 
           {/* Desktop Navigation */}
