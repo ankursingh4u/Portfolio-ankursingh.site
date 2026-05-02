@@ -10,14 +10,14 @@ const config: Config = {
     extend: {
       colors: {
         terminal: {
-          bg: '#0d1117',
-          surface: '#161b22',
-          border: '#30363d',
-          muted: '#484f58',
-          text: '#e6edf3',
-          dim: '#8b949e',
-          accent: '#22c55e',
-          'accent-dim': '#16a34a',
+          bg: 'rgb(var(--color-bg) / <alpha-value>)',
+          surface: 'rgb(var(--color-surface) / <alpha-value>)',
+          border: 'rgb(var(--color-border) / <alpha-value>)',
+          muted: 'rgb(var(--color-muted) / <alpha-value>)',
+          text: 'rgb(var(--color-text) / <alpha-value>)',
+          dim: 'rgb(var(--color-dim) / <alpha-value>)',
+          accent: 'rgb(var(--color-accent) / <alpha-value>)',
+          'accent-dim': 'rgb(var(--color-accent-dim) / <alpha-value>)',
         },
         cyber: {
           blue: '#3B82F6',

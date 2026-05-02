@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site-config'
+import { useTheme } from '@/context/ThemeContext'
 
 const navItems = [
   { label: 'home', href: '#home' },
@@ -18,6 +19,7 @@ const navItems = [
 export function Navigation() {
   const [activeSection, setActiveSection] = useState('home')
   const [isScrolled, setIsScrolled] = useState(false)
+  const { theme, toggle } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,16 +93,27 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Contact CTA — right side */}
-          <motion.a
-            href="#contact"
-            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-accent/40 text-terminal-accent rounded hover:bg-terminal-accent/10 transition-all"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-terminal-accent animate-pulse" />
-            hire me
-          </motion.a>
+          {/* Right side: theme toggle + contact CTA */}
+          <div className="hidden md:flex items-center gap-2">
+            <motion.button
+              onClick={toggle}
+              className="w-8 h-8 rounded border border-terminal-border text-terminal-dim hover:border-terminal-accent hover:text-terminal-accent transition-all flex items-center justify-center text-sm"
+              whileTap={{ scale: 0.9 }}
+              aria-label="Toggle theme"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? '☀' : '☾'}
+            </motion.button>
+            <motion.a
+              href="#contact"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-accent/40 text-terminal-accent rounded hover:bg-terminal-accent/10 transition-all"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-terminal-accent animate-pulse" />
+              hire me
+            </motion.a>
+          </div>
 
           {/* Mobile menu button */}
           <MobileMenuButton navItems={navItems} activeSection={activeSection} />

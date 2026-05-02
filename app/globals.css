@@ -6,6 +6,28 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 @layer base {
+  :root {
+    --color-bg: 13 17 23;        /* #0d1117 */
+    --color-surface: 22 27 34;   /* #161b22 */
+    --color-border: 48 54 61;    /* #30363d */
+    --color-muted: 72 79 88;     /* #484f58 */
+    --color-text: 230 237 243;   /* #e6edf3 */
+    --color-dim: 139 148 158;    /* #8b949e */
+    --color-accent: 34 197 94;   /* #22c55e */
+    --color-accent-dim: 22 163 74; /* #16a34a */
+  }
+
+  [data-theme="light"] {
+    --color-bg: 255 255 255;         /* #ffffff — pure white */
+    --color-surface: 241 245 249;    /* #f1f5f9 — slate-100 cards */
+    --color-border: 203 213 225;     /* #cbd5e1 — slate-300 visible borders */
+    --color-muted: 100 116 139;      /* #64748b — slate-500 */
+    --color-text: 15 23 42;          /* #0f172a — slate-900 near-black */
+    --color-dim: 51 65 85;           /* #334155 — slate-700 strong secondary */
+    --color-accent: 5 150 105;       /* #059669 — emerald-600 vibrant on white */
+    --color-accent-dim: 4 120 87;    /* #047857 — emerald-700 */
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -479,6 +501,79 @@
       0 0 0 1px rgba(34, 197, 94, 0.3),
       0 0 15px rgba(34, 197, 94, 0.2);
   }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(203, 213, 225, 0.9);
+  backdrop-filter: blur(12px);
+}
+
+[data-theme="light"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(100, 116, 139, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.12) 1px, transparent 1px);
+}
+
+/* Cards get a white background with visible border + subtle shadow */
+[data-theme="light"] .terminal-window {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+}
+
+/* Section title hash stays readable */
+[data-theme="light"] .section-title::before {
+  color: #94a3b8;
+}
+
+/* Tags need light bg + dark text */
+[data-theme="light"] .tag {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+/* Scrollbar in light mode */
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+/* Hero radial glow — adapt to light */
+[data-theme="light"] .hero-glow {
+  background: radial-gradient(ellipse, rgba(5, 150, 105, 0.08) 0%, transparent 70%);
+}
+
+/* Section backgrounds stay white in light mode */
+[data-theme="light"] section {
+  background: #ffffff !important;
+}
+
+/* Gradient fades — use white instead of dark bg */
+[data-theme="light"] .bg-gradient-to-b {
+  --tw-gradient-from: #ffffff;
+  --tw-gradient-to: #ffffff;
+}
+
+/* Showcase card image overlay — white tint instead of dark */
+[data-theme="light"] .showcase-overlay {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0.35), rgba(255,255,255,0.6));
+}
+
+/* Text glow toned down in light */
+[data-theme="light"] .text-glow,
+[data-theme="light"] .text-glow-accent {
+  text-shadow: none;
+}
+
+/* Hover glow adapt */
+[data-theme="light"] .hover-glow:hover {
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.15), 0 2px 8px rgba(15, 23, 42, 0.08);
 }
 
 @layer utilities {

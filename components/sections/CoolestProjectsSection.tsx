@@ -68,11 +68,9 @@ export function CoolestProjectsSection() {
   return (
     <section
       id="showcase"
-      className="pt-6 pb-14 px-6 md:px-8 relative overflow-hidden"
+      className="pt-6 pb-14 px-6 md:px-8 relative overflow-hidden bg-terminal-bg"
       style={{
         scrollMarginTop: '72px',
-        background:
-          'linear-gradient(180deg, #0a0a0b 0%, #0d0d10 40%, #0a0a0b 100%)',
       }}
     >
       {/* Background image overlay */}
@@ -158,7 +156,7 @@ function ProjectShowcase({
                 fill
                 className="object-cover object-center opacity-30"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-terminal-bg/60 via-terminal-bg/40 to-terminal-bg/70" />
+              <div className="showcase-overlay absolute inset-0 bg-gradient-to-b from-terminal-bg/60 via-terminal-bg/40 to-terminal-bg/70" />
             </div>
           )}
 
