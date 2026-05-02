@@ -13,6 +13,7 @@ interface Repo {
   pushed_at: string
   html_url: string
   topics: string[]
+  account: string
 }
 
 const langColors: Record<string, string> = {
@@ -77,14 +78,9 @@ export function GitHubSection() {
 
   return (
     <section id="github" className="section bg-terminal-surface/20 relative overflow-hidden">
-      {/* Background image overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03] bg-cover bg-center bg-no-repeat pointer-events-none"
-        style={{ backgroundImage: 'url(/bg-dark.jpg)' }}
-      />
       <div className="absolute inset-0 grid-bg opacity-15 pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto w-full relative z-10">
         {/* Header */}
         <GlitchOnScroll>
           <motion.div
@@ -103,37 +99,45 @@ export function GitHubSection() {
           </motion.div>
         </GlitchOnScroll>
 
-        {/* Profile strip */}
+        {/* Profile strips — both accounts */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 terminal-window"
+          className="flex flex-wrap gap-3 mb-8"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-terminal-accent/10 border border-terminal-accent/30 flex items-center justify-center">
-              <svg className="w-5 h-5 text-terminal-accent" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-              </svg>
+          {[
+            { handle: 'ankursingh4u', url: siteConfig.social.github, label: 'primary' },
+            { handle: 'ankur4work', url: 'https://github.com/ankur4work', label: 'work' },
+          ].map((acc) => (
+            <div
+              key={acc.handle}
+              className="flex flex-1 min-w-[200px] items-center justify-between gap-3 p-3 terminal-window"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-terminal-accent/10 border border-terminal-accent/30 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-terminal-accent" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-xs text-terminal-text font-mono">{acc.handle}</div>
+                  <div className="text-2xs text-terminal-dim">{acc.label}</div>
+                </div>
+              </div>
+              <motion.a
+                href={acc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="terminal-btn text-xs py-1 px-2.5"
+                whileHover={{ scale: 1.03, borderColor: '#22c55e' }}
+                whileTap={{ scale: 0.97 }}
+              >
+                [view]
+              </motion.a>
             </div>
-            <div>
-              <div className="text-sm text-terminal-text font-mono">ankursingh4u</div>
-              <div className="text-xs text-terminal-dim">generalist software engineer</div>
-            </div>
-          </div>
-          <motion.a
-            href={siteConfig.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="terminal-btn hover-glow text-xs"
-            whileHover={{ scale: 1.03, borderColor: '#22c55e' }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <span className="text-terminal-muted">[</span>
-            view_profile
-            <span className="text-terminal-muted">]</span>
-          </motion.a>
+          ))}
         </motion.div>
 
         {/* Repos grid */}
@@ -214,9 +218,14 @@ function RepoCard({ repo }: { repo: Repo }) {
                   </>
                 )}
               </div>
-              <span className="text-2xs text-terminal-muted font-mono shrink-0">
-                {timeAgo(repo.pushed_at)}
-              </span>
+              <div className="flex items-center gap-2 shrink-0">
+                {repo.account && (
+                  <span className="text-2xs text-terminal-muted font-mono">@{repo.account}</span>
+                )}
+                <span className="text-2xs text-terminal-muted font-mono">
+                  {timeAgo(repo.pushed_at)}
+                </span>
+              </div>
             </div>
           </div>
         </motion.a>

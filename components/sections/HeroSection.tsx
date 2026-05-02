@@ -46,12 +46,6 @@ export function HeroSection() {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
-      {/* Background image — subtle atmospheric */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.07] pointer-events-none"
-        style={{ backgroundImage: 'url(/bg-dark.jpg)' }}
-      />
-
       {/* Subtle particle field */}
       <FloatingParticles count={30} opacity={0.25} />
 
@@ -75,15 +69,15 @@ export function HeroSection() {
       {/* Gradient fade top/bottom */}
       <div className="absolute inset-0 bg-gradient-to-b from-terminal-bg via-transparent to-terminal-bg pointer-events-none z-[2]" />
 
-      {/* Main content */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-28 text-center">
+      {/* Main content — centered */}
+      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 text-center">
 
         {/* Status badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="flex justify-center mb-8"
+          className="flex justify-center mb-6"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-terminal-accent/30 bg-terminal-accent/5 text-xs font-mono text-terminal-dim">
             <motion.span
@@ -112,12 +106,12 @@ export function HeroSection() {
           </h1>
         </motion.div>
 
-        {/* Animated role typewriter */}
+        {/* Typewriter role */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="mb-6 h-8 flex items-center justify-center gap-2"
+          className="mb-5 h-8 flex items-center justify-center gap-2"
         >
           <span className="text-terminal-muted font-mono text-lg">{'>'}</span>
           <span className="text-terminal-accent font-mono text-lg md:text-xl">
@@ -135,9 +129,9 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="text-terminal-dim text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10"
+          className="text-terminal-dim text-base max-w-md mx-auto leading-relaxed mb-8"
         >
-          Building production-ready systems — AI products, Shopify apps, and SaaS tools that solve real problems for real users.
+          Building production-ready systems — AI products, Shopify apps, and client systems that solve real problems for real users.
         </motion.p>
 
         {/* CTAs */}
@@ -145,47 +139,42 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="flex flex-wrap items-center justify-center gap-3 mb-14"
+          className="flex flex-wrap items-center justify-center gap-3 mb-8"
         >
           <motion.a
-            href="#showcase"
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-terminal-accent text-terminal-bg text-sm font-mono font-medium rounded hover:bg-terminal-accent-dim transition-colors"
+            href="#clients"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-terminal-accent text-terminal-bg text-sm font-mono font-medium rounded hover:bg-terminal-accent-dim transition-colors"
             whileHover={{ scale: 1.03, boxShadow: '0 0 24px rgba(34,197,94,0.4)' }}
             whileTap={{ scale: 0.97 }}
           >
-            View Flagship Projects
+            View My Work
           </motion.a>
-
           <motion.a
             href="/resume"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-2.5 border border-terminal-border text-terminal-text text-sm font-mono rounded hover:border-terminal-accent hover:text-terminal-accent transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-terminal-border text-terminal-text text-sm font-mono rounded hover:border-terminal-accent hover:text-terminal-accent transition-colors"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
             Resume
           </motion.a>
-
           <motion.a
             href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-2.5 border border-terminal-border text-terminal-dim text-sm font-mono rounded hover:border-terminal-muted hover:text-terminal-text transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-terminal-border text-terminal-dim text-sm font-mono rounded hover:border-terminal-muted hover:text-terminal-text transition-colors"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            Contact Me
+            Contact
           </motion.a>
         </motion.div>
 
-        {/* Social links row */}
+        {/* Social links */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={ready ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.55 }}
-          className="flex items-center justify-center gap-6 text-xs font-mono text-terminal-dim"
+          className="flex items-center justify-center gap-5 text-xs font-mono text-terminal-dim"
         >
           {[
             { label: 'github', href: siteConfig.social.github },
@@ -204,6 +193,7 @@ export function HeroSection() {
             </motion.a>
           ))}
         </motion.div>
+
       </div>
 
       {/* Scroll cue */}

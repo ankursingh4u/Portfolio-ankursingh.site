@@ -1,9 +1,20 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { coolestProjects } from '@/lib/site-config'
 import { GlitchOnScroll, NeonPulse, TiltCard } from '../effects'
+
+// Project-specific background images
+const projectImages: Record<string, string> = {
+  // AgroMind — rice paddy terraces, lush green Indian agriculture
+  agromind: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&auto=format&fit=crop&q=70',
+  // Smart Search Suggest — person shopping / browsing on laptop
+  'smart-search': 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&auto=format&fit=crop&q=70',
+  // LLM Brand Analytics — AI neural network / data visualization
+  'llm-analytics': 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&auto=format&fit=crop&q=70',
+}
 
 const colorMap = {
   emerald: {
@@ -57,8 +68,9 @@ export function CoolestProjectsSection() {
   return (
     <section
       id="showcase"
-      className="py-20 px-6 md:px-8 relative overflow-hidden"
+      className="pt-6 pb-14 px-6 md:px-8 relative overflow-hidden"
       style={{
+        scrollMarginTop: '72px',
         background:
           'linear-gradient(180deg, #0a0a0b 0%, #0d0d10 40%, #0a0a0b 100%)',
       }}
@@ -137,12 +149,23 @@ function ProjectShowcase({
           className={`relative terminal-window ${c.border} transition-all duration-500 overflow-hidden`}
           whileHover={{ boxShadow: c.glow }}
         >
+          {/* Project background image */}
+          {projectImages[project.id] && (
+            <div className="absolute inset-0 pointer-events-none">
+              <Image
+                src={projectImages[project.id]}
+                alt={project.name}
+                fill
+                className="object-cover object-center opacity-30"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-terminal-bg/60 via-terminal-bg/40 to-terminal-bg/70" />
+            </div>
+          )}
+
           {/* Gradient top strip */}
           <div
-            className={`absolute top-0 left-0 right-0 h-px`}
-            style={{
-              background: `linear-gradient(90deg, transparent, ${c.accent}, transparent)`,
-            }}
+            className="absolute top-0 left-0 right-0 h-px"
+            style={{ background: `linear-gradient(90deg, transparent, ${c.accent}, transparent)` }}
           />
 
           {/* Big project number watermark */}
@@ -152,14 +175,12 @@ function ProjectShowcase({
             {project.number}
           </div>
 
-          <div className="p-6 md:p-8">
+          <div className="p-4 md:p-6 relative z-10">
             {/* Header row */}
-            <div className="flex flex-wrap items-start gap-4 mb-6">
+            <div className="flex flex-wrap items-start gap-3 mb-4">
               <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-3 mb-2">
-                  <span
-                    className={`text-xs font-mono px-2 py-0.5 rounded border ${c.badge}`}
-                  >
+                <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                  <span className={`text-xs font-mono px-2 py-0.5 rounded border ${c.badge}`}>
                     {statusLabel[project.status]}
                   </span>
                   {project.status === 'live' && (
@@ -182,69 +203,51 @@ function ProjectShowcase({
                     </motion.span>
                   )}
                 </div>
-                <h3 className="text-2xl md:text-3xl font-medium text-terminal-text mb-1">
+                <h3 className="text-xl md:text-2xl font-medium text-terminal-text mb-0.5">
                   {project.name}
                 </h3>
-                <p
-                  className="text-base md:text-lg font-mono"
-                  style={{ color: c.accent }}
-                >
+                <p className="text-sm font-mono" style={{ color: c.accent }}>
                   {project.tagline}
                 </p>
               </div>
             </div>
 
             {/* Two-column body */}
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
               {/* Left: problem + solution */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-3 h-px bg-terminal-muted" />
-                    <span className="text-xs font-mono text-terminal-dim uppercase tracking-widest">
-                      The Problem
-                    </span>
+                    <span className="text-xs font-mono text-terminal-dim uppercase tracking-widest">The Problem</span>
                   </div>
-                  <p className="text-sm text-terminal-dim leading-relaxed">
-                    {project.problem}
-                  </p>
+                  <p className="text-xs text-terminal-dim leading-relaxed">{project.problem}</p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-3 h-px" style={{ background: c.accent }} />
-                    <span
-                      className="text-xs font-mono uppercase tracking-widest"
-                      style={{ color: c.accent }}
-                    >
-                      The Solution
-                    </span>
+                    <span className="text-xs font-mono uppercase tracking-widest" style={{ color: c.accent }}>The Solution</span>
                   </div>
-                  <p className="text-sm text-terminal-dim leading-relaxed">
-                    {project.solution}
-                  </p>
+                  <p className="text-xs text-terminal-dim leading-relaxed">{project.solution}</p>
                 </div>
               </div>
 
               {/* Right: features */}
               <div>
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-px bg-terminal-muted" />
-                  <span className="text-xs font-mono text-terminal-dim uppercase tracking-widest">
-                    Key Features
-                  </span>
+                  <span className="text-xs font-mono text-terminal-dim uppercase tracking-widest">Key Features</span>
                 </div>
-                <ul className="space-y-2">
+                <ul className="space-y-1.5">
                   {project.features.map((f, i) => (
                     <motion.li
                       key={i}
-                      className="flex items-start gap-2 text-sm text-terminal-dim"
+                      className="flex items-start gap-2 text-xs text-terminal-dim"
                       initial={{ opacity: 0, x: -10 }}
                       animate={inView ? { opacity: 1, x: 0 } : {}}
                       transition={{ delay: 0.3 + i * 0.07, duration: 0.4 }}
                     >
-                      <span
-                        className={`mt-1.5 w-1 h-1 rounded-full shrink-0 ${c.featureDot}`}
-                      />
+                      <span className={`mt-1.5 w-1 h-1 rounded-full shrink-0 ${c.featureDot}`} />
                       {f}
                     </motion.li>
                   ))}
@@ -253,40 +256,30 @@ function ProjectShowcase({
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-terminal-bg/50 rounded-lg border border-terminal-border/50">
+            <div className="grid grid-cols-3 gap-3 mb-4 p-3 bg-terminal-bg/50 rounded-lg border border-terminal-border/50">
               {project.stats.map((stat, i) => (
                 <div key={i} className="text-center">
-                  <div className={`text-xl font-bold font-mono ${c.stat}`}>
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-terminal-dim mt-0.5">
-                    {stat.label}
-                  </div>
+                  <div className={`text-lg font-bold font-mono ${c.stat}`}>{stat.value}</div>
+                  <div className="text-xs text-terminal-dim mt-0.5">{stat.label}</div>
                 </div>
               ))}
             </div>
 
             {/* Footer row: tech + links */}
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap gap-1.5">
                 {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className={`tag ${c.tag} transition-all duration-200 cursor-default`}
-                  >
-                    {t}
-                  </span>
+                  <span key={t} className={`tag ${c.tag} transition-all duration-200 cursor-default`}>{t}</span>
                 ))}
               </div>
-
               {(project.link || project.github) && (
-                <div className="flex gap-3 shrink-0">
+                <div className="flex gap-2 shrink-0">
                   {project.link && (
                     <motion.a
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`px-4 py-1.5 text-sm font-mono rounded border transition-all duration-200 ${c.link}`}
+                      className={`px-3 py-1 text-xs font-mono rounded border transition-all duration-200 ${c.link}`}
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.97 }}
                     >
@@ -298,7 +291,7 @@ function ProjectShowcase({
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`px-4 py-1.5 text-sm font-mono rounded border transition-all duration-200 ${c.link}`}
+                      className={`px-3 py-1 text-xs font-mono rounded border transition-all duration-200 ${c.link}`}
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.97 }}
                     >

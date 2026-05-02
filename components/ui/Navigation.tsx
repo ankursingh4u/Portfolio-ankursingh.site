@@ -7,10 +7,11 @@ import { siteConfig } from '@/lib/site-config'
 const navItems = [
   { label: 'home', href: '#home' },
   { label: 'about', href: '#about' },
+  { label: 'clients', href: '#clients' },
   { label: 'showcase', href: '#showcase' },
-  { label: 'github', href: '#github' },
-  { label: 'work', href: '#work' },
   { label: 'stack', href: '#stack' },
+  { label: 'work', href: '#work' },
+  { label: 'github', href: '#github' },
   { label: 'contact', href: '#contact' },
 ]
 
@@ -65,12 +66,12 @@ export function Navigation() {
           </motion.a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
             {navItems.map((item) => (
               <motion.a
                 key={item.label}
                 href={item.href}
-                className={`relative px-3 py-1.5 text-sm font-mono rounded transition-colors ${
+                className={`relative px-2.5 py-1.5 text-xs font-mono rounded transition-colors ${
                   activeSection === item.label
                     ? 'text-terminal-accent'
                     : 'text-terminal-dim hover:text-terminal-text'
@@ -90,18 +91,16 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Status indicator */}
-          <motion.div
-            className="hidden md:flex status-indicator"
-            animate={{ opacity: [0.7, 1, 0.7] }}
-            transition={{ duration: 2, repeat: Infinity }}
+          {/* Contact CTA — right side */}
+          <motion.a
+            href="#contact"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-accent/40 text-terminal-accent rounded hover:bg-terminal-accent/10 transition-all"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <span className="relative">
-              <span className="status-dot" />
-              <span className="absolute inset-0 status-dot animate-ping opacity-75" />
-            </span>
-            <span>{siteConfig.status}</span>
-          </motion.div>
+            <span className="w-1.5 h-1.5 rounded-full bg-terminal-accent animate-pulse" />
+            hire me
+          </motion.a>
 
           {/* Mobile menu button */}
           <MobileMenuButton navItems={navItems} activeSection={activeSection} />

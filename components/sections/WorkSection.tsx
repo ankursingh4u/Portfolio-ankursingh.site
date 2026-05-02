@@ -44,8 +44,9 @@ const colorStyles: Record<string, { border: string; glow: string; dot: string }>
 
 export function WorkSection() {
   return (
-    <section id="work" className="section">
-      <div className="container-wide mx-auto">
+    <section id="work" className="section relative overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
+      <div className="container-wide mx-auto relative z-10">
         {/* Section header */}
         <GlitchOnScroll>
           <motion.div
@@ -138,7 +139,7 @@ export function WorkSection() {
           <motion.div variants={itemVariants} className="mb-4">
             <div className="flex items-center gap-2 text-sm font-mono">
               <span className="text-cyber-blue">{'>'}</span>
-              <span className="text-terminal-text">company_projects</span>
+              <span className="text-terminal-text">team_collab_work</span>
               <span className="text-terminal-dim">// Shopify apps @ Sabai Innovations</span>
             </div>
           </motion.div>
@@ -198,7 +199,7 @@ export function WorkSection() {
           <motion.div variants={itemVariants} className="mb-4">
             <div className="flex items-center gap-2 text-sm font-mono">
               <span className="text-cyber-purple">{'>'}</span>
-              <span className="text-terminal-text">personal_projects</span>
+              <span className="text-terminal-text">experiments_learning</span>
               <span className="text-terminal-dim">// self-initiated work</span>
             </div>
           </motion.div>

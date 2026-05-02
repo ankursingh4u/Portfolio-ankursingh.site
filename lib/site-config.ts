@@ -104,6 +104,52 @@ export const personalProjects = [
   },
 ]
 
+// Client projects — real paid work, live in production
+export const clientProjects = [
+  {
+    id: 'saltys-seafood',
+    name: "Salty's Seafood",
+    businessType: 'Seafood Takeaway · Australia',
+    systemType: 'Online Ordering System',
+    context: 'Australian seafood takeaway business that takes orders online and over the phone. Built a full ordering system so customers can browse the menu, place orders, and the owner can manage them — replacing paper-based and call-only flow.',
+    capabilities: [
+      'Online menu with live ordering for takeaway customers',
+      'Phone + web order intake — unified order management',
+      'Owner dashboard to view, accept, and track orders',
+      'Mobile-first design for on-the-go customers',
+    ],
+    status: 'live' as const,
+    link: 'https://www.saltysseafood.com/',
+    video: '/saltys-seafood.mp4',
+    deliveredIn: '2 weeks',
+    deployed: true,
+    maintained: true,
+    color: 'amber' as const,
+    year: '2024',
+  },
+  {
+    id: 'steelline-logistics',
+    name: 'Steel Line Logistics',
+    businessType: 'Truck Cargo Shipping · India',
+    systemType: 'Fleet & Booking Management System',
+    context: 'Indian truck cargo shipping company. Built a full system for clients to book trucks for shipments and for the owner to manage all bookings and drivers from a single admin panel.',
+    capabilities: [
+      'Client-facing truck booking with cargo details and route',
+      'Admin dashboard to manage bookings, status, and drivers',
+      'Driver assignment and trip tracking for the owner',
+      'Booking confirmation flow with real operational data',
+    ],
+    status: 'live' as const,
+    link: 'https://www.steellinelogistics.in/',
+    video: '/steelline-logistics.mp4',
+    deliveredIn: '3 weeks',
+    deployed: true,
+    maintained: true,
+    color: 'cyan' as const,
+    year: '2024',
+  },
+]
+
 // Legacy export for backwards compatibility
 export const projects = [...companyProjects, ...personalProjects]
 
@@ -215,7 +261,7 @@ export const techStack = {
   frontend: ['React', 'Next.js', 'Tailwind CSS','HTML5'],
   backend: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Supabase'],
   tools: ['Git', 'VS Code', 'Vercel', 'AWS', 'Docker'],
-  learning: ['React Native', 'DevOps', 'System Design', 'DSA'],
+  learning: ['DevOps', 'System Design', 'DSA', 'New tech'],
 }
 
 export const commands = {

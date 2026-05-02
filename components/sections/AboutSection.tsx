@@ -18,7 +18,7 @@ const CHAPTERS: ChapterDef[] = [
   { id: 'intro', number: '01', title: 'Who I Am', teaser: 'Engineer · Builder · Solver', accent: '#22c55e' },
   { id: 'journey', number: '02', title: 'Web3 Journey', teaser: '200+ projects · 2018–2023', accent: '#8b5cf6' },
   { id: 'approach', number: '03', title: 'How I Build', teaser: 'Clean code · Real products', accent: '#3b82f6' },
-  { id: 'current', number: '04', title: 'Current Focus', teaser: 'DSA · React Native · DevOps', accent: '#f59e0b' },
+  { id: 'current', number: '04', title: 'Current Focus', teaser: 'DSA · DevOps · Building', accent: '#f59e0b' },
   { id: 'beyond', number: '05', title: 'Beyond Code', teaser: 'Books · Calisthenics · Films', accent: '#f43f5e' },
 ]
 
@@ -78,13 +78,15 @@ function ApproachIllustration({ accent }: { accent: string }) {
 }
 
 function FocusIllustration({ accent }: { accent: string }) {
-  const bars = [72, 45, 38, 28]
+  // 50 + 30 + 20 = 100
+  const bars = [50, 30, 20]
   return (
     <svg viewBox="0 0 80 52" fill="none" className="w-full h-full">
       {bars.map((w, i) => (
         <g key={i}>
-          <rect x="8" y={6 + i * 11} width="64" height="7" rx="3.5" fill={accent + '15'} />
-          <rect x="8" y={6 + i * 11} width={(w / 100) * 64} height="7" rx="3.5" fill={accent} opacity={0.45 + i * 0.08} />
+          <rect x="8" y={8 + i * 14} width="64" height="8" rx="4" fill={accent + '15'} />
+          <rect x="8" y={8 + i * 14} width={(w / 100) * 64} height="8" rx="4" fill={accent} opacity={0.5 + i * 0.1} />
+          <text x={(w / 100) * 64 + 10} y={8 + i * 14 + 5.5} fill={accent} fontSize="5" fontFamily="monospace" opacity="0.8">{w}%</text>
         </g>
       ))}
     </svg>
@@ -274,32 +276,40 @@ function ApproachScene() {
 
 function FocusScene() {
   const items = [
-    { label: 'Data Structures & Algorithms', pct: 65, color: '#f59e0b' },
-    { label: 'React Native', pct: 30, color: '#f97316' },
-    { label: 'System Design', pct: 42, color: '#eab308' },
-    { label: 'DevOps Fundamentals', pct: 28, color: '#84cc16' },
+    { label: 'Learning new tech', pct: 50, color: '#f59e0b', detail: 'DSA, System Design, DevOps — sharpening fundamentals constantly' },
+    { label: 'Building something', pct: 30, color: '#22c55e', detail: 'Side projects, client systems, Shopify apps — always shipping' },
+    { label: 'Calisthenics', pct: 20, color: '#f43f5e', detail: 'Pull-ups, handstands, muscle-ups — discipline that transfers to code' },
   ]
+  const total = items.reduce((s, i) => s + i.pct, 0) // 100
   return (
     <div className="space-y-5">
+      {/* Stat bars */}
       {items.map((item, i) => (
-        <motion.div key={item.label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }}>
+        <motion.div key={item.label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.12 }}>
           <div className="flex justify-between text-xs mb-1.5">
             <span className="text-[#e2e8f0] font-medium">{item.label}</span>
             <span style={{ color: item.color }} className="font-mono font-semibold">{item.pct}%</span>
           </div>
-          <div className="h-2 bg-[#21262d] rounded-full overflow-hidden">
+          <div className="h-2.5 bg-[#21262d] rounded-full overflow-hidden mb-1">
             <motion.div
               className="h-full rounded-full"
               style={{ backgroundColor: item.color }}
               initial={{ width: 0 }}
               animate={{ width: `${item.pct}%` }}
-              transition={{ delay: i * 0.1 + 0.2, duration: 0.9, ease: 'easeOut' }}
+              transition={{ delay: i * 0.12 + 0.2, duration: 0.9, ease: 'easeOut' }}
             />
           </div>
+          <p className="text-[11px] text-[#8b949e] leading-relaxed">{item.detail}</p>
         </motion.div>
       ))}
-      <p className="text-sm text-[#8b949e] leading-relaxed pt-1">
-        While I am already shipping production software professionally, I believe a strong engineer never stops sharpening their fundamentals. Data Structures and Algorithms is not just interview prep for me — it is about training the part of my brain that breaks down complex problems into their simplest possible form before writing a single line of code. React Native is next because I want to own the mobile layer of a product the same way I own the web layer — without depending on someone else. DevOps is the final frontier: I want to understand every step between my code and the user's screen, from CI/CD pipelines and containerisation to monitoring and incident response. Full ownership of the stack is the goal.
+      {/* Total badge */}
+      <div className="flex items-center gap-2 pt-1">
+        <div className="h-px flex-1 bg-[#21262d]" />
+        <span className="text-[10px] font-mono text-[#484f58]">total = {total}%</span>
+        <div className="h-px flex-1 bg-[#21262d]" />
+      </div>
+      <p className="text-sm text-[#8b949e] leading-relaxed">
+        I am already shipping production software professionally — but growth happens outside working hours too. A third of my focus goes to staying sharp technically: DSA trains problem-solving at first principles, System Design teaches me to think at scale, and DevOps closes the gap between writing code and owning what runs in production. Another third goes to building — whether that is a client system, a Shopify app, or a personal experiment. The last fifth is calisthenics: the discipline of progressing from zero pull-ups to muscle-ups maps directly onto the discipline of going from zero knowledge to shipping something real.
       </p>
     </div>
   )
