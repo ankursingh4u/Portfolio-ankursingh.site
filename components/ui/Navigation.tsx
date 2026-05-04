@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site-config'
-import { useTheme } from '@/context/ThemeContext'
 
 const navItems = [
   { label: 'home', href: '#home' },
@@ -13,14 +12,13 @@ const navItems = [
   { label: 'stack', href: '#stack' },
   { label: 'work', href: '#work' },
   { label: 'github', href: '#github' },
+  { label: 'pricing', href: '#pricing' },
   { label: 'contact', href: '#contact' },
 ]
 
 export function Navigation() {
   const [activeSection, setActiveSection] = useState('home')
   const [isScrolled, setIsScrolled] = useState(false)
-  const { theme, toggle } = useTheme()
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
@@ -93,17 +91,16 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Right side: theme toggle + contact CTA */}
+          {/* Right side: contact CTA */}
           <div className="hidden md:flex items-center gap-2">
-            <motion.button
-              onClick={toggle}
-              className="w-8 h-8 rounded border border-terminal-border text-terminal-dim hover:border-terminal-accent hover:text-terminal-accent transition-all flex items-center justify-center text-sm"
-              whileTap={{ scale: 0.9 }}
-              aria-label="Toggle theme"
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            <motion.a
+              href="#pricing"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-border text-terminal-dim rounded hover:border-terminal-accent hover:text-terminal-accent transition-all"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
-              {theme === 'dark' ? '☀' : '☾'}
-            </motion.button>
+              pricing
+            </motion.a>
             <motion.a
               href="#contact"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-accent/40 text-terminal-accent rounded hover:bg-terminal-accent/10 transition-all"

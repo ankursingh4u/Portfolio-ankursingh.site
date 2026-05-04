@@ -8,6 +8,7 @@ import {
   CoolestProjectsSection,
   StackSection,
   GitHubSection,
+  PricingSection,
   ContactSection,
 } from '@/components/sections'
 
@@ -23,6 +24,7 @@ export default function Home() {
         <StackSection />
         <WorkSection />
         <GitHubSection />
+        <PricingSection />
         <ContactSection />
       </main>
       <Footer />
