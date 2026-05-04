@@ -77,7 +77,7 @@ export function AnimatedBorder({
       />
 
       {/* Inner content */}
-      <div className={`relative z-10 bg-terminal-surface ${rounded}`}>
+      <div className={`relative z-10 h-full bg-terminal-surface ${rounded}`}>
         {children}
       </div>
     </motion.div>

@@ -52,12 +52,12 @@ const plans = [
     features: [
       'Up to 4 pages',
       'Up to 16 custom sections',
-      'Advanced animations & effects',
+      'Advanced animations',
       'CMS / blog integration',
       'SEO setup',
       '3 revision rounds',
       'Delivery in ~10 days',
-      'Post-launch support (7 days)',
+      '7-day post-launch support',
     ],
     cta: 'Start Project',
     highlight: true,
@@ -74,11 +74,11 @@ const plans = [
       'Unlimited pages & sections',
       'Full-stack development',
       'Auth, payments, dashboards',
-      'Third-party API integrations',
+      'API integrations',
       'Performance optimization',
       'Unlimited revisions',
       'Delivery timeline scoped',
-      'Priority support (30 days)',
+      '30-day priority support',
     ],
     cta: 'Let\'s Talk',
     highlight: false,
@@ -172,9 +172,9 @@ export function PricingSection() {
                   </span>
                 )}
               </div>
-              <AnimatedBorder borderColor={plan.highlight ? 'green' : undefined}>
+              <AnimatedBorder borderColor={plan.highlight ? 'green' : undefined} className="flex-1 flex flex-col">
                 <div
-                  className={`h-full rounded-lg p-5 flex flex-col gap-4 ${
+                  className={`flex-1 rounded-lg p-5 flex flex-col gap-4 ${
                     plan.highlight
                       ? 'bg-terminal-surface border border-terminal-accent/30'
                       : 'bg-terminal-surface border border-terminal-border'
