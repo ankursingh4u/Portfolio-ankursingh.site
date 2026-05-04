@@ -1,9 +1,42 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install)",
-      "Bash(npm run lint)",
-      "Bash(npx eslint:*)"
+      "Bash(git clone *)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(gh api *)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cp \"C:/Users/ankur/bolddev/Ankur/PortFolio/ilgmyzin-vazjaqOpY9g-unsplash.jpg\" \"C:/Users/ankur/bolddev/Ankur/PortFolio/public/bg-dark.jpg\")",
+      "Bash(cp \"C:/Users/ankur/bolddev/Ankur/PortFolio/nezih-kosak-GRVXLvVd_FE-unsplash.jpg\" \"C:/Users/ankur/bolddev/Ankur/PortFolio/public/bg-tech.jpg\")",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl -s http://localhost:3000/api/github)",
+      "Bash(curl -s \"http://localhost:3000/api/github\" -H \"Accept: application/json\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f'{len\\(d\\)} repos fetched'\\); [print\\(f' {r[\\\\\"name\\\\\"]} \\({r[\\\\\"language\\\\\"]}\\) - {r[\\\\\"pushed_at\\\\\"][:10]}'\\) for r in d[:5]]\")",
+      "Bash(curl -s \"http://localhost:3000/api/github\")",
+      "Bash(curl -s http://localhost:3001/api/github)",
+      "Bash(pkill -f \"next dev\")",
+      "PowerShell(Stop-Process *)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/resume)",
+      "Bash(curl -s -o /dev/null -w \"main: %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"resume: %{http_code}\\\\n\" http://localhost:3000/resume)",
+      "Bash(curl -s -o /dev/null -w \"main: %{http_code}\\\\n\" http://localhost:3001)",
+      "Bash(curl -s -o /dev/null -w \"resume: %{http_code}\\\\n\" http://localhost:3001/resume)",
+      "Bash(git add *)",
+      "Bash(git push *)",
+      "Bash(npx next *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\ankur\\\\bolddev\\\\Ankur\\\\PortFolio\" -File | Where-Object { $_.Extension -in '.mp4','.webm','.mov','.jpg','.jpeg','.png','.gif','.webp' } | Select-Object Name, Length)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\ankur\\\\bolddev\\\\Ankur\\\\PortFolio\" -Recurse -File | Where-Object { $_.Extension -in '.mp4','.webm','.mov','.jpg','.jpeg','.png','.gif','.webp' } | Select-Object FullName, Length)",
+      "PowerShell(Copy-Item *)",
+      "Bash(curl -s -I \"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=10&q=10\")",
+      "Bash(Get-ChildItem -Path . -Directory)",
+      "Bash(Select-Object Name)"
     ]
   }
 }

@@ -179,9 +179,9 @@ export const coolestProjects = [
     link: 'http://agromind-app.onrender.com/login.html',
     github: 'https://github.com/ankursingh4u/agromind-app',
     stats: [
+      { label: 'Hackathon Rank', value: '#9' },
       { label: 'Languages supported', value: '5+' },
       { label: 'Data APIs integrated', value: '4' },
-      { label: 'Input modes', value: '3' },
     ],
   },
   {

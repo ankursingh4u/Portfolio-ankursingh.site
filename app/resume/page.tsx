@@ -91,6 +91,7 @@ export default function ResumePage() {
               </div>
             </div>
             <ul className="r-list">
+              <li>Ranked <strong>#9</strong> in a competitive hackathon out of all participating teams</li>
               <li>Architected and deployed a full-stack AI-powered agricultural advisory platform serving Indian farmers with real-time, personalized crop guidance</li>
               <li>Integrated OpenAI GPT-4o vision API to detect crop diseases from uploaded photos with multi-modal input support (text, voice, image)</li>
               <li>Built multilingual support for Hindi, English, Bengali, and Tamil using franc-min language detection library</li>
