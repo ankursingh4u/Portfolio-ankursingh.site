@@ -91,16 +91,8 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Right side: contact CTA */}
+          {/* Right side: hire me CTA */}
           <div className="hidden md:flex items-center gap-2">
-            <motion.a
-              href="#pricing"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-border text-terminal-dim rounded hover:border-terminal-accent hover:text-terminal-accent transition-all"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              pricing
-            </motion.a>
             <motion.a
               href="#contact"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-accent/40 text-terminal-accent rounded hover:bg-terminal-accent/10 transition-all"

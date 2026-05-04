@@ -24,7 +24,7 @@ const plans = [
   {
     id: 'starter',
     name: 'Starter',
-    tag: 'Perfect for individuals & small biz',
+    tag: 'Individuals & small business',
     usd: 149,
     inr: 12400,
     pages: '1 page',
@@ -44,7 +44,7 @@ const plans = [
   {
     id: 'pro',
     name: 'Pro',
-    tag: 'Most popular · multi-page sites',
+    tag: 'Multi-page sites & portfolios',
     usd: 399,
     inr: 33200,
     pages: 'Up to 4 pages',
@@ -65,7 +65,7 @@ const plans = [
   {
     id: 'custom',
     name: 'Custom',
-    tag: 'Full-scale · apps & platforms',
+    tag: 'Full-scale apps & platforms',
     usd: 799,
     inr: 66500,
     pages: 'Unlimited pages',
@@ -160,17 +160,18 @@ export function PricingSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-3 mb-12"
+          className="grid gap-6 md:grid-cols-3 mb-12 items-stretch mt-4"
         >
           {plans.map((plan) => (
-            <motion.div key={plan.id} variants={itemVariants} className="relative">
-              {plan.highlight && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+            <motion.div key={plan.id} variants={itemVariants} className="relative flex flex-col">
+              {/* Badge placeholder keeps height consistent */}
+              <div className="h-5 flex items-center justify-center mb-2">
+                {plan.highlight && (
                   <span className="bg-terminal-accent text-terminal-bg text-[10px] font-mono font-bold px-3 py-0.5 rounded-full">
                     POPULAR
                   </span>
-                </div>
-              )}
+                )}
+              </div>
               <AnimatedBorder borderColor={plan.highlight ? 'green' : undefined}>
                 <div
                   className={`h-full rounded-lg p-5 flex flex-col gap-4 ${
