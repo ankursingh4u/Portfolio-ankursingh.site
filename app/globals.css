@@ -7,14 +7,15 @@
 
 @layer base {
   :root {
-    --color-bg: 13 17 23;        /* #0d1117 */
-    --color-surface: 22 27 34;   /* #161b22 */
-    --color-border: 48 54 61;    /* #30363d */
-    --color-muted: 72 79 88;     /* #484f58 */
-    --color-text: 230 237 243;   /* #e6edf3 */
-    --color-dim: 139 148 158;    /* #8b949e */
-    --color-accent: 34 197 94;   /* #22c55e */
-    --color-accent-dim: 22 163 74; /* #16a34a */
+    --color-bg: 255 255 255;      /* #ffffff */
+    --color-surface: 248 250 252; /* #f8fafc slate-50 */
+    --color-border: 226 232 240;  /* #e2e8f0 slate-200 */
+    --color-muted: 148 163 184;   /* #94a3b8 slate-400 */
+    --color-text: 15 23 42;       /* #0f172a slate-900 */
+    --color-dim: 71 85 105;       /* #475569 slate-600 */
+    --color-accent: 79 70 229;    /* #4f46e5 indigo-600 */
+    --color-accent-dim: 67 56 202;/* #4338ca indigo-700 */
+    --color-solar: 245 158 11;    /* #f59e0b amber — the sun */
   }
 
   * {
@@ -178,18 +179,18 @@
   /* Grid background */
   .grid-bg {
     background-image:
-      linear-gradient(rgba(48, 54, 61, 0.4) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(48, 54, 61, 0.4) 1px, transparent 1px);
+      linear-gradient(rgba(100, 116, 139, 0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100, 116, 139, 0.10) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
   /* Glow effect */
   .glow-sm {
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.1);
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.1);
   }
 
   .glow-md {
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.15);
   }
 
   /* Status indicator */
@@ -241,18 +242,18 @@
 
   .text-glow-accent {
     text-shadow:
-      0 0 5px rgba(34, 197, 94, 0.5),
-      0 0 10px rgba(34, 197, 94, 0.3),
-      0 0 20px rgba(34, 197, 94, 0.2);
+      0 0 5px rgba(79, 70, 229, 0.5),
+      0 0 10px rgba(79, 70, 229, 0.3),
+      0 0 20px rgba(79, 70, 229, 0.2);
   }
 
   /* Border Neon - Glowing borders */
   .border-neon {
     @apply border border-terminal-accent;
     box-shadow:
-      0 0 5px rgba(34, 197, 94, 0.3),
-      0 0 10px rgba(34, 197, 94, 0.2),
-      inset 0 0 5px rgba(34, 197, 94, 0.1);
+      0 0 5px rgba(79, 70, 229, 0.3),
+      0 0 10px rgba(79, 70, 229, 0.2),
+      inset 0 0 5px rgba(79, 70, 229, 0.1);
   }
 
   .border-neon-blue {
@@ -370,8 +371,8 @@
   .cyber-card:hover {
     @apply border-terminal-accent;
     box-shadow:
-      0 0 20px rgba(34, 197, 94, 0.1),
-      inset 0 0 20px rgba(34, 197, 94, 0.02);
+      0 0 20px rgba(79, 70, 229, 0.1),
+      inset 0 0 20px rgba(79, 70, 229, 0.02);
   }
 
   /* Animated Border - Gradient border animation */
@@ -456,8 +457,8 @@
 
   .hover-glow:hover {
     box-shadow:
-      0 0 20px rgba(34, 197, 94, 0.2),
-      0 0 40px rgba(34, 197, 94, 0.1);
+      0 0 20px rgba(79, 70, 229, 0.2),
+      0 0 40px rgba(79, 70, 229, 0.1);
   }
 
   /* Pulse Ring Effect */
@@ -473,7 +474,7 @@
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    border: 1px solid rgba(34, 197, 94, 0.5);
+    border: 1px solid rgba(79, 70, 229, 0.5);
     border-radius: inherit;
     animation: pulseRing 2s ease-out infinite;
   }
@@ -492,15 +493,15 @@
   /* Matrix Rain Character */
   .matrix-char {
     @apply text-terminal-accent font-mono;
-    text-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    text-shadow: 0 0 10px rgba(79, 70, 229, 0.8);
   }
 
   /* Focus Glow for inputs */
   .focus-glow:focus {
     @apply outline-none border-terminal-accent;
     box-shadow:
-      0 0 0 1px rgba(34, 197, 94, 0.3),
-      0 0 15px rgba(34, 197, 94, 0.2);
+      0 0 0 1px rgba(79, 70, 229, 0.3),
+      0 0 15px rgba(79, 70, 229, 0.2);
   }
 }
 

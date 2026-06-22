@@ -36,7 +36,7 @@ const techMeta: Record<string, { color: string; bg: string; icon: string }> = {
   'React Native':{ color: '#61dafb', bg: 'rgba(97,218,251,0.08)', icon: '📱' },
   DevOps:        { color: '#a855f7', bg: 'rgba(168,85,247,0.10)', icon: '⚙' },
   'System Design':{ color: '#f59e0b', bg: 'rgba(245,158,11,0.10)', icon: '∞' },
-  DSA:           { color: '#22c55e', bg: 'rgba(34,197,94,0.10)', icon: '<>' },
+  DSA:           { color: '#4f46e5', bg: 'rgba(34,197,94,0.10)', icon: '<>' },
 }
 
 const stackCategories = [
@@ -53,7 +53,7 @@ export function StackSection() {
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
       {/* Subtle radial accent */}
       <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full opacity-[0.04] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #22c55e 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(circle, #4f46e5 0%, transparent 70%)' }} />
 
       <div className="container-wide mx-auto relative z-10">
         <GlitchOnScroll>
@@ -65,7 +65,7 @@ export function StackSection() {
             className="section-header"
           >
             <h2 className="section-title">
-              <NeonPulse color="#22c55e">stack</NeonPulse>
+              <NeonPulse color="#4f46e5">stack</NeonPulse>
             </h2>
             <span className="text-xs text-terminal-dim font-mono">// technical capabilities</span>
           </motion.div>

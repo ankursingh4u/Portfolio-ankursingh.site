@@ -93,7 +93,7 @@ export function CoolestProjectsSection() {
             className="section-header mb-4"
           >
             <h2 className="section-title">
-              <NeonPulse color="#22c55e">showcase</NeonPulse>
+              <NeonPulse color="#4f46e5">showcase</NeonPulse>
             </h2>
             <span className="text-xs text-terminal-dim font-mono">
               // flagship projects that define me

@@ -123,7 +123,7 @@ export function PricingSection() {
             className="section-header"
           >
             <h2 className="section-title">
-              <NeonPulse color="#22c55e">pricing</NeonPulse>
+              <NeonPulse color="#4f46e5">pricing</NeonPulse>
             </h2>
             <span className="text-xs text-terminal-dim font-mono">// transparent & fair</span>
           </motion.div>

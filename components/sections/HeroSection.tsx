@@ -3,34 +3,28 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site-config'
-import { GlitchText, FloatingParticles, CircuitLines } from '../effects'
+import { SolarSystem } from '../hero/SolarSystem'
+import { InfoWidget } from '../ui/InfoWidget'
 
 const roles = [
   'Full-Stack Engineer',
   'Shopify App Builder',
   'AI Product Developer',
-  'LLM Analytics Creator',
 ]
 
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0)
   const [displayed, setDisplayed] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
-  const [ready, setReady] = useState(false)
-
-  useEffect(() => {
-    const t = setTimeout(() => setReady(true), 100)
-    return () => clearTimeout(t)
-  }, [])
 
   useEffect(() => {
     const current = roles[roleIndex]
     let timeout: NodeJS.Timeout
 
     if (!isDeleting && displayed.length < current.length) {
-      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 60)
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 65)
     } else if (!isDeleting && displayed.length === current.length) {
-      timeout = setTimeout(() => setIsDeleting(true), 2000)
+      timeout = setTimeout(() => setIsDeleting(true), 1800)
     } else if (isDeleting && displayed.length > 0) {
       timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 35)
     } else if (isDeleting && displayed.length === 0) {
@@ -44,180 +38,144 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-b from-white via-indigo-50/40 to-white"
     >
-      {/* Subtle particle field */}
-      <FloatingParticles count={30} opacity={0.25} />
-
-      {/* Circuit lines */}
-      <CircuitLines />
-
-      {/* Grid */}
-      <div className="absolute inset-0 grid-bg opacity-30" />
-
-      {/* Radial highlight from center */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full opacity-10 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse, rgba(34,197,94,0.3) 0%, transparent 70%)',
-          }}
-        />
+      {/* Soft radial light, centered behind the system */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-[62%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-200/20 blur-3xl" />
       </div>
 
-      {/* Gradient fade top/bottom */}
-      <div className="absolute inset-0 bg-gradient-to-b from-terminal-bg via-transparent to-terminal-bg pointer-events-none z-[2]" />
+      {/* Corner info widget */}
+      <div className="absolute right-4 top-20 z-30 md:right-8">
+        <InfoWidget />
+      </div>
 
-      {/* Main content — centered */}
-      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 text-center">
-
-        {/* Status badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-terminal-accent/30 bg-terminal-accent/5 text-xs font-mono text-terminal-dim">
-            <motion.span
-              className="w-1.5 h-1.5 rounded-full bg-terminal-accent block"
-              animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-            {siteConfig.status} · India · IST
-          </div>
-        </motion.div>
-
-        {/* Name */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-4"
-        >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-terminal-text leading-none">
-            <GlitchText
-              text="Ankur Singh"
-              className="text-terminal-text"
-              glitchInterval={6000}
-              glitchDuration={120}
-            />
-          </h1>
-        </motion.div>
-
-        {/* Typewriter role */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="mb-5 h-8 flex items-center justify-center gap-2"
-        >
-          <span className="text-terminal-muted font-mono text-lg">{'>'}</span>
-          <span className="text-terminal-accent font-mono text-lg md:text-xl">
-            {displayed}
-            <motion.span
-              className="inline-block w-0.5 h-5 bg-terminal-accent ml-0.5 align-middle"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 0.8, repeat: Infinity }}
-            />
-          </span>
-        </motion.div>
-
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.35 }}
-          className="text-terminal-dim text-base max-w-md mx-auto leading-relaxed mb-8"
-        >
-          Building production-ready systems — AI products, Shopify apps, and client systems that solve real problems for real users.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.45 }}
-          className="flex flex-wrap items-center justify-center gap-3 mb-8"
-        >
-          <motion.a
-            href="#clients"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-terminal-accent text-terminal-bg text-sm font-mono font-medium rounded hover:bg-terminal-accent-dim transition-colors"
-            whileHover={{ scale: 1.03, boxShadow: '0 0 24px rgba(34,197,94,0.4)' }}
-            whileTap={{ scale: 0.97 }}
+      {/* Centered, stacked column — text on top, solar system below.
+          They share the same horizontal center but never overlap. */}
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-start gap-6 px-6 pt-28 pb-20 text-center md:justify-center md:gap-8 md:pt-24">
+        {/* Intro block (centered) */}
+        <div className="flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700"
           >
-            View My Work
-          </motion.a>
-          <motion.a
-            href="/resume"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 border border-terminal-border text-terminal-text text-sm font-mono rounded hover:border-terminal-accent hover:text-terminal-accent transition-colors"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Resume
-          </motion.a>
-          <motion.a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 border border-terminal-border text-terminal-dim text-sm font-mono rounded hover:border-terminal-muted hover:text-terminal-text transition-colors"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Contact
-          </motion.a>
-        </motion.div>
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            {siteConfig.status} · India
+          </motion.div>
 
-        {/* Social links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={ready ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.55 }}
-          className="flex items-center justify-center gap-5 text-xs font-mono text-terminal-dim"
-        >
-          {[
-            { label: 'github', href: siteConfig.social.github },
-            { label: 'linkedin', href: siteConfig.social.linkedin },
-            { label: 'x / twitter', href: siteConfig.social.X },
-          ].map((s) => (
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="font-sans text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 md:text-6xl lg:text-7xl"
+          >
+            {siteConfig.name}
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-4 flex h-8 items-center justify-center gap-2"
+          >
+            <span className="font-mono text-lg text-indigo-600">{displayed}</span>
+            <span className="inline-block h-5 w-0.5 animate-pulse bg-indigo-600" />
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mx-auto mt-5 max-w-md text-base leading-relaxed text-slate-600"
+          >
+            I build production-ready systems — AI products, Shopify apps, and
+            client platforms that orbit around solving real problems.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-7 flex flex-wrap items-center justify-center gap-3"
+          >
             <motion.a
-              key={s.label}
-              href={s.href}
+              href="#work"
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-colors hover:bg-indigo-700"
+            >
+              View my work
+            </motion.a>
+            <motion.a
+              href="/resume"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-terminal-accent transition-colors"
-              whileHover={{ y: -2 }}
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400 hover:text-slate-900"
             >
-              ↗ {s.label}
+              Résumé
             </motion.a>
-          ))}
-        </motion.div>
+          </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.55 }}
+            className="mt-6 flex items-center justify-center gap-5 text-sm text-slate-500"
+          >
+            {[
+              { label: 'GitHub', href: siteConfig.social.github },
+              { label: 'LinkedIn', href: siteConfig.social.linkedin },
+              { label: 'X', href: siteConfig.social.X },
+              { label: 'Instagram', href: siteConfig.social.instagram },
+            ].map((s) => (
+              <motion.a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -2 }}
+                className="transition-colors hover:text-indigo-600"
+              >
+                {s.label} ↗
+              </motion.a>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Real-time solar system (centered, below the text) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.25 }}
+          className="w-full max-w-[440px]"
+        >
+          <SolarSystem />
+          <p className="mt-2 text-center font-mono text-[11px] text-slate-400">
+            ◦ live solar system — real planetary positions · hover a planet
+          </p>
+        </motion.div>
       </div>
 
       {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={ready ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.9 }}
+        className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2"
       >
         <motion.div
-          className="flex flex-col items-center gap-1 text-terminal-muted"
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
+          className="flex flex-col items-center gap-1 text-slate-400"
         >
-          <span className="text-xs font-mono">scroll</span>
-          <div className="w-px h-6 bg-gradient-to-b from-terminal-muted to-transparent" />
+          <span className="text-xs">scroll</span>
+          <div className="h-6 w-px bg-gradient-to-b from-slate-400 to-transparent" />
         </motion.div>
       </motion.div>
-
-      {/* Corner accents */}
-      <div className="absolute top-5 left-5 w-6 h-6 border-l border-t border-terminal-accent/20 hidden md:block z-10" />
-      <div className="absolute top-5 right-5 w-6 h-6 border-r border-t border-terminal-accent/20 hidden md:block z-10" />
-      <div className="absolute bottom-5 left-5 w-6 h-6 border-l border-b border-terminal-accent/20 hidden md:block z-10" />
-      <div className="absolute bottom-5 right-5 w-6 h-6 border-r border-b border-terminal-accent/20 hidden md:block z-10" />
     </section>
   )
 }

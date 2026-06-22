@@ -60,7 +60,7 @@ export function ContactSection() {
             className="section-header"
           >
             <h2 className="section-title">
-              <NeonPulse color="#22c55e">hire me</NeonPulse>
+              <NeonPulse color="#4f46e5">hire me</NeonPulse>
             </h2>
             <span className="text-xs text-terminal-dim font-mono">// let's build something</span>
           </motion.div>
@@ -170,6 +170,7 @@ export function ContactSection() {
                   { name: 'github', url: siteConfig.social.github },
                   { name: 'linkedin', url: siteConfig.social.linkedin },
                   { name: 'twitter', url: siteConfig.social.X },
+                  { name: 'instagram', url: siteConfig.social.instagram },
                 ].map((s) => (
                   <motion.a
                     key={s.name}
@@ -177,7 +178,7 @@ export function ContactSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="terminal-btn flex-1 justify-center"
-                    whileHover={{ scale: 1.05, borderColor: '#22c55e' }}
+                    whileHover={{ scale: 1.05, borderColor: '#4f46e5' }}
                     whileTap={{ scale: 0.95 }}
                   >
                     {s.name}

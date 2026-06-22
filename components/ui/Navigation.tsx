@@ -7,10 +7,8 @@ import { siteConfig } from '@/lib/site-config'
 const navItems = [
   { label: 'home', href: '#home' },
   { label: 'about', href: '#about' },
-  { label: 'clients', href: '#clients' },
-  { label: 'showcase', href: '#showcase' },
-  { label: 'stack', href: '#stack' },
   { label: 'work', href: '#work' },
+  { label: 'stack', href: '#stack' },
   { label: 'github', href: '#github' },
   { label: 'pricing', href: '#pricing' },
   { label: 'contact', href: '#contact' },

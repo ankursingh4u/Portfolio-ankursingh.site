@@ -25,15 +25,15 @@ export function ProgressBar() {
         left: 0,
         width: '100%',
         height: '3px',
-        background: 'rgba(30, 30, 33, 0.5)',
+        background: 'rgba(226, 232, 240, 0.6)',
         zIndex: 9999,
       }}
     >
       <motion.div
         style={{
           height: '100%',
-          background: 'linear-gradient(90deg, #22c55e, #06b6d4, #a855f7)',
-          boxShadow: '0 0 10px #22c55e, 0 0 20px #22c55e',
+          background: 'linear-gradient(90deg, #4f46e5, #06b6d4, #a855f7)',
+          boxShadow: '0 0 10px #4f46e5, 0 0 20px #4f46e5',
         }}
         animate={{ width: `${progress}%` }}
         transition={{ duration: 0.1 }}
@@ -50,8 +50,8 @@ export function ProgressBar() {
             top: '8px',
             fontFamily: 'monospace',
             fontSize: '10px',
-            color: '#22c55e',
-            textShadow: '0 0 5px #22c55e',
+            color: '#4f46e5',
+            textShadow: '0 0 5px #4f46e5',
           }}
         >
           {Math.round(progress)}%

@@ -3,9 +3,7 @@ import { CyberEffectsProvider } from '@/components/effects'
 import {
   HeroSection,
   AboutSection,
-  WorkSection,
-  ClientSystemsSection,
-  CoolestProjectsSection,
+  ProjectsSection,
   StackSection,
   GitHubSection,
   PricingSection,
@@ -19,10 +17,8 @@ export default function Home() {
       <main>
         <HeroSection />
         <AboutSection />
-        <ClientSystemsSection />
-        <CoolestProjectsSection />
+        <ProjectsSection />
         <StackSection />
-        <WorkSection />
         <GitHubSection />
         <PricingSection />
         <ContactSection />

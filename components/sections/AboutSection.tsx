@@ -2,7 +2,6 @@
 
 import { useState, useEffect, type FC } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { GlitchOnScroll, NeonPulse } from '../effects'
 
 type ChapterId = 'intro' | 'journey' | 'approach' | 'current' | 'beyond'
 
@@ -15,7 +14,7 @@ interface ChapterDef {
 }
 
 const CHAPTERS: ChapterDef[] = [
-  { id: 'intro', number: '01', title: 'Who I Am', teaser: 'Engineer · Builder · Solver', accent: '#22c55e' },
+  { id: 'intro', number: '01', title: 'Who I Am', teaser: 'Engineer · Builder · Solver', accent: '#4f46e5' },
   { id: 'journey', number: '02', title: 'Web3 Journey', teaser: '200+ projects · 2018–2023', accent: '#8b5cf6' },
   { id: 'approach', number: '03', title: 'How I Build', teaser: 'Clean code · Real products', accent: '#3b82f6' },
   { id: 'current', number: '04', title: 'Current Focus', teaser: 'DSA · DevOps · Building', accent: '#f59e0b' },
@@ -31,7 +30,7 @@ function IntroIllustration({ accent }: { accent: string }) {
       <rect x="4" y="3" width="72" height="11" rx="5" fill={accent + '15'} />
       <circle cx="15" cy="8.5" r="2.5" fill="#f43f5e" opacity="0.7" />
       <circle cx="23" cy="8.5" r="2.5" fill="#f59e0b" opacity="0.7" />
-      <circle cx="31" cy="8.5" r="2.5" fill="#22c55e" opacity="0.7" />
+      <circle cx="31" cy="8.5" r="2.5" fill="#4f46e5" opacity="0.7" />
       <rect x="12" y="22" width="20" height="2.5" rx="1.25" fill={accent} opacity="0.65" />
       <rect x="12" y="29" width="34" height="2.5" rx="1.25" fill={accent} opacity="0.35" />
       <rect x="12" y="36" width="26" height="2.5" rx="1.25" fill={accent} opacity="0.45" />
@@ -122,16 +121,16 @@ const ILLUSTRATIONS: Record<ChapterId, FC<{ accent: string }>> = {
 
 function IntroScene() {
   const lines = [
-    { k: 'role', v: '"Full-Stack Engineer"', vc: '#22c55e' },
-    { k: 'company', v: '"Sabai Innovations"', vc: '#22c55e' },
-    { k: 'type', v: '"Full-Stack Engineer (Production)"', vc: '#22c55e' },
-    { k: 'focus', v: '["Shopify", "AI", "SaaS"]', vc: '#3b82f6' },
-    { k: 'values', v: '["ownership", "clarity", "reliability"]', vc: '#8b5cf6' },
+    { k: 'role', v: '"Full-Stack Engineer"', vc: '#818cf8' },
+    { k: 'company', v: '"CodersHive"', vc: '#818cf8' },
+    { k: 'type', v: '"Full-Stack Engineer (Production)"', vc: '#818cf8' },
+    { k: 'focus', v: '["Shopify", "AI", "SaaS"]', vc: '#60a5fa' },
+    { k: 'values', v: '["ownership", "clarity", "reliability"]', vc: '#a78bfa' },
   ]
   return (
     <div className="space-y-4">
       <div className="bg-[#0d1117] rounded-lg p-4 font-mono text-xs border border-emerald-900/40">
-        <div className="text-emerald-700 mb-3 text-[10px]">// ankur.profile.json</div>
+        <div className="text-emerald-400 mb-3 text-[10px]">// ankur.profile.json</div>
         {lines.map((l, i) => (
           <motion.div
             key={l.k}
@@ -141,20 +140,20 @@ function IntroScene() {
             transition={{ delay: i * 0.1, duration: 0.3 }}
           >
             <span className="text-blue-400">"{l.k}"</span>
-            <span className="text-[#8b949e]">:</span>
+            <span className="text-slate-600">:</span>
             <span style={{ color: l.vc }}>{l.v}</span>
           </motion.div>
         ))}
       </div>
-      <p className="text-sm text-[#8b949e] leading-relaxed">
+      <p className="text-[15px] text-slate-700 leading-7">
         I am a Full-Stack Software Engineer who genuinely enjoys the entire process of turning an idea into a working product — from the first conversation about requirements all the way through architecture, development, deployment, and ongoing maintenance. I do not just write code and hand it off; I own what I build, which means I am accountable for every edge case, every deployment decision, and every bug that surfaces at 2am on a Monday.
       </p>
-      <p className="text-sm text-[#8b949e] leading-relaxed">
-        Currently working as a Full-Stack Engineer at Sabai Innovations / CodersHive, where I operate like a complete engineering team — gathering product requirements, designing database schemas, writing frontend and backend code, integrating third-party APIs, deploying to production, and maintaining live systems that real Shopify merchants depend on every single day. I have shipped three production apps: AnnounceFlow, Countdown Bar, and Social Proof — each a fully independent product with its own OAuth flow, multi-merchant PostgreSQL schema, Shopify API integrations, and merchant-facing dashboard built on Shopify Polaris.
+      <p className="text-[15px] text-slate-700 leading-7">
+        Currently working as a Full-Stack Engineer at CodersHive, where I operate like a complete engineering team — gathering product requirements, designing database schemas, writing frontend and backend code, integrating third-party APIs, deploying to production, and maintaining live systems that real Shopify merchants depend on every single day. I have shipped three production apps: AnnounceFlow, Countdown Bar, and Social Proof — each a fully independent product with its own OAuth flow, multi-merchant PostgreSQL schema, Shopify API integrations, and merchant-facing dashboard built on Shopify Polaris.
       </p>
       <div className="flex flex-wrap gap-2">
         {['TypeScript', 'Next.js', 'React', 'PostgreSQL', 'Node.js', 'Shopify'].map(t => (
-          <span key={t} className="px-2 py-0.5 bg-emerald-950/50 border border-emerald-800/40 text-emerald-400 text-xs rounded">
+          <span key={t} className="px-2 py-0.5 bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs rounded">
             {t}
           </span>
         ))}
@@ -176,7 +175,7 @@ function Web3Scene() {
     <div className="space-y-5">
       {/* Hexagon timeline */}
       <div className="relative py-2">
-        <div className="absolute top-9 left-0 right-0 h-px bg-gradient-to-r from-violet-900 via-violet-500/50 to-violet-900 mx-2" />
+        <div className="absolute top-9 left-0 right-0 h-px bg-gradient-to-r from-violet-200 via-violet-400 to-violet-200 mx-2" />
         <div className="flex justify-between relative">
           {nodes.map((node, i) => (
             <motion.div
@@ -195,26 +194,26 @@ function Web3Scene() {
                     fill={i === 5 ? '#8b5cf640' : '#8b5cf610'}
                   />
                 </svg>
-                <span className="text-[8px] font-bold text-violet-300 font-mono relative z-10">{node.year}</span>
+                <span className="text-[8px] font-bold text-violet-700 font-mono relative z-10">{node.year}</span>
               </div>
               <div className="text-center">
-                <div className="text-[8px] text-violet-200 font-medium leading-tight">{node.label}</div>
-                <div className="text-[7px] text-[#8b949e] leading-tight">{node.sub}</div>
+                <div className="text-[8px] text-violet-700 font-medium leading-tight">{node.label}</div>
+                <div className="text-[7px] text-slate-600 leading-tight">{node.sub}</div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      <div className="p-3 bg-violet-950/25 border border-violet-800/30 rounded-lg">
-        <div className="text-xs font-bold text-violet-300 mb-2">What five years of deep research built in me:</div>
+      <div className="p-3 bg-violet-50 border border-violet-200 rounded-lg">
+        <div className="text-xs font-bold text-violet-700 mb-2">What five years of deep research built in me:</div>
         <ul className="space-y-1.5">
           {[
             'Systems thinking — understanding how incentive structures, token economics, and network effects interact at scale',
             'Product analysis discipline — evaluating 200+ projects taught me to quickly identify what is real value versus what is noise',
             'Distributed architecture intuition — studying on-chain protocols gave me a mental model for designing resilient, decentralised systems',
           ].map(p => (
-            <li key={p} className="text-xs text-[#8b949e] flex gap-2 items-start">
+            <li key={p} className="text-xs text-slate-600 flex gap-2 items-start">
               <span className="text-violet-500 flex-shrink-0 mt-0.5">▸</span>
               {p}
             </li>
@@ -222,7 +221,7 @@ function Web3Scene() {
         </ul>
       </div>
 
-      <p className="text-sm text-[#8b949e] leading-relaxed">
+      <p className="text-[15px] text-slate-700 leading-7">
         From 2018 to 2023 I was deeply embedded in the decentralised web — researching over 200 projects spanning DeFi protocols, NFT ecosystems, DAO governance models, and Layer-2 scaling solutions. This was not passive reading; I was actively evaluating tokenomics, stress-testing whitepapers, and tracking how projects evolved from concept to collapse or success. That experience gave me a rare combination of analytical rigour and big-picture thinking that I carry directly into how I approach software engineering today. When I pivoted to building practical products, I did not abandon that mindset — I applied it. The result is an engineer who thinks in systems, not just in functions.
       </p>
     </div>
@@ -239,7 +238,7 @@ function ApproachScene() {
     {
       title: 'Ship Real Products',
       desc: 'I believe the only way to truly learn engineering is to put something in front of real users and watch what breaks. Every project I build is deployed to a live URL, used by actual people, and maintained over time. That accountability loop — build, ship, observe, fix — is where most of the real learning happens.',
-      color: '#22c55e',
+      color: '#4f46e5',
     },
     {
       title: 'First Principles Thinking',
@@ -266,7 +265,7 @@ function ApproachScene() {
           <div className="w-2 h-2 rounded-full mt-1 flex-shrink-0" style={{ backgroundColor: p.color }} />
           <div>
             <div className="text-sm font-semibold" style={{ color: p.color }}>{p.title}</div>
-            <div className="text-xs text-[#8b949e] mt-0.5 leading-relaxed">{p.desc}</div>
+            <div className="text-xs text-slate-600 mt-0.5 leading-relaxed">{p.desc}</div>
           </div>
         </motion.div>
       ))}
@@ -277,7 +276,7 @@ function ApproachScene() {
 function FocusScene() {
   const items = [
     { label: 'Learning new tech', pct: 50, color: '#f59e0b', detail: 'DSA, System Design, DevOps — sharpening fundamentals constantly' },
-    { label: 'Building something', pct: 30, color: '#22c55e', detail: 'Side projects, client systems, Shopify apps — always shipping' },
+    { label: 'Building something', pct: 30, color: '#4f46e5', detail: 'Side projects, client systems, Shopify apps — always shipping' },
     { label: 'Calisthenics', pct: 20, color: '#f43f5e', detail: 'Pull-ups, handstands, muscle-ups — discipline that transfers to code' },
   ]
   const total = items.reduce((s, i) => s + i.pct, 0) // 100
@@ -287,10 +286,10 @@ function FocusScene() {
       {items.map((item, i) => (
         <motion.div key={item.label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.12 }}>
           <div className="flex justify-between text-xs mb-1.5">
-            <span className="text-[#e2e8f0] font-medium">{item.label}</span>
+            <span className="text-slate-800 font-medium">{item.label}</span>
             <span style={{ color: item.color }} className="font-mono font-semibold">{item.pct}%</span>
           </div>
-          <div className="h-2.5 bg-[#21262d] rounded-full overflow-hidden mb-1">
+          <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden mb-1">
             <motion.div
               className="h-full rounded-full"
               style={{ backgroundColor: item.color }}
@@ -299,16 +298,16 @@ function FocusScene() {
               transition={{ delay: i * 0.12 + 0.2, duration: 0.9, ease: 'easeOut' }}
             />
           </div>
-          <p className="text-[11px] text-[#8b949e] leading-relaxed">{item.detail}</p>
+          <p className="text-[11px] text-slate-600 leading-relaxed">{item.detail}</p>
         </motion.div>
       ))}
       {/* Total badge */}
       <div className="flex items-center gap-2 pt-1">
-        <div className="h-px flex-1 bg-[#21262d]" />
-        <span className="text-[10px] font-mono text-[#484f58]">total = {total}%</span>
-        <div className="h-px flex-1 bg-[#21262d]" />
+        <div className="h-px flex-1 bg-slate-200" />
+        <span className="text-[10px] font-mono text-slate-400">total = {total}%</span>
+        <div className="h-px flex-1 bg-slate-200" />
       </div>
-      <p className="text-sm text-[#8b949e] leading-relaxed">
+      <p className="text-[15px] text-slate-700 leading-7">
         I am already shipping production software professionally — but growth happens outside working hours too. A third of my focus goes to staying sharp technically: DSA trains problem-solving at first principles, System Design teaches me to think at scale, and DevOps closes the gap between writing code and owning what runs in production. Another third goes to building — whether that is a client system, a Shopify app, or a personal experiment. The last fifth is calisthenics: the discipline of progressing from zero pull-ups to muscle-ups maps directly onto the discipline of going from zero knowledge to shipping something real.
       </p>
     </div>
@@ -341,9 +340,9 @@ function BeyondScene() {
               <rect x="38.5" y="30" width="7" height="5.5" rx="1.5" stroke="#475569" strokeWidth="0.9" fill="none" />
               <line x1="37" y1="32.8" x2="38.5" y2="32.8" stroke="#475569" strokeWidth="0.9" />
               {/* Eyes blinking */}
-              <motion.ellipse cx="33.5" cy="32.8" rx="1.5" ry="1.8" fill="#22c55e"
+              <motion.ellipse cx="33.5" cy="32.8" rx="1.5" ry="1.8" fill="#4f46e5"
                 animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 5, repeat: Infinity, times: [0, 0.92, 1] }} />
-              <motion.ellipse cx="42" cy="32.8" rx="1.5" ry="1.8" fill="#22c55e"
+              <motion.ellipse cx="42" cy="32.8" rx="1.5" ry="1.8" fill="#4f46e5"
                 animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 5, repeat: Infinity, times: [0, 0.92, 1] }} />
               {/* Arms */}
               <rect x="13" y="52" width="14" height="3" rx="1.5" fill="#1e293b" stroke="#334155" strokeWidth="0.8" />
@@ -362,7 +361,7 @@ function BeyondScene() {
               <rect x="38" y="66" width="8" height="17" rx="3" fill="#1e293b" stroke="#334155" strokeWidth="0.9" />
             </svg>
           </motion.div>
-          <span className="text-xs text-[#8b949e]">Reading</span>
+          <span className="text-xs text-slate-600">Reading</span>
         </div>
 
         {/* Pull-up character */}
@@ -393,14 +392,14 @@ function BeyondScene() {
               <path d="M35 58 Q39 67 35 71" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" fill="none" />
             </motion.g>
           </svg>
-          <span className="text-xs text-[#8b949e]">Calisthenics</span>
+          <span className="text-xs text-slate-600">Calisthenics</span>
         </div>
       </div>
 
       {/* Activity pills */}
       <div className="flex flex-wrap gap-2 justify-center">
         {[
-          { label: 'Reading', color: '#22c55e' },
+          { label: 'Reading', color: '#4f46e5' },
           { label: 'Calisthenics', color: '#f43f5e' },
           { label: 'Travelling', color: '#3b82f6' },
           { label: 'Films', color: '#f59e0b' },
@@ -415,7 +414,7 @@ function BeyondScene() {
         ))}
       </div>
 
-      <p className="text-sm text-[#8b949e] leading-relaxed">
+      <p className="text-[15px] text-slate-700 leading-7">
         Engineering is a mental craft, and like any craft it requires rest, variety, and inspiration from outside the discipline. Reading keeps my thinking precise — I gravitate toward books on systems, psychology, and history because understanding how things work at a human level makes me a better product engineer. Calisthenics keeps me disciplined in a way that sitting at a desk never can; the consistency required to progress at pull-ups and handstands maps directly onto the consistency required to improve as an engineer. Travelling exposes me to problems I would never encounter behind a screen, and those problems often spark the most interesting product ideas. Films, especially well-crafted ones, remind me that storytelling and structure matter in everything — including how you design a user interface or write documentation that a real person has to read.
       </p>
     </div>
@@ -445,7 +444,7 @@ function ChapterCard({
   return (
     <motion.button
       onClick={onClick}
-      className="relative w-full text-left overflow-hidden rounded-xl border border-[#21262d] bg-[#161b22] cursor-pointer group focus:outline-none"
+      className="relative w-full text-left overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md cursor-pointer group focus:outline-none"
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, y: 24 }}
@@ -478,9 +477,9 @@ function ChapterCard({
 
       {/* Text */}
       <div className="px-5 pb-4 pt-2 relative z-10">
-        <div className="text-[9px] tracking-widest font-mono text-[#484f58] mb-1">CHAPTER {chapter.number}</div>
-        <div className="text-sm font-bold text-[#e2e8f0]">{chapter.title}</div>
-        <div className="text-xs text-[#8b949e] mt-0.5">{chapter.teaser}</div>
+        <div className="text-[9px] tracking-widest font-mono text-slate-400 mb-1">CHAPTER {chapter.number}</div>
+        <div className="text-sm font-bold text-slate-800">{chapter.title}</div>
+        <div className="text-xs text-slate-600 mt-0.5">{chapter.teaser}</div>
         <div
           className="mt-3 text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200"
           style={{ color: chapter.accent }}
@@ -514,43 +513,49 @@ function ChapterModal({ chapter, onClose }: { chapter: ChapterDef; onClose: () =
 
       {/* Card */}
       <motion.div
-        className="relative z-10 w-full max-w-lg bg-[#0d1117] border rounded-2xl overflow-hidden shadow-2xl"
+        className="relative z-10 w-full max-w-xl bg-white border rounded-2xl overflow-hidden shadow-2xl"
         style={{ borderColor: chapter.accent + '45' }}
         initial={{ scale: 0.85, opacity: 0, y: 32 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.92, opacity: 0, y: 16 }}
         transition={{ type: 'spring', damping: 28, stiffness: 320 }}
       >
-        {/* Top accent stripe */}
-        <div className="h-1 w-full" style={{ backgroundColor: chapter.accent }} />
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-4 pb-3">
-          <div className="flex items-baseline gap-3">
-            <span className="text-4xl font-black leading-none select-none" style={{ color: chapter.accent, opacity: 0.2 }}>
-              {chapter.number}
-            </span>
-            <h3 className="text-base font-bold text-white">{chapter.title}</h3>
-          </div>
+        {/* Header with soft accent wash */}
+        <div
+          className="relative px-6 pt-6 pb-5"
+          style={{ background: `linear-gradient(180deg, ${chapter.accent}12, transparent)` }}
+        >
+          <div className="absolute left-0 top-0 h-1 w-full" style={{ backgroundColor: chapter.accent }} />
           <button
             onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded-full text-[#8b949e] hover:text-white hover:bg-white/10 transition-colors text-xl leading-none"
+            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900 text-2xl leading-none"
             aria-label="Close"
           >
             ×
           </button>
+          <div
+            className="mb-2 inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest"
+            style={{ color: chapter.accent, background: chapter.accent + '14' }}
+          >
+            Chapter {chapter.number} / 05
+          </div>
+          <h3 className="text-2xl font-bold tracking-tight text-slate-900">{chapter.title}</h3>
+          <p className="mt-1 text-sm text-slate-500">{chapter.teaser}</p>
         </div>
 
         {/* Scene content */}
-        <div className="px-5 pb-4 max-h-[65vh] overflow-y-auto">
+        <div className="max-h-[62vh] space-y-4 overflow-y-auto px-6 pb-6">
           <Scene />
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-2.5 border-t border-[#21262d] flex justify-between items-center">
-          <span className="text-[10px] text-[#484f58] font-mono">chapter {chapter.number} of 05</span>
-          <button onClick={onClose} className="text-[10px] text-[#484f58] hover:text-[#8b949e] transition-colors">
-            close esc
+        <div className="flex items-center justify-between border-t border-slate-200 px-6 py-3">
+          <span className="font-mono text-[10px] text-slate-400">esc to close</span>
+          <button
+            onClick={onClose}
+            className="rounded-full px-3 py-1 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+          >
+            Close
           </button>
         </div>
       </motion.div>
@@ -571,23 +576,55 @@ export function AboutSection() {
   }, [])
 
   return (
-    <section id="about" className="section bg-terminal-surface/30 relative overflow-hidden">
+    <section id="about" className="section relative overflow-hidden bg-white">
       <div className="container-narrow mx-auto relative z-10">
-        {/* Header */}
-        <GlitchOnScroll>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="section-header"
-          >
-            <h2 className="section-title">
-              <NeonPulse color="#22c55e">about</NeonPulse>
-            </h2>
-            <span className="text-xs text-terminal-dim font-mono">// my story in chapters</span>
-          </motion.div>
-        </GlitchOnScroll>
+        {/* Header — persona statement */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 max-w-3xl"
+        >
+          <div className="mb-4 flex items-center gap-2">
+            <span className="rounded-full bg-indigo-50 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-widest text-indigo-600">
+              About me
+            </span>
+            <span className="rounded-full border border-slate-200 px-2.5 py-1 font-mono text-[11px] text-slate-500">
+              Enneagram 5w4
+            </span>
+          </div>
+
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 md:text-[2.6rem] md:leading-[1.15]">
+            Generalist Software Engineer by profession.{' '}
+            <span className="text-slate-400">
+              Observer of society, power, and human behavior.
+            </span>
+          </h2>
+
+          <div className="mt-6 flex flex-wrap items-center gap-2.5">
+            {[
+              { label: 'Learning', color: '#4f46e5' },
+              { label: 'Building', color: '#0891b2' },
+              { label: 'Exploring', color: '#f59e0b' },
+            ].map((p) => (
+              <span
+                key={p.label}
+                className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium"
+                style={{ color: p.color, borderColor: p.color + '40', background: p.color + '0d' }}
+              >
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: p.color }} />
+                {p.label}
+              </span>
+            ))}
+          </div>
+
+          <p className="mt-6 text-base leading-relaxed text-slate-600">
+            I build across the whole stack and stay curious about the systems
+            underneath everything — code, markets, incentives, and people. Here&apos;s
+            my story in five short chapters; tap any card to read it.
+          </p>
+        </motion.div>
 
         {/* Top row: 3 cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

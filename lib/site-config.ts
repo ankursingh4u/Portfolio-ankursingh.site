@@ -10,7 +10,8 @@ title: 'A Generalist Software Engineer',
   social: {
     github: 'https://github.com/ankursingh4u',
     linkedin: 'https://www.linkedin.com/in/ankursingh4u',
-    X: 'https://x.com/ankursingh4u',
+    X: 'https://x.com/ankursingh_18',
+    instagram: 'https://instagram.com/ankursingh4u',
   },
 
   meta: {
@@ -21,7 +22,7 @@ title: 'A Generalist Software Engineer',
 }
 
 export const companyConfig = {
-  name: 'Sabai Innovations / CodersHive',
+  name: 'CodersHive',
   role: 'Full-Stack Software Engineer',
   focus: 'Shopify App Development',
   status: 'active',
@@ -32,14 +33,14 @@ export const companyConfig = {
 export const currentWork = {
   id: 'production-saas',
   name: 'Enterprise SaaS',
-  company: 'Sabai Innovations / CodersHive',
+  company: 'CodersHive',
   description: 'Contributing to live production product with feature development, OAuth authentication, and scalable system implementations.',
   tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'OAuth', 'Tailwind'],
   status: 'active',
   year: 'Jan 2026 - present',
 }
 
-// Company projects - Shopify apps built at Sabai Innovations
+// Company projects - Shopify apps built at CodersHive
 export const companyProjects = [
   {
     id: 'announceflow',
@@ -72,6 +73,26 @@ export const companyProjects = [
 
 // Personal projects - self-initiated work
 export const personalProjects = [
+  {
+    id: 'seo4ai',
+    name: 'SEO4AI',
+    description: 'A platform that tracks and improves how brands appear inside AI answers — measuring whether ChatGPT, Gemini, Perplexity, and Claude recommend you, and how to grow your AI search visibility.',
+    tech: ['Next.js', 'TypeScript', 'OpenAI API', 'Gemini API', 'PostgreSQL', 'Vercel'],
+    status: 'live',
+    year: '2026',
+    link: 'https://seo4ai.app',
+    github: null,
+  },
+  {
+    id: 'draftinvitations',
+    name: 'DraftInvitations',
+    description: 'Create and share beautiful digital invitations in minutes — wedding, birthday, and event cards with customizable templates, instant sharing, and RSVP-ready links.',
+    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    status: 'live',
+    year: '2026',
+    link: 'https://draftinvitations.in',
+    github: null,
+  },
   {
     id: 'farmer-assistant',
     name: 'AgroMind',
@@ -245,7 +266,7 @@ export const coolestProjects = [
 ]
 
 export const aboutContent = {
-  intro: `Full-Stack Software Engineer with proven experience delivering production-grade web applications. Currently working as a Full-Stack Engineer at Sabai Innovations / CodersHive, owning the complete engineering lifecycle — from gathering requirements and designing architecture to writing code, deploying to production, and maintaining live systems used by real merchants every day.`,
+  intro: `Full-Stack Software Engineer with proven experience delivering production-grade web applications. Currently working as a Full-Stack Engineer at CodersHive, owning the complete engineering lifecycle — from gathering requirements and designing architecture to writing code, deploying to production, and maintaining live systems used by real merchants every day.`,
 
   journey: `My journey began with deep involvement across 200+ Web3 projects, where I developed strong systems thinking, experimentation discipline, and understanding of decentralized ecosystems. I intentionally transitioned toward building practical, impact-driven digital products focused on usability, clarity, and long-term maintainability.`,
 

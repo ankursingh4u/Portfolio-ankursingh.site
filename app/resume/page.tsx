@@ -47,7 +47,7 @@ export default function ResumePage() {
         <div className="r-section">
           <div className="r-section-title">Professional Summary</div>
           <p className="r-entry-desc">
-            Results-driven Full-Stack Software Engineer with proven experience delivering production-grade web applications across Shopify app development, AI-powered platforms, and SaaS products. Currently working as a Full-Stack Engineer at Sabai Innovations / CodersHive, owning the complete engineering lifecycle — from requirements gathering and system design through deployment and production maintenance. Independently building three products: a live AI farming assistant (Node.js + OpenAI GPT-4o), a Shopify smart search app, and an LLM brand analytics platform (launching May 2026). Strong command of TypeScript, React, Next.js, Node.js, and PostgreSQL with a track record of shipping clean, maintainable code.
+            Results-driven Full-Stack Software Engineer with proven experience delivering production-grade web applications across Shopify app development, AI-powered platforms, and SaaS products. Currently working as a Full-Stack Engineer at CodersHive, owning the complete engineering lifecycle — from requirements gathering and system design through deployment and production maintenance. Independently building three products: a live AI farming assistant (Node.js + OpenAI GPT-4o), a Shopify smart search app, and an LLM brand analytics platform (launching May 2026). Strong command of TypeScript, React, Next.js, Node.js, and PostgreSQL with a track record of shipping clean, maintainable code.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export default function ResumePage() {
             <div className="r-entry-header">
               <div>
                 <div className="r-entry-title">Full-Stack Software Engineer</div>
-                <div className="r-entry-org">Sabai Innovations / CodersHive</div>
+                <div className="r-entry-org">CodersHive</div>
               </div>
               <div className="r-entry-date">January 2026 - Present</div>
             </div>

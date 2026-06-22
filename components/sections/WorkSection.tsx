@@ -57,7 +57,7 @@ export function WorkSection() {
             className="section-header"
           >
             <h2 className="section-title">
-              <NeonPulse color="#22c55e">work</NeonPulse>
+              <NeonPulse color="#4f46e5">work</NeonPulse>
             </h2>
             <span className="text-xs text-terminal-dim font-mono">
               // project portfolio
@@ -140,7 +140,7 @@ export function WorkSection() {
             <div className="flex items-center gap-2 text-sm font-mono">
               <span className="text-cyber-blue">{'>'}</span>
               <span className="text-terminal-text">team_collab_work</span>
-              <span className="text-terminal-dim">// Shopify apps @ Sabai Innovations</span>
+              <span className="text-terminal-dim">// Shopify apps @ CodersHive</span>
             </div>
           </motion.div>
 
@@ -254,7 +254,7 @@ function PersonalProjectCard({ project, index }: PersonalProjectCardProps) {
             <div className="flex items-center gap-3">
               <motion.span
                 className="text-xs text-terminal-dim font-mono"
-                whileHover={{ color: '#22c55e' }}
+                whileHover={{ color: '#4f46e5' }}
               >
                 [{String(index).padStart(2, '0')}]
               </motion.span>

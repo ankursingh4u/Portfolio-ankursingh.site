@@ -9,7 +9,7 @@ interface NeonPulseProps {
   className?: string
 }
 
-export function NeonPulse({ children, color = '#22c55e', className = '' }: NeonPulseProps) {
+export function NeonPulse({ children, color = '#4f46e5', className = '' }: NeonPulseProps) {
   return (
     <motion.span
       className={className}

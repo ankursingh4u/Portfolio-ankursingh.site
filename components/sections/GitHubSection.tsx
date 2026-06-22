@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site-config'
-import { GlitchOnScroll, NeonPulse, TiltCard } from '../effects'
 
 interface Repo {
   name: string
@@ -37,29 +36,21 @@ const langColors: Record<string, string> = {
   Dart: '#00B4AB',
 }
 
+function langColor(lang: string | null): string {
+  return lang ? langColors[lang] ?? '#94a3b8' : '#cbd5e1'
+}
+
 function timeAgo(dateStr: string): string {
-  const now = Date.now()
-  const then = new Date(dateStr).getTime()
-  const diff = Math.floor((now - then) / 1000)
-  if (diff < 60) return `${diff}s ago`
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
+  const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000)
+  if (diff < 3600) return `${Math.max(1, Math.floor(diff / 60))}m ago`
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
   if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`
   if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`
   return `${Math.floor(diff / 31536000)}y ago`
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+function monthLabel(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString([], { month: 'short', year: 'numeric' })
 }
 
 export function GitHubSection() {
@@ -69,186 +60,152 @@ export function GitHubSection() {
   useEffect(() => {
     fetch('/api/github')
       .then((r) => r.json())
-      .then((data) => {
-        setRepos(data)
+      .then((data: Repo[]) => {
+        setRepos(Array.isArray(data) ? data : [])
         setLoading(false)
       })
       .catch(() => setLoading(false))
   }, [])
 
+  // Group repos by the month they were last pushed (already date-sorted by the API).
+  const groups = useMemo(() => {
+    const map = new Map<string, Repo[]>()
+    for (const r of repos) {
+      const key = monthLabel(r.pushed_at)
+      if (!map.has(key)) map.set(key, [])
+      map.get(key)!.push(r)
+    }
+    return Array.from(map.entries())
+  }, [repos])
+
   return (
-    <section id="github" className="section bg-terminal-surface/20 relative overflow-hidden">
-      <div className="absolute inset-0 grid-bg opacity-15 pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto w-full relative z-10">
+    <section id="github" className="section relative overflow-hidden bg-slate-50/60">
+      <div className="mx-auto w-full max-w-5xl">
         {/* Header */}
-        <GlitchOnScroll>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="section-header"
-          >
-            <h2 className="section-title">
-              <NeonPulse color="#22c55e">github</NeonPulse>
-            </h2>
-            <span className="text-xs text-terminal-dim font-mono">
-              // public repositories · live sync
-            </span>
-          </motion.div>
-        </GlitchOnScroll>
-
-        {/* Profile strips — both accounts */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -16 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap gap-3 mb-8"
+          className="mb-3 flex items-center gap-3"
         >
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Open source</h2>
+          <span className="font-mono text-xs text-slate-400">/ live from GitHub</span>
+        </motion.div>
+        <p className="mb-8 max-w-xl text-sm text-slate-500">
+          A timeline of recent repositories, arranged by date. Each tile is a
+          repo — hover to reveal its name, click to open it.
+        </p>
+
+        {/* Profile strips */}
+        <div className="mb-10 flex flex-wrap gap-3">
           {[
             { handle: 'ankursingh4u', url: siteConfig.social.github, label: 'primary' },
             { handle: 'ankur4work', url: 'https://github.com/ankur4work', label: 'work' },
           ].map((acc) => (
-            <div
+            <a
               key={acc.handle}
-              className="flex flex-1 min-w-[200px] items-center justify-between gap-3 p-3 terminal-window"
+              href={acc.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-1 min-w-[200px] items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3 transition-colors hover:border-indigo-300"
             >
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-terminal-accent/10 border border-terminal-accent/30 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4 text-terminal-accent" fill="currentColor" viewBox="0 0 24 24">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs text-terminal-text font-mono">{acc.handle}</div>
-                  <div className="text-2xs text-terminal-dim">{acc.label}</div>
+                  <div className="font-mono text-xs text-slate-900">{acc.handle}</div>
+                  <div className="text-[10px] text-slate-400">{acc.label}</div>
                 </div>
               </div>
-              <motion.a
-                href={acc.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="terminal-btn text-xs py-1 px-2.5"
-                whileHover={{ scale: 1.03, borderColor: '#22c55e' }}
-                whileTap={{ scale: 0.97 }}
-              >
-                [view]
-              </motion.a>
-            </div>
+              <span className="font-mono text-xs text-indigo-600 group-hover:underline">view →</span>
+            </a>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Repos grid */}
+        {/* Calendar of repos */}
         {loading ? (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <SkeletonCard key={i} />
+          <div className="flex flex-wrap gap-2.5">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-16 w-16 animate-pulse rounded-xl bg-slate-200"
+                style={{ animationDelay: `${i * 80}ms` }}
+              />
             ))}
           </div>
         ) : repos.length === 0 ? (
-          <div className="text-center py-12 text-terminal-dim font-mono text-sm">
-            <span className="text-terminal-muted">{'>'}</span> could not fetch repos at this time
+          <div className="py-10 text-center font-mono text-sm text-slate-400">
+            could not load repositories right now
           </div>
         ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {repos.map((repo) => (
-              <RepoCard key={repo.name} repo={repo} />
+          <div className="space-y-8">
+            {groups.map(([month, monthRepos], gi) => (
+              <div key={month} className="flex flex-col gap-3 sm:flex-row sm:gap-6">
+                {/* date column */}
+                <div className="shrink-0 sm:w-28 sm:pt-1.5">
+                  <div className="font-mono text-sm font-semibold text-slate-700">{month}</div>
+                  <div className="text-[11px] text-slate-400">
+                    {monthRepos.length} {monthRepos.length === 1 ? 'repo' : 'repos'}
+                  </div>
+                </div>
+                {/* boxes */}
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                  variants={{ visible: { transition: { staggerChildren: 0.04 } } }}
+                  className="flex flex-1 flex-wrap gap-2.5"
+                >
+                  {monthRepos.map((repo) => (
+                    <RepoBox key={`${repo.account}/${repo.name}`} repo={repo} />
+                  ))}
+                </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         )}
       </div>
     </section>
   )
 }
 
-function RepoCard({ repo }: { repo: Repo }) {
-  const dotColor = repo.language ? langColors[repo.language] ?? '#71717a' : '#71717a'
-
+function RepoBox({ repo }: { repo: Repo }) {
+  const color = langColor(repo.language)
   return (
-    <motion.div variants={itemVariants}>
-      <TiltCard>
-        <motion.a
-          href={repo.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group block h-full terminal-window border-terminal-border/60 hover:border-terminal-accent/50 transition-all duration-300 hover-glow"
-          whileHover={{ boxShadow: '0 0 20px rgba(34,197,94,0.1)' }}
-        >
-          <div className="p-4 flex flex-col h-full min-h-[140px]">
-            {/* Repo name */}
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <h3 className="text-sm font-medium text-terminal-text group-hover:text-terminal-accent transition-colors leading-tight break-all">
-                {repo.name}
-              </h3>
-              {repo.stars > 0 && (
-                <div className="flex items-center gap-1 shrink-0 text-xs text-terminal-dim">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                  {repo.stars}
-                </div>
-              )}
-            </div>
-
-            {/* Description */}
-            <p className="text-xs text-terminal-dim leading-relaxed flex-1 mb-3 line-clamp-2">
-              {repo.description ?? (
-                <span className="italic opacity-50">no description</span>
-              )}
-            </p>
-
-            {/* Footer */}
-            <div className="flex items-center justify-between gap-2 pt-2 border-t border-terminal-border/50">
-              <div className="flex items-center gap-1.5">
-                {repo.language && (
-                  <>
-                    <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{ background: dotColor }}
-                    />
-                    <span className="text-xs text-terminal-dim">{repo.language}</span>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                {repo.account && (
-                  <span className="text-2xs text-terminal-muted font-mono">@{repo.account}</span>
-                )}
-                <span className="text-2xs text-terminal-muted font-mono">
-                  {timeAgo(repo.pushed_at)}
-                </span>
-              </div>
-            </div>
-          </div>
-        </motion.a>
-      </TiltCard>
-    </motion.div>
-  )
-}
-
-function SkeletonCard() {
-  return (
-    <motion.div
-      className="terminal-window p-4 min-h-[140px]"
-      animate={{ opacity: [0.4, 0.7, 0.4] }}
-      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+    <motion.a
+      href={repo.html_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      variants={{
+        hidden: { opacity: 0, scale: 0.8 },
+        visible: { opacity: 1, scale: 1 },
+      }}
+      whileHover={{ scale: 1.12, zIndex: 20 }}
+      className="group relative flex h-16 w-16 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-colors hover:border-slate-300"
+      title={repo.name}
     >
-      <div className="h-4 w-3/4 bg-terminal-border rounded mb-3" />
-      <div className="h-3 w-full bg-terminal-border/60 rounded mb-2" />
-      <div className="h-3 w-2/3 bg-terminal-border/60 rounded mb-4" />
-      <div className="h-px bg-terminal-border/50 mb-2" />
-      <div className="flex justify-between">
-        <div className="h-2.5 w-16 bg-terminal-border/50 rounded" />
-        <div className="h-2.5 w-12 bg-terminal-border/40 rounded" />
-      </div>
-    </motion.div>
+      {/* language swatch */}
+      <span
+        className="h-7 w-7 rounded-lg ring-1 ring-black/5"
+        style={{ background: color }}
+      />
+      {repo.stars > 0 && (
+        <span className="absolute right-1 top-1 text-[9px] font-medium text-amber-500">
+          ★{repo.stars}
+        </span>
+      )}
+
+      {/* hover tooltip with the repo name */}
+      <span className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1.5 text-left shadow-xl group-hover:block">
+        <span className="block text-xs font-semibold text-white">{repo.name}</span>
+        <span className="block text-[10px] text-slate-300">
+          {repo.language ?? 'code'} · {timeAgo(repo.pushed_at)}
+        </span>
+      </span>
+    </motion.a>
   )
 }

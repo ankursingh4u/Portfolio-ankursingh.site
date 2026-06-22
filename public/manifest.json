@@ -1,0 +1,22 @@
+{
+  "name": "Ankur Singh — Full-Stack Software Engineer",
+  "short_name": "Ankur Singh",
+  "description": "Portfolio of Ankur Singh — building production-ready AI products, Shopify apps, and client systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

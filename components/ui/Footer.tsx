@@ -54,6 +54,15 @@ export function Footer() {
             >
               twitter
             </a>
+            <span className="text-terminal-border">|</span>
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-terminal-dim hover:text-terminal-accent transition-colors font-mono"
+            >
+              instagram
+            </a>
           </div>
         </div>
 
