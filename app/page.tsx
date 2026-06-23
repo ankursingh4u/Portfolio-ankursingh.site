@@ -1,4 +1,4 @@
-import { Navigation, Footer } from '@/components/ui'
+import { Navigation, Footer, ChatWidget } from '@/components/ui'
 import { CyberEffectsProvider } from '@/components/effects'
 import {
   HeroSection,
@@ -24,6 +24,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
+      <ChatWidget />
     </CyberEffectsProvider>
   )
 }

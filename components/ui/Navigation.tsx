@@ -46,7 +46,7 @@ export function Navigation() {
       transition={{ duration: 0.5, delay: 0.2 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'glass border-b border-terminal-border/50'
+          ? 'border-b border-slate-200 bg-white/85 backdrop-blur-md'
           : 'bg-transparent'
       }`}
     >
@@ -55,7 +55,11 @@ export function Navigation() {
           {/* Logo */}
           <motion.a
             href="#home"
-            className="flex items-center justify-center w-8 h-8 rounded border border-terminal-accent/40 bg-terminal-accent/10 text-terminal-accent text-xs font-mono font-bold hover:bg-terminal-accent/20 hover:border-terminal-accent transition-all"
+            className={`flex h-8 w-8 items-center justify-center rounded border text-xs font-mono font-bold transition-all ${
+              isScrolled
+                ? 'border-indigo-300 bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
+                : 'border-white/30 bg-white/10 text-white hover:bg-white/20'
+            }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             title="Ankur Singh"
@@ -65,45 +69,55 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
-            {navItems.map((item) => (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                className={`relative px-2.5 py-1.5 text-xs font-mono rounded transition-colors ${
-                  activeSection === item.label
-                    ? 'text-terminal-accent'
-                    : 'text-terminal-dim hover:text-terminal-text'
-                }`}
-                whileHover={{ y: -1 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                .{item.label}()
-                {activeSection === item.label && (
-                  <motion.div
-                    layoutId="activeSection"
-                    className="absolute inset-0 bg-terminal-accent/10 rounded -z-10"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.a>
-            ))}
+            {navItems.map((item) => {
+              const active = activeSection === item.label
+              const cls = isScrolled
+                ? active
+                  ? 'text-indigo-600'
+                  : 'text-slate-500 hover:text-slate-900'
+                : active
+                ? 'text-white'
+                : 'text-white/60 hover:text-white'
+              return (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  className={`relative rounded px-2.5 py-1.5 text-xs font-mono transition-colors ${cls}`}
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  .{item.label}()
+                  {active && (
+                    <motion.div
+                      layoutId="activeSection"
+                      className={`absolute inset-0 -z-10 rounded ${isScrolled ? 'bg-indigo-100' : 'bg-white/10'}`}
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              )
+            })}
           </div>
 
           {/* Right side: hire me CTA */}
           <div className="hidden md:flex items-center gap-2">
             <motion.a
               href="#contact"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-terminal-accent/40 text-terminal-accent rounded hover:bg-terminal-accent/10 transition-all"
+              className={`inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs font-mono transition-all ${
+                isScrolled
+                  ? 'border-indigo-300 text-indigo-600 hover:bg-indigo-50'
+                  : 'border-white/30 text-white hover:bg-white/10'
+              }`}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-terminal-accent animate-pulse" />
+              <span className={`h-1.5 w-1.5 rounded-full ${isScrolled ? 'bg-indigo-500' : 'bg-emerald-400'} animate-pulse`} />
               hire me
             </motion.a>
           </div>
 
           {/* Mobile menu button */}
-          <MobileMenuButton navItems={navItems} activeSection={activeSection} />
+          <MobileMenuButton navItems={navItems} activeSection={activeSection} dark={!isScrolled} />
         </div>
       </nav>
     </motion.header>
@@ -113,16 +127,17 @@ export function Navigation() {
 interface MobileMenuButtonProps {
   navItems: { label: string; href: string }[]
   activeSection: string
+  dark?: boolean
 }
 
-function MobileMenuButton({ navItems, activeSection }: MobileMenuButtonProps) {
+function MobileMenuButton({ navItems, activeSection, dark }: MobileMenuButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div className="md:hidden">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-terminal-dim hover:text-terminal-text transition-colors"
+        className={`p-2 transition-colors ${dark && !isOpen ? 'text-white/80 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
         aria-label="Toggle menu"
         whileTap={{ scale: 0.95 }}
       >
@@ -134,7 +149,7 @@ function MobileMenuButton({ navItems, activeSection }: MobileMenuButtonProps) {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="absolute top-full left-0 right-0 glass border-b border-terminal-border"
+          className="absolute top-full left-0 right-0 border-b border-slate-200 bg-white/95 backdrop-blur-md"
         >
           <div className="px-6 py-4 flex flex-col gap-2">
             {navItems.map((item, index) => (

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, type FC } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { aboutMe } from '@/lib/about-me'
 
 type ChapterId = 'intro' | 'journey' | 'approach' | 'current' | 'beyond'
 
@@ -146,7 +147,12 @@ function IntroScene() {
         ))}
       </div>
       <p className="text-[15px] text-slate-700 leading-7">
-        I am a Full-Stack Software Engineer who genuinely enjoys the entire process of turning an idea into a working product — from the first conversation about requirements all the way through architecture, development, deployment, and ongoing maintenance. I do not just write code and hand it off; I own what I build, which means I am accountable for every edge case, every deployment decision, and every bug that surfaces at 2am on a Monday.
+        I am a full-stack software engineer, but the truer answer is this:
+        I don’t follow predefined paths. I learn by building, not by consuming,
+        and I don’t trust systems — education, trends, or hype — blindly. My
+        default loop on everything is <strong className="font-semibold text-slate-900">observe → question →
+        detach → build my own version</strong>. I’m not trying to fit into tech; I’m
+        shaping my own space inside it.
       </p>
       <p className="text-[15px] text-slate-700 leading-7">
         Currently working as a Full-Stack Engineer at CodersHive, where I operate like a complete engineering team — gathering product requirements, designing database schemas, writing frontend and backend code, integrating third-party APIs, deploying to production, and maintaining live systems that real Shopify merchants depend on every single day. I have shipped three production apps: AnnounceFlow, Countdown Bar, and Social Proof — each a fully independent product with its own OAuth flow, multi-merchant PostgreSQL schema, Shopify API integrations, and merchant-facing dashboard built on Shopify Polaris.
@@ -563,6 +569,36 @@ function ChapterModal({ chapter, onClose }: { chapter: ChapterDef; onClose: () =
   )
 }
 
+// ─── Self-portrait block ───────────────────────────────────────────────────────
+
+function Block({
+  title,
+  hint,
+  inline,
+  children,
+}: {
+  title: string
+  hint?: string
+  inline?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.45 }}
+      className={`${inline ? '' : 'mb-10'} rounded-2xl border border-slate-200 bg-white p-5 shadow-sm`}
+    >
+      <div className="mb-3 flex items-baseline gap-2">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">{title}</h3>
+        {hint && <span className="text-xs text-slate-400">{hint}</span>}
+      </div>
+      {children}
+    </motion.div>
+  )
+}
+
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function AboutSection() {
@@ -621,10 +657,125 @@ export function AboutSection() {
 
           <p className="mt-6 text-base leading-relaxed text-slate-600">
             I build across the whole stack and stay curious about the systems
-            underneath everything — code, markets, incentives, and people. Here&apos;s
-            my story in five short chapters; tap any card to read it.
+            underneath everything — code, markets, incentives, and people.
           </p>
         </motion.div>
+
+        {/* Identity one-liner */}
+        <motion.blockquote
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 border-l-4 border-indigo-500 bg-indigo-50/50 px-5 py-4 text-lg font-medium leading-relaxed text-slate-800 md:text-xl"
+        >
+          “{aboutMe.identity}”
+        </motion.blockquote>
+
+        {/* Core pattern flow */}
+        <Block title="How I operate" hint="the loop I run on everything">
+          <div className="flex flex-wrap items-center gap-2">
+            {aboutMe.corePattern.map((step, i) => (
+              <div key={step} className="flex items-center gap-2">
+                <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-semibold text-slate-800 shadow-sm">
+                  <span className="mr-1.5 font-mono text-xs text-indigo-500">{i + 1}</span>
+                  {step}
+                </span>
+                {i < aboutMe.corePattern.length - 1 && (
+                  <span className="text-indigo-400">→</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </Block>
+
+        {/* Thinking + Ambition */}
+        <div className="mb-10 grid gap-5 md:grid-cols-2">
+          <Block title="How I think" inline>
+            <div className="space-y-2.5">
+              {aboutMe.thinking.map((t) => (
+                <div key={t.label} className="flex items-start gap-2.5">
+                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full" style={{ background: t.color }} />
+                  <p className="text-sm text-slate-700">
+                    <span className="font-semibold text-slate-900">{t.label}</span>
+                    <span className="text-slate-500"> — {t.note}</span>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Block>
+
+          <Block title="What I'm building toward" inline>
+            <div className="mb-3 flex flex-wrap gap-2">
+              {aboutMe.ambition.map((a) => (
+                <span
+                  key={a}
+                  className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white"
+                >
+                  {a}
+                </span>
+              ))}
+            </div>
+            <p className="text-sm leading-relaxed text-slate-600">{aboutMe.ambitionLine}</p>
+          </Block>
+        </div>
+
+        {/* Strengths + growth edges */}
+        <div className="mb-10 grid gap-5 md:grid-cols-2">
+          <Block title="Strengths" inline>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {aboutMe.strengths.map((s) => (
+                <div key={s.label} className="flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2">
+                  <span className="text-base">{s.icon}</span>
+                  <span className="text-[13px] font-medium text-slate-700">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </Block>
+
+          <Block title="Currently sharpening" hint="honest growth edges" inline>
+            <ul className="space-y-2">
+              {aboutMe.growthEdges.map((g) => (
+                <li key={g} className="flex items-start gap-2 text-sm text-slate-600">
+                  <span className="mt-0.5 text-amber-500">↗</span>
+                  {g}
+                </li>
+              ))}
+            </ul>
+          </Block>
+        </div>
+
+        {/* Phase tracker */}
+        <Block title="Where I am now" hint="transition phase">
+          <div className="flex flex-wrap items-center gap-2">
+            {aboutMe.phase.map((p, i) => {
+              const done = i <= aboutMe.phaseCurrentIndex
+              const current = i === aboutMe.phaseCurrentIndex
+              return (
+                <div key={p} className="flex items-center gap-2">
+                  <span
+                    className={`rounded-full px-3 py-1.5 text-sm font-semibold ${
+                      current
+                        ? 'bg-indigo-600 text-white shadow'
+                        : done
+                        ? 'bg-indigo-100 text-indigo-700'
+                        : 'bg-slate-100 text-slate-400'
+                    }`}
+                  >
+                    {p}
+                  </span>
+                  {i < aboutMe.phase.length - 1 && <span className="text-slate-300">→</span>}
+                </div>
+              )
+            })}
+          </div>
+        </Block>
+
+        {/* The full story — chapters */}
+        <div className="mb-6 mt-14 flex items-center gap-3">
+          <h3 className="text-xl font-bold text-slate-900">The full story</h3>
+          <span className="text-sm text-slate-400">— five chapters, tap to read</span>
+        </div>
 
         {/* Top row: 3 cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
 type Badge = 'Live' | 'Shopify App' | 'Client' | 'Learning'
@@ -12,6 +12,8 @@ interface Project {
   link: string | null
   repo: string | null
   badge: Badge
+  /** true → render the real site live in an <iframe>; false → live screenshot */
+  embed?: boolean
   /** brand gradient used for the placeholder when there's no live URL */
   gradient?: string
 }
@@ -38,6 +40,7 @@ const CATEGORIES: Category[] = [
         link: 'https://seo4ai.app',
         repo: 'https://github.com/ankursingh4u/seo4ai',
         badge: 'Live',
+        embed: true,
       },
       {
         name: 'DemandRadar',
@@ -54,6 +57,7 @@ const CATEGORIES: Category[] = [
         link: 'https://palm-drab.vercel.app',
         repo: 'https://github.com/ankursingh4u/PalmInsights',
         badge: 'Live',
+        embed: true,
       },
     ],
   },
@@ -70,6 +74,7 @@ const CATEGORIES: Category[] = [
         link: 'https://www.steellinelogistics.in',
         repo: null,
         badge: 'Client',
+        embed: true,
       },
       {
         name: "Salty's Seafood",
@@ -78,6 +83,7 @@ const CATEGORIES: Category[] = [
         link: 'https://www.saltysseafood.com',
         repo: 'https://github.com/ankursingh4u/seafood',
         badge: 'Client',
+        embed: true,
       },
       {
         name: 'DraftInvitations',
@@ -86,6 +92,7 @@ const CATEGORIES: Category[] = [
         link: 'https://draftinvitations.in',
         repo: null,
         badge: 'Client',
+        embed: true,
       },
     ],
   },
@@ -154,11 +161,30 @@ function shotUrl(url: string): string {
   return `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`
 }
 
+/** virtual width the iframe renders at before being scaled down to fit the card */
+const FRAME_W = 1280
+
 function PreviewCard({ project }: { project: Project }) {
   const [loaded, setLoaded] = useState(false)
   const [failed, setFailed] = useState(false)
-  const showShot = project.link && !failed
+  const boxRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(0.3)
+
+  const isLive = !!project.link && project.embed && !failed
+  const isShot = !!project.link && !project.embed && !failed
   const domain = project.link?.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
+
+  // Scale the full-size iframe down to fit the card's preview box.
+  useEffect(() => {
+    if (!isLive) return
+    const el = boxRef.current
+    if (!el) return
+    const update = () => setScale(el.clientWidth / FRAME_W)
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [isLive])
 
   return (
     <motion.article
@@ -175,11 +201,46 @@ function PreviewCard({ project }: { project: Project }) {
         <span className="ml-1.5 truncate font-mono text-[10px] text-slate-400">
           {domain ?? 'private'}
         </span>
+        {isLive && (
+          <span className="ml-auto flex items-center gap-1 text-[9px] font-semibold uppercase tracking-wide text-emerald-600">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            live
+          </span>
+        )}
       </div>
 
-      {/* Live preview — fixed aspect, image fills cleanly */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-        {showShot ? (
+      {/* Preview box */}
+      <div ref={boxRef} className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+        {isLive ? (
+          <a href={project.link as string} target="_blank" rel="noopener noreferrer" className="absolute inset-0 block">
+            {!loaded && (
+              <div className="absolute inset-0 z-10 animate-pulse bg-gradient-to-br from-slate-100 to-slate-200" />
+            )}
+            {/* Real site rendered live, scaled to fit; pointer-events off so it acts as a thumbnail */}
+            <iframe
+              src={project.link as string}
+              title={`${project.name} live`}
+              loading="lazy"
+              onLoad={() => setLoaded(true)}
+              onError={() => setFailed(true)}
+              tabIndex={-1}
+              scrolling="no"
+              className="absolute left-0 top-0 origin-top-left border-0"
+              style={{
+                width: FRAME_W,
+                height: FRAME_W * (10 / 16),
+                transform: `scale(${scale})`,
+                pointerEvents: 'none',
+              }}
+            />
+            {/* hover overlay */}
+            <div className="absolute inset-0 z-20 flex items-end justify-center bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100">
+              <span className="mb-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-slate-800 shadow">
+                Open live ↗
+              </span>
+            </div>
+          </a>
+        ) : isShot ? (
           <>
             {!loaded && (
               <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-100 to-slate-200" />
