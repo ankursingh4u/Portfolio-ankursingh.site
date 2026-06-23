@@ -24,6 +24,16 @@ function getReply(input: string): string {
   if (/^(hi+|hey+|hello+|yo|sup|namaste|hola|good (morning|afternoon|evening))\b/.test(t))
     return "Hey there! 😄 Great to meet you. Want to hear about my products, my client work, or my stack?"
 
+  // Personal / private questions → politely decline
+  if (
+    has('girlfriend', 'boyfriend', 'girl friend', 'boy friend', ' gf', ' bf', 'wife', 'husband',
+        'married', 'marriage', 'relationship', 'dating', 'are you single', 'love life', 'your crush',
+        'family', 'your parents', 'mother', 'father', ' mom', ' dad', 'sibling', 'religion', 'caste',
+        'your salary', 'how much do you earn', 'how much do you make', 'net worth', 'networth',
+        'your age', 'how old are you', 'where do you live', 'your address', 'phone number', 'your number')
+  )
+    return "Ha, that's a bit personal 😄 — I keep this chat to my work. But ask me anything about what I build!"
+
   if (has('who are you', 'about you', 'about your', 'yourself', 'who is ankur', 'tell me about'))
     return "I'm Ankur — a generalist full-stack software engineer. I take products from idea to production: architecture, code, deploy, and maintain. By nature I'm also an observer of society, power, and human behavior. Learning, building, exploring — always."
 
