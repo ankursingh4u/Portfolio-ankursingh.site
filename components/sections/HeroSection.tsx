@@ -114,14 +114,12 @@ export function HeroSection() {
             View my work
           </motion.a>
           <motion.a
-            href="/resume"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contact"
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.97 }}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10"
           >
-            Résumé
+            Get in touch
           </motion.a>
         </motion.div>
 
@@ -172,9 +170,6 @@ export function HeroSection() {
           <div className="h-6 w-px bg-gradient-to-b from-slate-400 to-transparent" />
         </motion.div>
       </motion.div>
-
-      {/* Fade into the bright site below */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-40 bg-gradient-to-b from-transparent to-white" />
     </section>
   )
 }

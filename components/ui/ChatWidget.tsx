@@ -49,7 +49,7 @@ function getReply(input: string): string {
     return `Easiest ways to reach me:\n• Email: ${siteConfig.email}\n• GitHub: ${siteConfig.social.github}\n• LinkedIn: ${siteConfig.social.linkedin}\n• X: ${siteConfig.social.X}\n• Instagram: ${siteConfig.social.instagram}`
 
   if (has('resume', 'cv'))
-    return 'You can read my résumé here → /resume'
+    return `Happy to share details — just email me at ${siteConfig.email} and I'll send what you need.`
 
   if (has('where', 'location', 'country', 'based', 'from'))
     return "I'm based in India 🇮🇳 and work with clients worldwide."
