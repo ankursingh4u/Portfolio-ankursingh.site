@@ -12,9 +12,9 @@ interface Msg {
 const EMAIL = siteConfig.email
 
 const GREETING =
-  "Hey! 👋 I'm a mini version of Ankur. Ask me about my work, my SaaS products, my stack, or how to hire me."
+  "Hey! 👋 I'm a mini version of Ankur. Ask about my work and products — or tell me what you want to build and I'll scope it, estimate the cost, and even draft a quick PRD."
 
-const SUGGESTIONS = ['What do you build?', 'Your SaaS products', 'Your tech stack', 'How to hire you']
+const SUGGESTIONS = ['Estimate my project', 'Help me write a PRD', 'What do you build?', 'How to hire you']
 
 /** Lightweight, keyless persona engine — answers from real portfolio data. */
 function getReply(input: string): string {
@@ -59,6 +59,9 @@ function getReply(input: string): string {
   if (has('stack', 'tech', 'technolog', 'language', 'tools', 'framework'))
     return "My stack: TypeScript, JavaScript, Python · React, Next.js, Tailwind · Node.js, Express, PostgreSQL, MongoDB, Supabase · Git, Vercel, AWS, Docker. Currently sharpening DSA, System Design & DevOps."
 
+  if (has('prd', 'scope', 'estimate', 'overview', 'i want to build', 'want to build', 'build a', 'build an', 'make me', 'help me build', 'requirement'))
+    return `Love it — tell me a bit more and I'll put together a project overview, a ballpark cost, and a quick PRD:\n• What are you building & who's it for?\n• Must-have features / number of pages?\n• Any auth, payments, or integrations?\n• Timeline & rough budget?\n(My plans: Starter $149 · Pro $399 · Custom from $799.) Or email me at ${siteConfig.email} to start.`
+
   if (has('price', 'pricing', 'cost', 'budget', 'rate', 'charge', 'how much', 'quote', 'figure', 'fees'))
     return `Here's my ballpark (it's on the Pricing section too):\n• Starter — $149 / ₹12,400 (1-page site)\n• Pro — $399 / ₹33,200 (up to 4 pages, most popular)\n• Custom — from $799 / ₹66,500 (full-stack apps)\nExact quote after a quick call — email me at ${siteConfig.email}.`
 
@@ -90,7 +93,18 @@ function getReply(input: string): string {
 }
 
 /** Render text with clickable links, emails and internal routes. */
-function Linkified({ text }: { text: string }) {
+// Strip basic markdown the model sometimes emits so it doesn't show raw chars.
+function clean(text: string): string {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/__(.*?)__/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/^\s{0,3}#{1,6}\s*/gm, '')
+    .replace(/^\s*[-*]\s+/gm, '• ')
+}
+
+function Linkified({ text: raw }: { text: string }) {
+  const text = clean(raw)
   const parts = text.split(/(\bhttps?:\/\/[^\s]+|\b[\w.+-]+@[\w-]+\.[\w.-]+\b|\/resume\b)/g)
   return (
     <>
