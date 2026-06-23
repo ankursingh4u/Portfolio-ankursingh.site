@@ -21,7 +21,7 @@ function getReply(input: string): string {
   const t = input.toLowerCase().trim()
   const has = (...w: string[]) => w.some((x) => t.includes(x))
 
-  if (has('hi', 'hii', 'hey', 'hello', 'yo ', 'namaste') && t.length < 16)
+  if (/^(hi+|hey+|hello+|yo|sup|namaste|hola|good (morning|afternoon|evening))\b/.test(t))
     return "Hey there! 😄 Great to meet you. Want to hear about my products, my client work, or my stack?"
 
   if (has('who are you', 'about you', 'about your', 'yourself', 'who is ankur', 'tell me about'))
