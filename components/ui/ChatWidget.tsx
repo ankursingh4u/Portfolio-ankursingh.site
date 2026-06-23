@@ -42,6 +42,9 @@ function getReply(input: string): string {
   if (has('stack', 'tech', 'technolog', 'language', 'tools', 'framework'))
     return "My stack: TypeScript, JavaScript, Python · React, Next.js, Tailwind · Node.js, Express, PostgreSQL, MongoDB, Supabase · Git, Vercel, AWS, Docker. Currently sharpening DSA, System Design & DevOps."
 
+  if (has('price', 'pricing', 'cost', 'budget', 'rate', 'charge', 'how much', 'quote', 'figure', 'fees'))
+    return `Here's my ballpark (it's on the Pricing section too):\n• Starter — $149 / ₹12,400 (1-page site)\n• Pro — $399 / ₹33,200 (up to 4 pages, most popular)\n• Custom — from $799 / ₹66,500 (full-stack apps)\nExact quote after a quick call — email me at ${siteConfig.email}.`
+
   if (has('hire', 'work together', 'available', 'availab', 'opportunit', 'collab', 'freelance', 'project for'))
     return `Yes — I'm ${siteConfig.status}. 🚀 Email me at ${siteConfig.email} and let's talk about what you're building.`
 
