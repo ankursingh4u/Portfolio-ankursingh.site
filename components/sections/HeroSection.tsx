@@ -149,11 +149,6 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Subtle label */}
-      <div className="absolute bottom-6 left-5 z-20 hidden font-mono text-[11px] text-slate-500 md:block">
-        ◦ live solar system · real planetary positions · hover a planet
-      </div>
-
       {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
