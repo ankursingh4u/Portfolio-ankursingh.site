@@ -44,6 +44,23 @@ function getReply(input: string): string {
   if (has('who are you', 'about you', 'about your', 'yourself', 'who is ankur', 'tell me about'))
     return "I'm Ankur — a generalist full-stack software engineer. I take products from idea to production: architecture, code, deploy, and maintain. By nature I'm also an observer of society, power, and human behavior. Learning, building, exploring — always."
 
+  // Informational "what do you build?" — describe Ankur's work, NOT a build request.
+  const askingWhatIBuild = has('what do you build', 'what you build', 'what can you build', 'what do you do', 'what kind of', 'what type of', 'what sort of')
+
+  // Visitor wants ME to build something for them → route to scoping/PRD flow.
+  // Must run BEFORE the SaaS/client/company matchers so e.g. "make a site called
+  // DraftInvitations" scopes a new project instead of dumping my client list.
+  const wantsBuild =
+    !askingWhatIBuild &&
+    (/\b(build|building|make|making|create|creating|develop|developing|design|designing|need|want|launch|set ?up)\b[^.?!]*\b(website|web ?app|web ?site|webpage|web page|app|application|platform|landing|dashboard|project|startup|mvp|system|portal|store|shop|e-?commerce|tool|software|saas|page|product|blog|site|api|bot)\b/.test(t) ||
+      has('i want to build', 'want to build', 'help me build', 'build me', 'build my', 'need you to build', 'need your to build', 'wanna build', 'make me a', 'make me an', 'help me make', 'can you build', 'can you make'))
+
+  if (askingWhatIBuild)
+    return "Three kinds of work:\n1) My own SaaS — SEO4AI, DemandRadar, Palm\n2) Client systems — Steel Line Logistics, Salty's Seafood, DraftInvitations\n3) Company + learning — Shopify apps at CodersHive, plus projects like AgroMind & DocDrawer.\nScroll to the 'Things I've built' section to see live previews!"
+
+  if (wantsBuild || has('prd', 'scope', 'estimate', 'overview', 'requirement'))
+    return `Love it — tell me a bit more and I'll put together a project overview, a ballpark cost, and a quick PRD:\n• What are you building & who's it for?\n• Must-have features / number of pages?\n• Any auth, payments, or integrations?\n• Timeline & rough budget?\n(My plans: Starter $149 · Pro $399 · Custom from $799.) Or email me at ${siteConfig.email} to start.`
+
   if (has('saas', 'product', 'seo4ai', 'demandradar', 'demand radar', 'palm'))
     return "I own and ship a few SaaS products:\n• SEO4AI — track & grow your brand's visibility inside AI answers → https://seo4ai.app\n• DemandRadar — LLM brand analytics, live on the Shopify App Store → https://apps.shopify.com/demandradar\n• Palm Insights — turns raw data into clear insights → https://palm-drab.vercel.app"
 
@@ -53,14 +70,11 @@ function getReply(input: string): string {
   if (has('company', 'shopify', 'codershive', 'job', 'announceflow', 'countdown'))
     return "At CodersHive I build production Shopify apps — AnnounceFlow (announcement bars), Countdown Bar, and Social Proof — each with full OAuth and a multi-merchant schema. I own the whole engineering lifecycle there."
 
-  if (has('what do you build', 'what you build', 'projects', 'work', 'built', 'portfolio'))
+  if (has('projects', 'work', 'built', 'portfolio'))
     return "Three kinds of work:\n1) My own SaaS — SEO4AI, DemandRadar, Palm\n2) Client systems — Steel Line Logistics, Salty's Seafood, DraftInvitations\n3) Company + learning — Shopify apps at CodersHive, plus projects like AgroMind & DocDrawer.\nScroll to the 'Things I've built' section to see live previews!"
 
   if (has('stack', 'tech', 'technolog', 'language', 'tools', 'framework'))
     return "My stack: TypeScript, JavaScript, Python · React, Next.js, Tailwind · Node.js, Express, PostgreSQL, MongoDB, Supabase · Git, Vercel, AWS, Docker. Currently sharpening DSA, System Design & DevOps."
-
-  if (has('prd', 'scope', 'estimate', 'overview', 'i want to build', 'want to build', 'build a', 'build an', 'make me', 'help me build', 'requirement'))
-    return `Love it — tell me a bit more and I'll put together a project overview, a ballpark cost, and a quick PRD:\n• What are you building & who's it for?\n• Must-have features / number of pages?\n• Any auth, payments, or integrations?\n• Timeline & rough budget?\n(My plans: Starter $149 · Pro $399 · Custom from $799.) Or email me at ${siteConfig.email} to start.`
 
   if (has('price', 'pricing', 'cost', 'budget', 'rate', 'charge', 'how much', 'quote', 'figure', 'fees'))
     return `Here's my ballpark (it's on the Pricing section too):\n• Starter — $149 / ₹12,400 (1-page site)\n• Pro — $399 / ₹33,200 (up to 4 pages, most popular)\n• Custom — from $799 / ₹66,500 (full-stack apps)\nExact quote after a quick call — email me at ${siteConfig.email}.`

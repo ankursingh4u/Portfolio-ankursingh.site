@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react'
 import { motion } from 'framer-motion'
-import { siteConfig } from '@/lib/site-config'
+import { siteConfig, testimonials } from '@/lib/site-config'
 import { generateGmailLink, generateMailtoLink } from '@/lib/utils'
 import { TerminalWindow, CommandLine } from '../terminal'
 import { GlitchOnScroll, NeonPulse, AnimatedBorder } from '../effects'
@@ -82,12 +82,16 @@ export function ContactSection() {
             />
             <div>
               <p className="text-sm font-mono text-terminal-text leading-relaxed">
-                I'm a full-stack engineer who ships production-ready apps fast — with clean code, good UX, and zero fluff.
-                Whether it's a Shopify plugin, an AI-powered tool, or a landing page that converts, I've got it covered.
+                I'm a full-stack engineer who ships production-ready apps fast — clean code, good UX, zero fluff.
+                Whether it's a Shopify plugin, an AI-powered tool, or a high-converting landing page, I've got it covered.
+              </p>
+              <p className="mt-2 text-xs font-mono text-terminal-dim leading-relaxed">
+                <span className="text-terminal-accent">shipped &amp; live:</span> Shopify apps at CodersHive ·
+                SEO4AI &amp; DemandRadar · Steel Line Logistics, Salty's Seafood &amp; DraftInvitations.
               </p>
               <div className="flex flex-wrap gap-4 mt-3">
                 <span className="text-xs font-mono text-terminal-dim">
-                  <span className="text-terminal-accent">✓</span> Available now
+                  <span className="text-terminal-accent">✓</span> Available now — ready for projects
                 </span>
                 <span className="text-xs font-mono text-terminal-dim">
                   <span className="text-terminal-accent">✓</span> Replies within 24h
@@ -98,6 +102,23 @@ export function ContactSection() {
               </div>
             </div>
           </div>
+
+          {/* Client testimonials — only renders when real quotes exist */}
+          {testimonials.length > 0 && (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {testimonials.map((t) => (
+                <blockquote
+                  key={t.author}
+                  className="rounded-lg border border-terminal-border/40 bg-terminal-bg/40 p-3"
+                >
+                  <p className="text-xs font-mono text-terminal-text leading-relaxed">"{t.quote}"</p>
+                  <footer className="mt-2 text-[11px] font-mono text-terminal-dim">
+                    — {t.author}, {t.role}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         <motion.div
@@ -165,6 +186,9 @@ export function ContactSection() {
                 <span>open_mail_client</span>
                 <span className="text-terminal-muted">]</span>
               </motion.button>
+              <p className="text-center text-[11px] font-mono text-terminal-dim">
+                // free project scoping — tell me your idea, I'll map it out
+              </p>
               <div className="flex gap-3">
                 {[
                   { name: 'github', url: siteConfig.social.github },
@@ -266,6 +290,7 @@ export function ContactSection() {
                   <motion.button
                     type="submit"
                     disabled={isSubmitting}
+                    aria-label="Send inquiry"
                     className="terminal-btn terminal-btn-primary w-full justify-center"
                     whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(34, 197, 94, 0.4)' }}
                     whileTap={{ scale: 0.98 }}

@@ -50,7 +50,7 @@ export function Navigation() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="container-wide mx-auto px-6 py-4">
+      <nav aria-label="Primary" className="container-wide mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.a
@@ -82,6 +82,7 @@ export function Navigation() {
                 <motion.a
                   key={item.label}
                   href={item.href}
+                  aria-label={`${item.label} section`}
                   className={`relative rounded px-2.5 py-1.5 text-xs font-mono transition-colors ${cls}`}
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.98 }}
@@ -103,6 +104,7 @@ export function Navigation() {
           <div className="hidden md:flex items-center gap-2">
             <motion.a
               href="#contact"
+              aria-label="Hire me — go to contact"
               className={`inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs font-mono transition-all ${
                 isScrolled
                   ? 'border-indigo-300 text-indigo-600 hover:bg-indigo-50'
@@ -156,6 +158,7 @@ function MobileMenuButton({ navItems, activeSection, dark }: MobileMenuButtonPro
               <motion.a
                 key={item.label}
                 href={item.href}
+                aria-label={`${item.label} section`}
                 onClick={() => setIsOpen(false)}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}

@@ -25,6 +25,7 @@ const plans = [
     id: 'starter',
     name: 'Starter',
     tag: 'Individuals & small business',
+    value: 'Converts visitors into leads — live in ~5 days.',
     usd: 149,
     inr: 12400,
     pages: '1 page',
@@ -45,6 +46,7 @@ const plans = [
     id: 'pro',
     name: 'Pro',
     tag: 'Multi-page sites & portfolios',
+    value: 'More organic reach — and a funnel that captures it.',
     usd: 399,
     inr: 33200,
     pages: 'Up to 4 pages',
@@ -66,6 +68,7 @@ const plans = [
     id: 'custom',
     name: 'Custom',
     tag: 'Full-scale apps & platforms',
+    value: 'A product that earns — not just a website.',
     usd: 799,
     inr: 66500,
     pages: 'Unlimited pages',
@@ -189,6 +192,9 @@ export function PricingSection() {
                       </span>
                     </div>
                     <p className="text-[11px] text-terminal-dim font-mono">{plan.tag}</p>
+                    <p className="mt-1.5 text-[11px] leading-snug text-terminal-accent/90 font-mono">
+                      {plan.value}
+                    </p>
                   </div>
 
                   {/* Price */}
@@ -279,6 +285,17 @@ export function PricingSection() {
           className="text-center text-xs text-terminal-dim font-mono mt-6"
         >
           // all prices are project estimates · exact quote after a brief discovery call
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center text-xs text-terminal-dim font-mono mt-2"
+        >
+          <a href="#work" className="hover:text-terminal-accent transition-colors">see related work →</a>
+          <span className="mx-2 text-terminal-border">|</span>
+          <a href="#contact" className="hover:text-terminal-accent transition-colors">start a project →</a>
         </motion.p>
       </div>
     </section>

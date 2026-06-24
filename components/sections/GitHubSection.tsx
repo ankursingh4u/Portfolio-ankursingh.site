@@ -200,11 +200,16 @@ function RepoBox({ repo }: { repo: Repo }) {
       )}
 
       {/* hover tooltip with the repo name */}
-      <span className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1.5 text-left shadow-xl group-hover:block">
+      <span className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 hidden w-max max-w-[220px] -translate-x-1/2 rounded-lg bg-slate-900 px-2.5 py-1.5 text-left shadow-xl group-hover:block">
         <span className="block text-xs font-semibold text-white">{repo.name}</span>
         <span className="block text-[10px] text-slate-300">
           {repo.language ?? 'code'} · {timeAgo(repo.pushed_at)}
         </span>
+        {repo.description && (
+          <span className="mt-1 block whitespace-normal text-[10px] leading-snug text-slate-400">
+            {repo.description}
+          </span>
+        )}
       </span>
     </motion.a>
   )

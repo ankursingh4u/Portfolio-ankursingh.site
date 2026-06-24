@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Ankur Singh',
   username: 'ankur_singh',
 title: 'A Generalist Software Engineer',
-  description: 'Building production-ready systems with clarity and ownership.',
+  description: 'Full-stack software engineer building production Next.js apps, Shopify apps, and AI product integrations — plus my own SaaS, SEO4AI and DemandRadar.',
   email: 'ankursing4work@gmail.com',
   location: 'India',
   status: 'available for opportunities',
@@ -15,7 +15,7 @@ title: 'A Generalist Software Engineer',
   },
 
   meta: {
-    url: 'https://ankursingh.dev',
+    url: 'https://ankursingh.site',
     image: '/og-image.png',
     keywords: ['Generalist Software Engineer', 'Full-Stack Engineer', 'Next.js', 'TypeScript', 'React', 'Node.js'],
   },
@@ -293,3 +293,9 @@ export const commands = {
   contact: 'Get in touch',
   clear: 'Clear terminal',
 }
+
+// Real client testimonials only — add genuine quotes here.
+// Leave empty rather than fabricate; the UI hides this block when empty.
+export const testimonials: { quote: string; author: string; role: string }[] = [
+  // { quote: 'Ankur shipped our system in 3 weeks with zero hand-holding.', author: 'Client name', role: 'Steel Line Logistics' },
+]

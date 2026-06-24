@@ -107,6 +107,7 @@ export function HeroSection() {
         >
           <motion.a
             href="#work"
+            aria-label="View my work — full-stack, Shopify, and AI projects"
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.97 }}
             className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-colors hover:bg-indigo-400"
@@ -115,6 +116,7 @@ export function HeroSection() {
           </motion.a>
           <motion.a
             href="#contact"
+            aria-label="Get in touch to start a project"
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.97 }}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10"

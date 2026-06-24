@@ -339,8 +339,9 @@ export function ProjectsSection() {
             Things I&apos;ve built
           </h2>
           <p className="mt-2 text-base text-slate-600">
-            Products I own, paid client work, and what I ship at my company — each
-            with a live preview.
+            Products I own, paid client work, and what I ship at my company —
+            Next.js apps, Shopify integrations, and AI products, each with a live
+            preview.
           </p>
         </motion.div>
 

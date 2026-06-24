@@ -3,17 +3,23 @@ import { siteConfig } from '@/lib/site-config'
 import { ThemeProvider } from '@/context/ThemeContext'
 import './globals.css'
 
+const metaTitle = `${siteConfig.name} — Full-Stack Engineer | AI Products, Shopify & Next.js`
+
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  metadataBase: new URL(siteConfig.meta.url),
+  title: metaTitle,
   description: siteConfig.description,
   keywords: siteConfig.meta.keywords,
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteConfig.meta.url,
-    title: siteConfig.name,
+    title: metaTitle,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
@@ -27,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.name,
+    title: metaTitle,
     description: siteConfig.description,
     images: [siteConfig.meta.image],
   },
@@ -44,6 +50,32 @@ export const metadata: Metadata = {
   },
 }
 
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteConfig.name,
+  url: siteConfig.meta.url,
+  jobTitle: 'Full-Stack Software Engineer',
+  description: siteConfig.description,
+  email: `mailto:${siteConfig.email}`,
+  worksFor: { '@type': 'Organization', name: 'CodersHive' },
+  knowsAbout: [
+    'Next.js',
+    'React',
+    'Node.js',
+    'TypeScript',
+    'Shopify App Development',
+    'AI Product Integration',
+    'Full-Stack Web Development',
+  ],
+  sameAs: [
+    siteConfig.social.github,
+    siteConfig.social.linkedin,
+    siteConfig.social.X,
+    siteConfig.social.instagram,
+  ],
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -56,6 +88,10 @@ export default function RootLayout({
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
       </head>
       <body className="min-h-screen bg-terminal-bg text-terminal-text antialiased">
         <ThemeProvider>{children}</ThemeProvider>

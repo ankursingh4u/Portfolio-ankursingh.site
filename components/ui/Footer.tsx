@@ -2,12 +2,37 @@
 
 import { siteConfig } from '@/lib/site-config'
 
+const internalLinks = [
+  { label: 'about', href: '#about' },
+  { label: 'work', href: '#work' },
+  { label: 'showcase', href: '#showcase' },
+  { label: 'open_source', href: '#github' },
+  { label: 'pricing', href: '#pricing' },
+  { label: 'contact', href: '#contact' },
+]
+
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
     <footer className="border-t border-terminal-border bg-terminal-surface/50">
       <div className="container-wide mx-auto px-6 py-8">
+        {/* Internal navigation — improves crawl depth & in-page navigation */}
+        <nav
+          aria-label="Footer"
+          className="mb-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-b border-terminal-border/50 pb-6"
+        >
+          {internalLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="font-mono text-xs text-terminal-dim transition-colors hover:text-terminal-accent"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Left side - Copyright */}
           <div className="text-sm text-terminal-dim font-mono">

@@ -632,9 +632,9 @@ export function AboutSection() {
           </div>
 
           <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 md:text-[2.6rem] md:leading-[1.15]">
-            Generalist Software Engineer by profession.{' '}
+            Generalist Software Engineer by profession —{' '}
             <span className="text-slate-400">
-              Observer of society, power, and human behavior.
+              observer of society, power, and human behavior.
             </span>
           </h2>
 
@@ -657,7 +657,9 @@ export function AboutSection() {
 
           <p className="mt-6 text-base leading-relaxed text-slate-600">
             I build across the whole stack and stay curious about the systems
-            underneath everything — code, markets, incentives, and people.
+            beneath everything — code, markets, incentives, and people. Lately:
+            Shopify apps, AI products (SEO4AI, DemandRadar), and production
+            client systems.
           </p>
         </motion.div>
 
