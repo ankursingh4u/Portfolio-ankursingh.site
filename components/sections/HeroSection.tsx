@@ -98,8 +98,8 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mx-auto mt-5 max-w-md text-base leading-relaxed text-slate-300"
         >
-          I build production-ready systems — AI products, Shopify apps, and
-          client platforms that orbit around solving real problems.
+          I create effective systems — AI products, Shopify apps, and client
+          platforms focused on solving real problems.
         </motion.p>
 
         <motion.div

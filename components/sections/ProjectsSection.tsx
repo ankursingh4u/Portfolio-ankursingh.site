@@ -271,7 +271,7 @@ function PreviewCard({ project }: { project: Project }) {
       {/* Content — compact */}
       <div className="flex flex-1 flex-col p-3.5">
         <div className="mb-1 flex items-center justify-between gap-2">
-          <h3 className="truncate text-[15px] font-bold text-slate-900">{project.name}</h3>
+          <h4 className="truncate text-[15px] font-bold text-slate-900">{project.name}</h4>
           <span
             className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ${badgeStyles[project.badge]}`}
           >

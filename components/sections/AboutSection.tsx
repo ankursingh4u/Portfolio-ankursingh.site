@@ -656,8 +656,8 @@ export function AboutSection() {
           </div>
 
           <p className="mt-6 text-base leading-relaxed text-slate-600">
-            I build across the whole stack and stay curious about the systems
-            beneath everything — code, markets, incentives, and people. Lately:
+            I work on all aspects of development and am curious about the
+            underlying systems — code, markets, incentives, and people. Lately:
             Shopify apps, AI products (SEO4AI, DemandRadar), and production
             client systems.
           </p>

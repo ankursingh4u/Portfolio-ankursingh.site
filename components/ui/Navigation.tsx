@@ -104,7 +104,7 @@ export function Navigation() {
           <div className="hidden md:flex items-center gap-2">
             <motion.a
               href="#contact"
-              aria-label="Hire me — go to contact"
+              aria-label="Hire me — contact me about opportunities"
               className={`inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs font-mono transition-all ${
                 isScrolled
                   ? 'border-indigo-300 text-indigo-600 hover:bg-indigo-50'
