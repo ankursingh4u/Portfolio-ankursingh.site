@@ -3,7 +3,7 @@ import { siteConfig } from '@/lib/site-config'
 import { ThemeProvider } from '@/context/ThemeContext'
 import './globals.css'
 
-const metaTitle = `${siteConfig.name} — Full-Stack Engineer | AI Products, Shopify & Next.js`
+const metaTitle = `Generalist Software Engineer | ${siteConfig.name} — Shopify & AI Apps`
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.meta.url),
@@ -22,20 +22,13 @@ export const metadata: Metadata = {
     title: metaTitle,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: siteConfig.meta.image,
-        width: 1200,
-        height: 630,
-        alt: siteConfig.name,
-      },
-    ],
+    // og:image is auto-generated from app/opengraph-image.tsx
   },
   twitter: {
     card: 'summary_large_image',
     title: metaTitle,
     description: siteConfig.description,
-    images: [siteConfig.meta.image],
+    // twitter:image falls back to the generated og:image
   },
   robots: {
     index: true,

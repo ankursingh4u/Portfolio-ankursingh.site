@@ -76,6 +76,9 @@ export function HeroSection() {
           className="font-sans text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl"
           style={{ textShadow: '0 2px 30px rgba(0,0,0,0.5)' }}
         >
+          <span className="mb-2 block text-base font-semibold uppercase tracking-widest text-indigo-300 md:text-lg">
+            Generalist Software Engineer
+          </span>
           {siteConfig.name}
         </motion.h1>
 

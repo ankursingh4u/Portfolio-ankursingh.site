@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Ankur Singh',
   username: 'ankur_singh',
 title: 'A Generalist Software Engineer',
-  description: 'Full-stack software engineer building production Next.js apps, Shopify apps, and AI product integrations — plus my own SaaS, SEO4AI and DemandRadar.',
+  description: 'Generalist Software Engineer specializing in AI Product Integration and Full-Stack Development with Next.js and MERN — building SEO4AI, DemandRadar, and production Shopify & client apps.',
   email: 'ankursing4work@gmail.com',
   location: 'India',
   status: 'available for opportunities',

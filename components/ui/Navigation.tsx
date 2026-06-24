@@ -139,8 +139,10 @@ function MobileMenuButton({ navItems, activeSection, dark }: MobileMenuButtonPro
     <div className="md:hidden">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`p-2 transition-colors ${dark && !isOpen ? 'text-white/80 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
-        aria-label="Toggle menu"
+        className={`rounded p-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${dark && !isOpen ? 'text-white/80 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu"
         whileTap={{ scale: 0.95 }}
       >
         <span className="font-mono text-sm">{isOpen ? '[x]' : '[=]'}</span>
@@ -148,6 +150,7 @@ function MobileMenuButton({ navItems, activeSection, dark }: MobileMenuButtonPro
 
       {isOpen && (
         <motion.div
+          id="mobile-menu"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}

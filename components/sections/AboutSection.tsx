@@ -693,7 +693,7 @@ export function AboutSection() {
 
         {/* Thinking + Ambition */}
         <div className="mb-10 grid gap-5 md:grid-cols-2">
-          <Block title="How I think" inline>
+          <Block title="How I think and approach problems" inline>
             <div className="space-y-2.5">
               {aboutMe.thinking.map((t) => (
                 <div key={t.label} className="flex items-start gap-2.5">
@@ -707,7 +707,7 @@ export function AboutSection() {
             </div>
           </Block>
 
-          <Block title="What I'm building toward" inline>
+          <Block title="What I'm building toward: goals and vision" inline>
             <div className="mb-3 flex flex-wrap gap-2">
               {aboutMe.ambition.map((a) => (
                 <span
@@ -724,7 +724,7 @@ export function AboutSection() {
 
         {/* Strengths + growth edges */}
         <div className="mb-10 grid gap-5 md:grid-cols-2">
-          <Block title="Strengths" inline>
+          <Block title="Strengths and capabilities" inline>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {aboutMe.strengths.map((s) => (
                 <div key={s.label} className="flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2">
@@ -735,7 +735,7 @@ export function AboutSection() {
             </div>
           </Block>
 
-          <Block title="Currently sharpening" hint="honest growth edges" inline>
+          <Block title="Currently sharpening my skills" hint="honest growth edges" inline>
             <ul className="space-y-2">
               {aboutMe.growthEdges.map((g) => (
                 <li key={g} className="flex items-start gap-2 text-sm text-slate-600">
@@ -748,7 +748,7 @@ export function AboutSection() {
         </div>
 
         {/* Phase tracker */}
-        <Block title="Where I am now" hint="transition phase">
+        <Block title="Where I am now — transition from learner to builder" hint="transition phase">
           <div className="flex flex-wrap items-center gap-2">
             {aboutMe.phase.map((p, i) => {
               const done = i <= aboutMe.phaseCurrentIndex
