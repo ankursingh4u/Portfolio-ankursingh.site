@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site-config'
 import { SolarSystem } from '../hero/SolarSystem'
+import { SolarTour } from '../hero/SolarTour'
+import { CustomCursor } from '../animations/CustomCursor'
+import { useSolarTour } from '@/lib/hooks/useSolarTour'
 import { InfoWidget } from '../ui/InfoWidget'
 
 const roles = ['Full-Stack Engineer', 'Shopify App Builder', 'AI Product Developer']
@@ -12,6 +15,7 @@ export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0)
   const [displayed, setDisplayed] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
+  const tour = useSolarTour()
 
   useEffect(() => {
     const current = roles[roleIndex]
@@ -57,8 +61,13 @@ export function HeroSection() {
         <InfoWidget />
       </div>
 
-      {/* Centered content */}
-      <div className="relative z-20 mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-6 text-center">
+      {/* Custom cursor (hero-only, desktop) + cinematic tour overlay */}
+      <CustomCursor />
+      <SolarTour tour={tour} />
+
+      {/* Centered content — pointer-events-none lets clicks reach the planets
+          behind it; interactive controls re-enable pointer events individually. */}
+      <div className="pointer-events-none relative z-20 mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +115,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          className="pointer-events-auto mt-8 flex flex-wrap items-center justify-center gap-3"
         >
           <motion.a
             href="#work"
@@ -126,13 +135,23 @@ export function HeroSection() {
           >
             Get in touch
           </motion.a>
+          <motion.button
+            type="button"
+            onClick={tour.open}
+            aria-label="Take a guided tour of my work, presented as a solar system"
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-6 py-3 text-sm font-semibold text-amber-200 backdrop-blur-sm transition-colors hover:bg-amber-400/20"
+          >
+            🚀 Tour my universe
+          </motion.button>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.55 }}
-          className="mt-8 flex items-center justify-center gap-5 text-sm text-slate-400"
+          className="pointer-events-auto mt-8 flex items-center justify-center gap-5 text-sm text-slate-400"
         >
           {[
             { label: 'GitHub', href: siteConfig.social.github },

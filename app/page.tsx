@@ -1,5 +1,6 @@
 import { Navigation, Footer, ChatWidget } from '@/components/ui'
 import { CyberEffectsProvider } from '@/components/effects'
+import { SectionReveal } from '@/components/animations/SectionReveal'
 import {
   HeroSection,
   AboutSection,
@@ -22,12 +23,24 @@ export default function Home() {
       <Navigation />
       <main id="main" tabIndex={-1}>
         <HeroSection />
-        <AboutSection />
-        <ProjectsSection />
-        <StackSection />
-        <GitHubSection />
-        <PricingSection />
-        <ContactSection />
+        <SectionReveal>
+          <AboutSection />
+        </SectionReveal>
+        <SectionReveal>
+          <ProjectsSection />
+        </SectionReveal>
+        <SectionReveal>
+          <StackSection />
+        </SectionReveal>
+        <SectionReveal>
+          <GitHubSection />
+        </SectionReveal>
+        <SectionReveal>
+          <PricingSection />
+        </SectionReveal>
+        <SectionReveal>
+          <ContactSection />
+        </SectionReveal>
       </main>
       <Footer />
       <ChatWidget />
