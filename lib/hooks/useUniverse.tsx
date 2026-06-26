@@ -48,6 +48,10 @@ interface UniverseCtx {
   // planet registry — SolarStage reports each planet's camera-independent
   // orbit offset (px from the viewport centre) every frame.
   registerPlanet: (name: string, x: number, y: number) => void
+  // live SCREEN position of the spotlighted (tour-followed) planet, so the Tour
+  // caption can anchor a leader line to it. null when nothing is spotlighted.
+  setSpotlight: (v: { x: number; y: number; r: number } | null) => void
+  getSpotlight: () => { x: number; y: number; r: number } | null
   frozen: boolean
   // actions
   enterWorld: (nav: PlanetNav) => void
@@ -70,7 +74,10 @@ export function useUniverse() {
 const TOUR_PLANETS = TOUR_ORDER.map((n) => PLANET_NAV[n]).filter(Boolean)
 const WARP_IN_MS = 850
 const WARP_OUT_MS = 700
-const TOUR_DWELL_MS = 4200
+// How long each tour card lingers before auto-advancing. Slowed so there's time
+// to actually read it — the real "world" planets (the substance) hold longest.
+const TOUR_DWELL_MS = 5700 // every card: base reading time (+1.5s)
+const TOUR_DWELL_IMPORTANT_MS = 6200 // world planets: +2s to take it in
 
 export function UniverseProvider({
   children,
@@ -103,6 +110,16 @@ export function UniverseProvider({
   const registerPlanet = useCallback((name: string, x: number, y: number) => {
     nodes.current[name] = { x, y }
   }, [])
+
+  // Live screen position of the spotlighted planet (read by the Tour caption).
+  const spotlight = useRef<{ x: number; y: number; r: number } | null>(null)
+  const setSpotlight = useCallback(
+    (v: { x: number; y: number; r: number } | null) => {
+      spotlight.current = v
+    },
+    [],
+  )
+  const getSpotlight = useCallback(() => spotlight.current, [])
 
   /** Camera-independent screen-offset of a planet from the viewport centre. */
   const offsetOf = useCallback((name: string): { x: number; y: number } => {
@@ -208,6 +225,12 @@ export function UniverseProvider({
   useEffect(() => {
     if (!tourActive || reduce) return
     if (tourIndex >= lastIndex) return
+    // World planets (the substantive ones) linger a beat longer than socials.
+    const current = TOUR_PLANETS[tourIndex - 1]
+    const dwell =
+      tourIndex >= 1 && tourIndex <= tourCount && current?.kind === 'world'
+        ? TOUR_DWELL_IMPORTANT_MS
+        : TOUR_DWELL_MS
     const id = setTimeout(() => {
       const next = Math.min(lastIndex, tourIndex + 1)
       setTourIndex(next)
@@ -218,9 +241,9 @@ export function UniverseProvider({
       } else {
         applyTourCamera(next)
       }
-    }, TOUR_DWELL_MS)
+    }, dwell)
     return () => clearTimeout(id)
-  }, [tourActive, tourIndex, lastIndex, applyTourCamera, reduce])
+  }, [tourActive, tourIndex, lastIndex, tourCount, applyTourCamera, reduce])
 
   // Cleanup on unmount.
   useEffect(() => () => clearTimers(), [])
@@ -262,6 +285,8 @@ export function UniverseProvider({
     openBio,
     closeBio,
     registerPlanet,
+    setSpotlight,
+    getSpotlight,
     frozen: frozen || phase !== 'home',
     enterWorld,
     exitWorld,

@@ -45,13 +45,23 @@ export function SolarStage() {
   const [mounted, setMounted] = useState(false)
   const reduce = useReducedMotion()
 
-  const { camera, frozen, enterWorld, registerPlanet, tourActive, tourIndex, openBio } =
+  const { camera, frozen, enterWorld, registerPlanet, setSpotlight, tourActive, tourIndex, openBio } =
     useUniverse()
 
   const stars = useMemo(() => STARS, [])
 
+  // Phones zoom in just as hard but on a tiny viewport, so the camera ends up
+  // chasing a fast inner planet across a heavily-magnified view — nauseating.
+  // Detect a small screen once and soften the whole tour: gentler spring, less
+  // zoom, slower orbits. Desktop is left exactly as-is.
+  const [isSmall] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < 768,
+  )
+
   // ── Camera as springs so it can smoothly FOLLOW a moving planet ──────────
-  const camSpring = { stiffness: 60, damping: 18, mass: 1 }
+  const camSpring = isSmall
+    ? { stiffness: 38, damping: 24, mass: 1.15 }
+    : { stiffness: 60, damping: 18, mass: 1 }
   const scaleMV = useSpring(1, camSpring)
   const xMV = useSpring(0, camSpring)
   const yMV = useSpring(0, camSpring)
@@ -74,7 +84,10 @@ export function SolarStage() {
   const followRef = useRef<string | null>(null)
   useEffect(() => {
     followRef.current = followingName
-  }, [followingName])
+    // No planet under the spotlight (sun / finale / home / reduced motion) →
+    // drop the leader-line anchor so the Tour caption re-centres cleanly.
+    if (!followingName) setSpotlight(null)
+  }, [followingName, setSpotlight])
 
   // When NOT following a planet (home / warp / world / sun / finale / bio),
   // drive the springs from the declarative camera state.
@@ -107,9 +120,12 @@ export function SolarStage() {
     if (!R) return
     // Real starting longitude per planet + its synthetic angular speed.
     const now = new Date()
+    // Calm the whole system down on phones so the followed planet drifts gently
+    // instead of racing under the zoomed-in tour camera.
+    const speed = isSmall ? 0.6 : 1
     const base = PLANETS.map((p, i) => ({
       angle0: positionFor(p, now).longitude,
-      omega: omegaFor(p.el[0]),
+      omega: omegaFor(p.el[0]) * speed,
       orbR: ORBIT_FRAC[i] * R,
     }))
     const startPerf = performance.now()
@@ -135,13 +151,36 @@ export function SolarStage() {
         if (follow && PLANETS[i].name === follow) {
           const dist = Math.hypot(x, y)
           const vmin = Math.min(window.innerWidth, window.innerHeight)
-          let S = dist > 4 ? (vmin * 0.4) / dist : 3.6
-          S = Math.max(2.4, Math.min(5.5, S))
+          // Zoom in noticeably LESS on small screens so the planet stays
+          // comfortably in frame rather than filling it and whipping past.
+          const factor = isSmall ? 0.3 : 0.4
+          const fallback = isSmall ? 2.6 : 3.6
+          let S = dist > 4 ? (vmin * factor) / dist : fallback
+          S = isSmall ? Math.max(1.7, Math.min(3.2, S)) : Math.max(2.4, Math.min(5.5, S))
           scaleMV.set(S)
           xMV.set(-x * S)
           yMV.set(-y * S - window.innerHeight * 0.12)
           opacityMV.set(1)
           blurMV.set(0)
+
+          // Publish the planet's EXACT live screen position so the Tour caption
+          // can pin an accurate leader line to it. Derived from the camera
+          // layer's actual rendered transform (origin = centre), so it matches
+          // whatever the springs are doing this frame.
+          const wrap = wrapRef.current
+          if (wrap) {
+            const wr = wrap.getBoundingClientRect()
+            const cw = wrap.clientWidth || 1
+            const screenScale = wr.width / cw
+            const cx = wr.left + wr.width / 2
+            const cy = wr.top + wr.height / 2
+            const px = Math.max(10, Math.round((PLANETS[i].size * 3.2 + 5) * 1.55))
+            setSpotlight({
+              x: cx + x * screenScale,
+              y: cy + y * screenScale,
+              r: (px / 2) * screenScale,
+            })
+          }
         }
       }
     }
