@@ -59,8 +59,11 @@ export function SolarStage() {
   )
 
   // ── Camera as springs so it can smoothly FOLLOW a moving planet ──────────
+  // Mobile stays a touch softer than desktop (less nausea on a small viewport),
+  // but firm enough to visibly ARRIVE within a card's dwell — too limp reads as
+  // "nothing happened".
   const camSpring = isSmall
-    ? { stiffness: 38, damping: 24, mass: 1.15 }
+    ? { stiffness: 52, damping: 26, mass: 1 }
     : { stiffness: 60, damping: 18, mass: 1 }
   const scaleMV = useSpring(1, camSpring)
   const xMV = useSpring(0, camSpring)
@@ -105,13 +108,25 @@ export function SolarStage() {
     const measure = () => {
       const el = wrapRef.current
       if (!el) return
-      // Use the smaller half-dimension so the outer orbits never clip off-screen.
-      setR(Math.min(el.clientWidth, el.clientHeight) / 2)
+      const next = Math.min(el.clientWidth, el.clientHeight) / 2
+      // Ignore a 0/partial reading — on some mobile browsers the fixed layer
+      // reports no height on the very first frame, which would leave R=0 and
+      // freeze the whole system until a resize. A ResizeObserver (below) fires
+      // again once real dimensions land.
+      if (next > 0) setR(next)
     }
     measure()
     setMounted(true)
     window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    // Re-measure once the container has a settled box (covers the "dead on first
+    // load, refresh fixes it" race where the initial read was 0 or partial).
+    const ro =
+      typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null
+    if (ro && wrapRef.current) ro.observe(wrapRef.current)
+    return () => {
+      window.removeEventListener('resize', measure)
+      ro?.disconnect()
+    }
   }, [])
 
   // Orbital animation loop. Each planet keeps its REAL starting angle (from the
@@ -151,12 +166,17 @@ export function SolarStage() {
         if (follow && PLANETS[i].name === follow) {
           const dist = Math.hypot(x, y)
           const vmin = Math.min(window.innerWidth, window.innerHeight)
-          // Zoom in noticeably LESS on small screens so the planet stays
-          // comfortably in frame rather than filling it and whipping past.
-          const factor = isSmall ? 0.3 : 0.4
-          const fallback = isSmall ? 2.6 : 3.6
+          // Target zoom scales inversely with the planet's orbit radius, but the
+          // OUTER planets (Jupiter→Neptune) sit so far out that the raw formula
+          // lands below the floor and every one of them snapped to the minimum —
+          // a limp 2.4× that read as "the camera isn't doing anything". Bump the
+          // factor and, crucially, the floor so even the farthest world gets a
+          // real fly-in. Inner planets are already close, so they're unaffected
+          // by the floor and stay capped by the ceiling.
+          const factor = isSmall ? 0.42 : 0.55
+          const fallback = isSmall ? 3.0 : 4.2
           let S = dist > 4 ? (vmin * factor) / dist : fallback
-          S = isSmall ? Math.max(1.7, Math.min(3.2, S)) : Math.max(2.4, Math.min(5.5, S))
+          S = isSmall ? Math.max(2.4, Math.min(3.4, S)) : Math.max(3.2, Math.min(5.5, S))
           scaleMV.set(S)
           xMV.set(-x * S)
           yMV.set(-y * S - window.innerHeight * 0.12)
