@@ -145,16 +145,18 @@ export function SolarStage() {
     }))
     let raf = 0
     let prevPerf = performance.now()
-    // Accumulated orbit time. We advance this by real delta-time each frame, but
-    // PAUSE it while a planet is spotlighted (see the tick loop) so the followed
-    // planet holds still and the camera can lock onto it.
-    let elapsed = 0
+    // PER-PLANET accumulated orbit time. Every planet advances on its own clock
+    // so we can pause JUST the spotlighted one (camera locks onto a still target)
+    // while the rest of the system keeps orbiting — freezing everything made the
+    // whole cosmos look dead. A per-planet clock also means a paused planet simply
+    // resumes from where it stopped (no position "snap") once the spotlight lifts.
+    const pt = PLANETS.map(() => 0)
 
-    const place = (elapsedSec: number) => {
+    const place = (t: number[]) => {
       const follow = followRef.current
       for (let i = 0; i < PLANETS.length; i++) {
         const b = base[i]
-        const angle = b.angle0 + elapsedSec * b.omega
+        const angle = b.angle0 + t[i] * b.omega
         const x = b.orbR * Math.cos(angle)
         const y = b.orbR * Math.sin(angle)
         const node = planetRefs.current[i]
@@ -211,7 +213,7 @@ export function SolarStage() {
 
     // Reduced motion OR frozen (warping / in a world) → place once, stop.
     if (reduce || frozen) {
-      place(0)
+      place(pt)
       return
     }
 
@@ -219,13 +221,16 @@ export function SolarStage() {
       const nowPerf = performance.now()
       const dt = (nowPerf - prevPerf) / 1000
       prevPerf = nowPerf
-      // While a planet is spotlighted, FREEZE the orbit. Chasing a still-orbiting
+      const follow = followRef.current
+      // Advance every planet EXCEPT the spotlighted one. Chasing a still-orbiting
       // planet with the camera spring at high zoom never settles — it made the
-      // whole view and the pinned caption shudder ("fumble"). Holding the target
-      // still lets the fly-in land and stay calm; the system resumes drifting the
-      // instant the spotlight lifts (sun / finale / home).
-      if (!followRef.current) elapsed += dt
-      place(elapsed)
+      // whole view and the pinned caption shudder ("fumble"). Pausing only the
+      // focused planet lets the fly-in land and hold still, while the rest of the
+      // system keeps orbiting so the cosmos stays alive.
+      for (let i = 0; i < PLANETS.length; i++) {
+        if (!(follow && PLANETS[i].name === follow)) pt[i] += dt
+      }
+      place(pt)
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
