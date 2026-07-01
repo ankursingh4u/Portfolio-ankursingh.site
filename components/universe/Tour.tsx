@@ -119,7 +119,7 @@ export function Tour() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: reduce ? 0 : -12 }}
         transition={{ duration: reduce ? 0 : 0.4, ease: EASE }}
-        className="pointer-events-auto rounded-2xl border border-white/10 bg-white/[0.06] p-6 text-center shadow-[0_24px_70px_-20px_rgba(0,0,0,0.85)] backdrop-blur-xl"
+        className="pointer-events-auto rounded-2xl border border-white/10 bg-[#0b1327]/95 p-6 text-center shadow-[0_24px_70px_-20px_rgba(0,0,0,0.85)]"
       >
         {tourStep.kind === 'sun' && (
           <>
@@ -219,7 +219,7 @@ export function Tour() {
         <button
           type="button"
           onClick={endTour}
-          className="rounded-full border border-white/15 bg-black/40 px-4 py-2 font-mono text-xs text-white/80 backdrop-blur-md transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+          className="rounded-full border border-white/15 bg-black/70 px-4 py-2 font-mono text-xs text-white/80 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
         >
           esc · skip tour ✕
         </button>
@@ -310,7 +310,7 @@ export function Tour() {
               type="button"
               onClick={tourPrev}
               disabled={tourIndex === 0}
-              className="rounded-full border border-white/15 bg-black/30 px-4 py-2 font-mono text-xs text-white/80 backdrop-blur-md transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
+              className="rounded-full border border-white/15 bg-black/60 px-4 py-2 font-mono text-xs text-white/80 transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
             >
               ← prev
             </button>
@@ -318,7 +318,7 @@ export function Tour() {
               <button
                 type="button"
                 onClick={tourNext}
-                className="rounded-full border border-white/25 bg-white/10 px-4 py-2 font-mono text-xs font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                className="rounded-full border border-white/25 bg-white/15 px-4 py-2 font-mono text-xs font-semibold text-white transition-colors hover:bg-white/20"
               >
                 next →
               </button>

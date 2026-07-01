@@ -152,6 +152,15 @@ export function SolarStage() {
     // resumes from where it stopped (no position "snap") once the spotlight lifts.
     const pt = PLANETS.map(() => 0)
 
+    // Remember the last camera target we pushed so we only touch the springs /
+    // spotlight when it actually changes. Because the spotlighted planet is
+    // PAUSED, its target is constant for the whole step — so this fires once per
+    // step instead of every frame, which is what stopped the caption re-rendering
+    // (and re-blurring) 60×/second.
+    let lastFollow: string | null = null
+    let lastFx = NaN
+    let lastFy = NaN
+
     const place = (t: number[]) => {
       const follow = followRef.current
       for (let i = 0; i < PLANETS.length; i++) {
@@ -169,43 +178,43 @@ export function SolarStage() {
 
         // Camera flies alongside the spotlighted planet (keeps it centred &
         // prominent, pushing the Sun toward the edge so the focus is obvious).
+        // The planet is paused, so we only (re)aim the camera when the target
+        // actually changes — once per step, not every frame.
         if (follow && PLANETS[i].name === follow) {
-          const dist = Math.hypot(x, y)
-          const vmin = Math.min(window.innerWidth, window.innerHeight)
-          // Target zoom scales inversely with the planet's orbit radius, but the
-          // OUTER planets (Jupiter→Neptune) sit so far out that the raw formula
-          // lands below the floor and every one of them snapped to the minimum —
-          // a limp 2.4× that read as "the camera isn't doing anything". Bump the
-          // factor and, crucially, the floor so even the farthest world gets a
-          // real fly-in. Inner planets are already close, so they're unaffected
-          // by the floor and stay capped by the ceiling.
-          const factor = isSmall ? 0.42 : 0.55
-          const fallback = isSmall ? 3.0 : 4.2
-          let S = dist > 4 ? (vmin * factor) / dist : fallback
-          S = isSmall ? Math.max(2.4, Math.min(3.4, S)) : Math.max(3.2, Math.min(5.5, S))
-          scaleMV.set(S)
-          xMV.set(-x * S)
-          yMV.set(-y * S - window.innerHeight * 0.12)
-          opacityMV.set(1)
-          blurMV.set(0)
+          if (follow !== lastFollow || x !== lastFx || y !== lastFy) {
+            lastFollow = follow
+            lastFx = x
+            lastFy = y
 
-          // Publish the planet's EXACT live screen position so the Tour caption
-          // can pin an accurate leader line to it. Derived from the camera
-          // layer's actual rendered transform (origin = centre), so it matches
-          // whatever the springs are doing this frame.
-          const wrap = wrapRef.current
-          if (wrap) {
-            const wr = wrap.getBoundingClientRect()
-            const cw = wrap.clientWidth || 1
-            const screenScale = wr.width / cw
-            const cx = wr.left + wr.width / 2
-            const cy = wr.top + wr.height / 2
+            const dist = Math.hypot(x, y)
+            const vw = window.innerWidth
+            const vh = window.innerHeight
+            const vmin = Math.min(vw, vh)
+            // Target zoom scales inversely with the planet's orbit radius, but the
+            // OUTER planets (Jupiter→Neptune) sit so far out that the raw formula
+            // lands below the floor and every one of them snapped to the minimum —
+            // a limp 2.4× that read as "the camera isn't doing anything". Bump the
+            // factor and, crucially, the floor so even the farthest world gets a
+            // real fly-in. Inner planets are already close, so they're unaffected
+            // by the floor and stay capped by the ceiling.
+            const factor = isSmall ? 0.42 : 0.55
+            const fallback = isSmall ? 3.0 : 4.2
+            let S = dist > 4 ? (vmin * factor) / dist : fallback
+            S = isSmall ? Math.max(2.4, Math.min(3.4, S)) : Math.max(3.2, Math.min(5.5, S))
+            const vOffset = vh * 0.12
+            scaleMV.set(S)
+            xMV.set(-x * S)
+            yMV.set(-y * S - vOffset)
+            opacityMV.set(1)
+            blurMV.set(0)
+
+            // The camera centres this planet (minus the vertical offset), so once
+            // it settles the planet ALWAYS lands here. Publish that resting point
+            // once — no per-frame getBoundingClientRect (a forced reflow) and no
+            // per-frame caption re-render. The caption is placed at its final spot
+            // immediately and the planet flies into it.
             const px = Math.max(10, Math.round((PLANETS[i].size * 3.2 + 5) * 1.55))
-            setSpotlight({
-              x: cx + x * screenScale,
-              y: cy + y * screenScale,
-              r: (px / 2) * screenScale,
-            })
+            setSpotlight({ x: vw / 2, y: vh / 2 - vOffset, r: (px / 2) * S })
           }
         }
       }
@@ -432,8 +441,8 @@ export function SolarStage() {
           className="pointer-events-none fixed left-1/2 top-[30%] z-30 -translate-x-1/2 -translate-y-1/2"
         >
           <span
-            className="flex items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-md"
-            style={{ borderColor: `${followNav.accent}66`, background: `${followNav.accent}22` }}
+            className="flex items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-semibold text-white shadow-lg"
+            style={{ borderColor: `${followNav.accent}66`, background: 'rgba(11,19,39,0.85)' }}
           >
             <span className="h-2 w-2 rounded-full" style={{ background: followNav.accent }} />
             {followNav.label.replace(' ↗', '')}
