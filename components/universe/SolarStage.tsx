@@ -143,8 +143,12 @@ export function SolarStage() {
       omega: omegaFor(p.el[0]) * speed,
       orbR: ORBIT_FRAC[i] * R,
     }))
-    const startPerf = performance.now()
     let raf = 0
+    let prevPerf = performance.now()
+    // Accumulated orbit time. We advance this by real delta-time each frame, but
+    // PAUSE it while a planet is spotlighted (see the tick loop) so the followed
+    // planet holds still and the camera can lock onto it.
+    let elapsed = 0
 
     const place = (elapsedSec: number) => {
       const follow = followRef.current
@@ -212,7 +216,16 @@ export function SolarStage() {
     }
 
     const tick = () => {
-      place((performance.now() - startPerf) / 1000)
+      const nowPerf = performance.now()
+      const dt = (nowPerf - prevPerf) / 1000
+      prevPerf = nowPerf
+      // While a planet is spotlighted, FREEZE the orbit. Chasing a still-orbiting
+      // planet with the camera spring at high zoom never settles — it made the
+      // whole view and the pinned caption shudder ("fumble"). Holding the target
+      // still lets the fly-in land and stay calm; the system resumes drifting the
+      // instant the spotlight lifts (sun / finale / home).
+      if (!followRef.current) elapsed += dt
+      place(elapsed)
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
